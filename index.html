@@ -5,171 +5,332 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TARS Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #fafafa;
+      --text-dim: #888;
+      --accent: #ff6b35;
+      --accent-dim: #ff6b3530;
+      --success: #00ff88;
+      --warning: #ffcc00;
+      --q1: #ff4444;
+      --q2: #ff6b35;
+      --q3: #4488ff;
+    }
+    .light {
+      --bg: #f5f5f0;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --text: #1a1a1a;
+      --text-dim: #666;
+      --accent: #ff5722;
+      --accent-dim: #ff572220;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      color: #e4e4e7;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      padding: 20px;
+      padding: 16px;
+      transition: background 0.3s, color 0.3s;
     }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 500px; margin: 0 auto; }
+    
+    /* Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       padding-bottom: 16px;
-      border-bottom: 1px solid #374151;
+      border-bottom: 2px solid var(--border);
     }
-    .header h1 { font-size: 1.4rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-    .header .meta { text-align: right; }
-    .header .date { color: #9ca3af; font-size: 0.9rem; }
-    .header .updated { color: #6b7280; font-size: 0.75rem; margin-top: 4px; }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    @media (max-width: 600px) {
-      .grid { grid-template-columns: 1fr; }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
     }
-    .card {
-      background: rgba(255,255,255,0.05);
+    .mode-toggle {
+      width: 44px;
+      height: 24px;
+      background: var(--surface);
+      border: 2px solid var(--border);
       border-radius: 12px;
-      padding: 18px;
-      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
     }
-    .card h2 {
-      font-size: 0.8rem;
+    .mode-toggle::after {
+      content: '☀️';
+      position: absolute;
+      left: 2px;
+      top: 1px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .light .mode-toggle::after {
+      content: '🌙';
+      left: 20px;
+    }
+    
+    /* Date bar */
+    .date-bar {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .card-header {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #9ca3af;
-      margin-bottom: 14px;
+      letter-spacing: 0.1em;
+      padding: 10px 14px;
+      background: var(--accent-dim);
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .card.full { grid-column: 1 / -1; }
+    .card-body { padding: 12px 14px; }
+    
+    /* Events */
     .event {
       display: flex;
       padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px dashed var(--border);
       font-size: 0.9rem;
     }
     .event:last-child { border-bottom: none; }
     .event-time {
-      width: 85px;
-      color: #60a5fa;
-      font-weight: 500;
-      font-size: 0.85rem;
+      font-family: 'Space Mono', monospace;
+      width: 70px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 700;
     }
     .event-title { flex: 1; }
     .tag {
-      font-size: 0.65rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
       padding: 2px 5px;
       border-radius: 3px;
       margin-left: 6px;
-      font-weight: 500;
+      border: 1px solid currentColor;
     }
-    .tag-f { background: rgba(236,72,153,0.15); color: #f472b6; }
-    .tag-w { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .tag-t { background: rgba(74,222,128,0.15); color: #4ade80; }
+    .tag-f { color: #ff69b4; }
+    .tag-w { color: #4488ff; }
+    .tag-t { color: var(--success); }
+    
+    /* Section divider */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 12px 0 8px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+    }
+    
+    /* Tasks */
     .task {
       display: flex;
       align-items: flex-start;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px dashed var(--border);
     }
     .task:last-child { border-bottom: none; }
-    .task-bullet {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 12px;
-      margin-top: 6px;
+    .task-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 10px;
+      margin-top: 4px;
       flex-shrink: 0;
     }
-    .q1 .task-bullet { background: #ef4444; }
-    .q2 .task-bullet { background: #f59e0b; }
-    .q3 .task-bullet { background: #3b82f6; }
+    .q1 .task-dot { background: var(--q1); }
+    .q2 .task-dot { background: var(--q2); }
+    .q3 .task-dot { background: var(--q3); }
     .task-content { flex: 1; }
     .task-title { font-size: 0.9rem; }
-    .task-meta { font-size: 0.75rem; color: #6b7280; margin-top: 3px; }
+    .task-meta { 
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; 
+      color: var(--text-dim); 
+      margin-top: 3px; 
+    }
+    
+    /* Weather */
     .weather {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
-    .weather-icon { font-size: 2.5rem; }
-    .weather-temp { font-size: 2rem; font-weight: 300; }
-    .weather-desc { color: #9ca3af; font-size: 0.85rem; }
+    .weather-icon { font-size: 2rem; }
+    .weather-temp { 
+      font-family: 'Space Mono', monospace;
+      font-size: 1.8rem; 
+      font-weight: 700;
+    }
+    .weather-desc { 
+      font-size: 0.85rem;
+      color: var(--text-dim); 
+    }
+    
+    /* Callout */
     .callout {
-      background: rgba(251,191,36,0.1);
-      border-left: 3px solid #fbbf24;
-      padding: 10px 14px;
-      border-radius: 0 8px 8px 0;
-      margin-top: 12px;
+      background: var(--accent-dim);
+      border-left: 3px solid var(--accent);
+      padding: 10px 12px;
+      margin-top: 10px;
+      border-radius: 0 6px 6px 0;
       font-size: 0.85rem;
     }
-    .callout-title { font-weight: 600; color: #fbbf24; font-size: 0.8rem; margin-bottom: 4px; }
-    .section-tomorrow { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); }
-    .section-tomorrow h3 { font-size: 0.75rem; color: #6b7280; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .empty { color: #6b7280; font-style: italic; font-size: 0.85rem; }
+    .callout-title { 
+      font-family: 'Space Mono', monospace;
+      font-weight: 700; 
+      color: var(--accent); 
+      font-size: 0.75rem;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    
+    /* Empty state */
+    .empty { 
+      color: var(--text-dim); 
+      font-style: italic; 
+      font-size: 0.85rem;
+      padding: 8px 0;
+    }
+    
+    /* Footer */
+    .footer {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border);
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>🤖 Dashboard</h1>
-      <div class="meta">
-        <div class="date" id="currentDate">Loading...</div>
-        <div class="updated" id="lastUpdated"></div>
+      <div class="logo">
+        <div class="logo-icon">◉</div>
+        TARS_
+      </div>
+      <div class="mode-toggle" onclick="toggleMode()"></div>
+    </div>
+    
+    <div class="date-bar">
+      <span id="currentDate">Loading...</span>
+      <span id="lastUpdated"></span>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">📅 Schedule</div>
+      <div class="card-body">
+        <div id="todayEvents">Loading...</div>
+        <div class="section-label">Tomorrow</div>
+        <div id="tomorrowEvents">Loading...</div>
       </div>
     </div>
     
-    <div class="grid">
-      <div class="card">
-        <h2>📅 Today</h2>
-        <div id="todayEvents">Loading...</div>
-        <div class="section-tomorrow">
-          <h3>Tomorrow</h3>
-          <div id="tomorrowEvents">Loading...</div>
-        </div>
-      </div>
-      
-      <div class="card">
-        <h2>🌤️ Singapore</h2>
+    <div class="card">
+      <div class="card-header">⛅ Weather</div>
+      <div class="card-body">
         <div class="weather" id="weather">
-          <div class="weather-icon">☁️</div>
+          <div class="weather-icon">--</div>
           <div>
             <div class="weather-temp">--°</div>
             <div class="weather-desc">Loading...</div>
           </div>
         </div>
       </div>
-      
-      <div class="card full">
-        <h2>✅ This Week</h2>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">✓ Tasks</div>
+      <div class="card-body">
         <div id="tasks">Loading...</div>
       </div>
+    </div>
+    
+    <div class="footer">
+      TARS.LO" × TEENAGE ENGINEERING AESTHETICS<br>
+      SG / 2026
     </div>
   </div>
 
   <script>
-    // Data loaded from data.json
+    // Mode toggle
+    function toggleMode() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+    
+    // Auto mode based on time (6am-6pm = light)
+    function autoMode() {
+      const hour = new Date().getHours();
+      const savedMode = localStorage.getItem('mode');
+      if (savedMode) {
+        if (savedMode === 'light') document.body.classList.add('light');
+      } else {
+        if (hour >= 6 && hour < 18) document.body.classList.add('light');
+      }
+    }
+    autoMode();
+    
+    // Load data
     async function loadDashboard() {
       try {
         const res = await fetch('data.json?' + Date.now());
         const data = await res.json();
         
-        // Update date
         document.getElementById('currentDate').textContent = data.date;
-        document.getElementById('lastUpdated').textContent = 'Updated ' + data.updated;
+        document.getElementById('lastUpdated').textContent = '↻ ' + data.updated;
         
-        // Today events
+        // Today
         const todayEl = document.getElementById('todayEvents');
         if (data.today.length === 0) {
-          todayEl.innerHTML = '<div class="empty">No events</div>';
+          todayEl.innerHTML = '<div class="empty">Clear day</div>';
         } else {
           todayEl.innerHTML = data.today.map(e => `
             <div class="event">
@@ -179,10 +340,20 @@
           `).join('');
         }
         
-        // Tomorrow events
+        // Callout
+        if (data.callout) {
+          todayEl.insertAdjacentHTML('beforeend', `
+            <div class="callout">
+              <div class="callout-title">${data.callout.title}</div>
+              ${data.callout.body}
+            </div>
+          `);
+        }
+        
+        // Tomorrow
         const tmrwEl = document.getElementById('tomorrowEvents');
         if (data.tomorrow.length === 0) {
-          tmrwEl.innerHTML = '<div class="empty">No events</div>';
+          tmrwEl.innerHTML = '<div class="empty">Clear day</div>';
         } else {
           tmrwEl.innerHTML = data.tomorrow.map(e => `
             <div class="event">
@@ -190,12 +361,6 @@
               <div class="event-title">${e.title}<span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span></div>
             </div>
           `).join('');
-        }
-        
-        // Callout
-        if (data.callout) {
-          const calloutHtml = `<div class="callout"><div class="callout-title">${data.callout.title}</div>${data.callout.body}</div>`;
-          todayEl.insertAdjacentHTML('beforeend', calloutHtml);
         }
         
         // Weather
@@ -210,11 +375,11 @@
         // Tasks
         const tasksEl = document.getElementById('tasks');
         if (data.tasks.length === 0) {
-          tasksEl.innerHTML = '<div class="empty">No tasks</div>';
+          tasksEl.innerHTML = '<div class="empty">All clear</div>';
         } else {
           tasksEl.innerHTML = data.tasks.map(t => `
             <div class="task ${t.priority}">
-              <div class="task-bullet"></div>
+              <div class="task-dot"></div>
               <div class="task-content">
                 <div class="task-title">${t.title}</div>
                 <div class="task-meta">${t.meta}</div>
@@ -223,14 +388,12 @@
           `).join('');
         }
       } catch (e) {
-        console.error('Failed to load dashboard:', e);
+        console.error('Load failed:', e);
       }
     }
     
     loadDashboard();
-    // Auto-refresh every 5 minutes
     setInterval(loadDashboard, 5 * 60 * 1000);
   </script>
 </body>
 </html>
-<!-- deployed Sun Mar 29 20:56:50 +08 2026 -->
