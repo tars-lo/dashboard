@@ -10,11 +10,12 @@
     :root {
       --bg: #0a0a0a;
       --surface: #141414;
+      --surface2: #1a1a1a;
       --border: #2a2a2a;
       --text: #fafafa;
       --text-dim: #888;
       --accent: #ff6b35;
-      --accent-dim: #ff6b3530;
+      --accent-dim: rgba(255,107,53,0.15);
       --success: #00ff88;
       --warning: #ffcc00;
       --q1: #ff4444;
@@ -24,82 +25,147 @@
     .light {
       --bg: #f5f5f0;
       --surface: #ffffff;
+      --surface2: #fafafa;
       --border: #e0e0e0;
       --text: #1a1a1a;
       --text-dim: #666;
       --accent: #ff5722;
-      --accent-dim: #ff572220;
+      --accent-dim: rgba(255,87,34,0.12);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 16px;
+      padding: 12px;
       transition: background 0.3s, color 0.3s;
     }
-    .container { max-width: 500px; margin: 0 auto; }
+    .container { max-width: 540px; margin: 0 auto; }
     
-    /* Header */
+    /* Header bar */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border);
+      margin-bottom: 12px;
     }
     .logo {
       font-family: 'Space Mono', monospace;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: white;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .date-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .mode-toggle {
+      width: 40px;
+      height: 22px;
+      background: var(--surface2);
+      border: 2px solid var(--border);
+      border-radius: 11px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .mode-toggle::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    .light .mode-toggle::after {
+      left: 21px;
+      background: #fbbf24;
+    }
+    
+    /* Weather + Status bar */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .weather-compact {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Space Mono', monospace;
+    }
+    .weather-icon { font-size: 1.3rem; }
+    .weather-temp { font-size: 1rem; font-weight: 700; }
+    .status-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .status-location {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .status-time {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+    
+    /* Alert strip */
+    .alert-strip {
+      background: var(--accent-dim);
+      border-left: 3px solid var(--accent);
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: var(--accent);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
+    .alert-strip.warning {
+      border-left-color: var(--warning);
+      background: rgba(251,191,36,0.12);
     }
-    .mode-toggle {
-      width: 44px;
-      height: 24px;
-      background: var(--surface);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
+    .alert-strip.urgent {
+      border-left-color: var(--q1);
+      background: rgba(255,68,68,0.12);
     }
-    .mode-toggle::after {
-      content: '☀️';
-      position: absolute;
-      left: 2px;
-      top: 1px;
-      font-size: 14px;
-      transition: all 0.2s;
-    }
-    .light .mode-toggle::after {
-      content: '🌙';
-      left: 20px;
-    }
-    
-    /* Date bar */
-    .date-bar {
+    .alert-icon { font-size: 1rem; }
+    .alert-text { flex: 1; }
+    .alert-strip strong { 
       font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
+      font-size: 0.7rem;
+      text-transform: uppercase;
     }
     
     /* Cards */
@@ -107,145 +173,207 @@
       background: var(--surface);
       border: 2px solid var(--border);
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       overflow: hidden;
     }
     .card-header {
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      padding: 10px 14px;
-      background: var(--accent-dim);
+      padding: 8px 12px;
+      background: var(--surface2);
       border-bottom: 2px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
     }
-    .card-body { padding: 12px 14px; }
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-badge {
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 3px;
+    }
+    .card-body { padding: 10px 12px; }
     
     /* Events */
     .event {
       display: flex;
       padding: 8px 0;
       border-bottom: 1px dashed var(--border);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      opacity: 1;
+      transition: opacity 0.2s;
     }
     .event:last-child { border-bottom: none; }
+    .event.past { opacity: 0.4; }
+    .event.now { 
+      background: var(--accent-dim);
+      margin: 0 -12px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border-bottom: none;
+    }
     .event-time {
       font-family: 'Space Mono', monospace;
-      width: 70px;
-      font-size: 0.8rem;
+      width: 65px;
+      font-size: 0.75rem;
       color: var(--accent);
       font-weight: 700;
+      flex-shrink: 0;
     }
-    .event-title { flex: 1; }
+    .event.past .event-time { color: var(--text-dim); }
+    .event-content { flex: 1; min-width: 0; }
+    .event-title { 
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .event-title-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .event-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .event-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
     .tag {
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       font-weight: 700;
-      padding: 2px 5px;
-      border-radius: 3px;
-      margin-left: 6px;
+      padding: 1px 4px;
+      border-radius: 2px;
       border: 1px solid currentColor;
+      flex-shrink: 0;
     }
     .tag-f { color: #ff69b4; }
     .tag-w { color: #4488ff; }
     .tag-t { color: var(--success); }
+    .now-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      background: var(--accent);
+      color: white;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
     
     /* Section divider */
     .section-label {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin: 12px 0 8px;
-      padding-top: 10px;
+      margin: 10px 0 6px;
+      padding-top: 8px;
       border-top: 1px dashed var(--border);
     }
     
-    /* Tasks */
-    .task {
-      display: flex;
-      align-items: flex-start;
-      padding: 10px 0;
-      border-bottom: 1px dashed var(--border);
+    /* Kanban Tasks */
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
-    .task:last-child { border-bottom: none; }
-    .task-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      margin-right: 10px;
-      margin-top: 4px;
-      flex-shrink: 0;
+    @media (max-width: 480px) {
+      .kanban {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .kanban-col { 
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .kanban-col .task {
+        min-width: 200px;
+        flex-shrink: 0;
+      }
     }
-    .q1 .task-dot { background: var(--q1); }
-    .q2 .task-dot { background: var(--q2); }
-    .q3 .task-dot { background: var(--q3); }
-    .task-content { flex: 1; }
-    .task-title { font-size: 0.9rem; }
-    .task-meta { 
+    .kanban-col-header {
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem; 
-      color: var(--text-dim); 
-      margin-top: 3px; 
-    }
-    
-    /* Weather */
-    .weather {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 0 6px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 5px;
     }
-    .weather-icon { font-size: 2rem; }
-    .weather-temp { 
+    .kanban-col-header .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+    .q1-header .dot { background: var(--q1); }
+    .q2-header .dot { background: var(--q2); }
+    .q3-header .dot { background: var(--q3); }
+    .task {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+    }
+    .task:last-child { margin-bottom: 0; }
+    .task-title {
+      font-size: 0.8rem;
+      line-height: 1.3;
+    }
+    .task-meta {
       font-family: 'Space Mono', monospace;
-      font-size: 1.8rem; 
-      font-weight: 700;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 4px;
     }
-    .weather-desc { 
-      font-size: 0.85rem;
-      color: var(--text-dim); 
-    }
-    
-    /* Callout */
-    .callout {
-      background: var(--accent-dim);
-      border-left: 3px solid var(--accent);
-      padding: 10px 12px;
-      margin-top: 10px;
-      border-radius: 0 6px 6px 0;
-      font-size: 0.85rem;
-    }
-    .callout-title { 
-      font-family: 'Space Mono', monospace;
-      font-weight: 700; 
-      color: var(--accent); 
+    .kanban-empty {
       font-size: 0.75rem;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-    }
-    
-    /* Empty state */
-    .empty { 
-      color: var(--text-dim); 
-      font-style: italic; 
-      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-style: italic;
       padding: 8px 0;
     }
     
     /* Footer */
     .footer {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--text-dim);
       text-align: center;
-      margin-top: 20px;
-      padding-top: 16px;
+      margin-top: 16px;
+      padding-top: 12px;
       border-top: 2px solid var(--border);
+    }
+    
+    .empty { 
+      color: var(--text-dim); 
+      font-style: italic; 
+      font-size: 0.8rem;
+      padding: 6px 0;
     }
   </style>
 </head>
@@ -256,16 +384,29 @@
         <div class="logo-icon">◉</div>
         TARS_
       </div>
-      <div class="mode-toggle" onclick="toggleMode()"></div>
+      <div class="header-right">
+        <div class="date-label" id="currentDate">Loading...</div>
+        <div class="mode-toggle" onclick="toggleMode()"></div>
+      </div>
     </div>
     
-    <div class="date-bar">
-      <span id="currentDate">Loading...</span>
-      <span id="lastUpdated"></span>
+    <div class="status-bar">
+      <div class="weather-compact" id="weather">
+        <span class="weather-icon">--</span>
+        <span class="weather-temp">--°</span>
+      </div>
+      <div class="status-divider"></div>
+      <div class="status-location">Singapore</div>
+      <div class="status-time" id="statusTime">--:--</div>
     </div>
+    
+    <div id="alerts"></div>
     
     <div class="card">
-      <div class="card-header">📅 Schedule</div>
+      <div class="card-header">
+        <div class="card-header-left">📅 Schedule</div>
+        <div class="card-badge" id="eventCount">--</div>
+      </div>
       <div class="card-body">
         <div id="todayEvents">Loading...</div>
         <div class="section-label">Tomorrow</div>
@@ -274,119 +415,193 @@
     </div>
     
     <div class="card">
-      <div class="card-header">⛅ Weather</div>
-      <div class="card-body">
-        <div class="weather" id="weather">
-          <div class="weather-icon">--</div>
-          <div>
-            <div class="weather-temp">--°</div>
-            <div class="weather-desc">Loading...</div>
-          </div>
-        </div>
+      <div class="card-header">
+        <div class="card-header-left">✓ Tasks</div>
       </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">✓ Tasks</div>
       <div class="card-body">
-        <div id="tasks">Loading...</div>
+        <div class="kanban" id="kanban">Loading...</div>
       </div>
     </div>
     
     <div class="footer">
-      TARS.LO" × TEENAGE ENGINEERING AESTHETICS<br>
-      SG / 2026
+      ↻ <span id="lastUpdated">--</span> · TARS × TE
     </div>
   </div>
 
   <script>
-    // Mode toggle
     function toggleMode() {
       document.body.classList.toggle('light');
       localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
     }
     
-    // Auto mode based on time (6am-6pm = light)
     function autoMode() {
       const hour = new Date().getHours();
-      const savedMode = localStorage.getItem('mode');
-      if (savedMode) {
-        if (savedMode === 'light') document.body.classList.add('light');
+      const saved = localStorage.getItem('mode');
+      if (saved) {
+        if (saved === 'light') document.body.classList.add('light');
       } else {
         if (hour >= 6 && hour < 18) document.body.classList.add('light');
       }
     }
     autoMode();
     
-    // Load data
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('statusTime').textContent = 
+        now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    }
+    updateClock();
+    setInterval(updateClock, 60000);
+    
+    function isEventNow(timeStr) {
+      if (!timeStr || timeStr === 'All day') return false;
+      const now = new Date();
+      const [start, end] = timeStr.split('-').map(t => {
+        if (!t) return null;
+        const match = t.trim().match(/(\d+):?(\d*)\s*(am|pm)/i);
+        if (!match) return null;
+        let h = parseInt(match[1]);
+        const m = parseInt(match[2] || 0);
+        if (match[3].toLowerCase() === 'pm' && h !== 12) h += 12;
+        if (match[3].toLowerCase() === 'am' && h === 12) h = 0;
+        const d = new Date();
+        d.setHours(h, m, 0, 0);
+        return d;
+      });
+      if (!start) return false;
+      const endTime = end || new Date(start.getTime() + 60*60*1000);
+      return now >= start && now <= endTime;
+    }
+    
+    function isEventPast(timeStr) {
+      if (!timeStr || timeStr === 'All day') return false;
+      const match = timeStr.split('-')[1]?.trim().match(/(\d+):?(\d*)\s*(am|pm)/i) ||
+                    timeStr.split('-')[0]?.trim().match(/(\d+):?(\d*)\s*(am|pm)/i);
+      if (!match) return false;
+      let h = parseInt(match[1]);
+      const m = parseInt(match[2] || 0);
+      if (match[3].toLowerCase() === 'pm' && h !== 12) h += 12;
+      if (match[3].toLowerCase() === 'am' && h === 12) h = 0;
+      const eventEnd = new Date();
+      eventEnd.setHours(h, m, 0, 0);
+      return new Date() > eventEnd;
+    }
+    
     async function loadDashboard() {
       try {
         const res = await fetch('data.json?' + Date.now());
         const data = await res.json();
         
         document.getElementById('currentDate').textContent = data.date;
-        document.getElementById('lastUpdated').textContent = '↻ ' + data.updated;
-        
-        // Today
-        const todayEl = document.getElementById('todayEvents');
-        if (data.today.length === 0) {
-          todayEl.innerHTML = '<div class="empty">Clear day</div>';
-        } else {
-          todayEl.innerHTML = data.today.map(e => `
-            <div class="event">
-              <div class="event-time">${e.time}</div>
-              <div class="event-title">${e.title}<span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span></div>
-            </div>
-          `).join('');
-        }
-        
-        // Callout
-        if (data.callout) {
-          todayEl.insertAdjacentHTML('beforeend', `
-            <div class="callout">
-              <div class="callout-title">${data.callout.title}</div>
-              ${data.callout.body}
-            </div>
-          `);
-        }
-        
-        // Tomorrow
-        const tmrwEl = document.getElementById('tomorrowEvents');
-        if (data.tomorrow.length === 0) {
-          tmrwEl.innerHTML = '<div class="empty">Clear day</div>';
-        } else {
-          tmrwEl.innerHTML = data.tomorrow.map(e => `
-            <div class="event">
-              <div class="event-time">${e.time}</div>
-              <div class="event-title">${e.title}<span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span></div>
-            </div>
-          `).join('');
-        }
+        document.getElementById('lastUpdated').textContent = data.updated;
         
         // Weather
         document.getElementById('weather').innerHTML = `
-          <div class="weather-icon">${data.weather.icon}</div>
-          <div>
-            <div class="weather-temp">${data.weather.temp}°</div>
-            <div class="weather-desc">${data.weather.desc}</div>
+          <span class="weather-icon">${data.weather.icon}</span>
+          <span class="weather-temp">${data.weather.temp}°</span>
+        `;
+        
+        // Alerts
+        const alertsEl = document.getElementById('alerts');
+        alertsEl.innerHTML = '';
+        if (data.alerts && data.alerts.length > 0) {
+          data.alerts.forEach(a => {
+            alertsEl.innerHTML += `
+              <div class="alert-strip ${a.type || ''}">
+                <span class="alert-icon">${a.icon || '📍'}</span>
+                <span class="alert-text"><strong>${a.title}</strong> ${a.body}</span>
+              </div>
+            `;
+          });
+        }
+        
+        // Today events
+        const todayEl = document.getElementById('todayEvents');
+        let todayCount = 0;
+        if (!data.today || data.today.length === 0) {
+          todayEl.innerHTML = '<div class="empty">Clear schedule</div>';
+        } else {
+          todayCount = data.today.length;
+          todayEl.innerHTML = data.today.map(e => {
+            const isNow = isEventNow(e.time);
+            const isPast = !isNow && isEventPast(e.time);
+            const cls = isNow ? 'now' : (isPast ? 'past' : '');
+            const metaParts = [];
+            if (e.location) metaParts.push(`<span class="event-meta-item">📍 ${e.location}</span>`);
+            if (e.attendees) metaParts.push(`<span class="event-meta-item">👥 ${e.attendees}</span>`);
+            return `
+              <div class="event ${cls}">
+                <div class="event-time">${e.time}</div>
+                <div class="event-content">
+                  <div class="event-title">
+                    <span class="event-title-text">${e.title}</span>
+                    <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>
+                    ${isNow ? '<span class="now-badge">Now</span>' : ''}
+                  </div>
+                  ${metaParts.length ? `<div class="event-meta">${metaParts.join('')}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+        
+        // Tomorrow events  
+        const tmrwEl = document.getElementById('tomorrowEvents');
+        if (!data.tomorrow || data.tomorrow.length === 0) {
+          tmrwEl.innerHTML = '<div class="empty">Clear schedule</div>';
+        } else {
+          todayCount += data.tomorrow.length;
+          tmrwEl.innerHTML = data.tomorrow.map(e => {
+            const metaParts = [];
+            if (e.location) metaParts.push(`<span class="event-meta-item">📍 ${e.location}</span>`);
+            if (e.attendees) metaParts.push(`<span class="event-meta-item">👥 ${e.attendees}</span>`);
+            return `
+              <div class="event">
+                <div class="event-time">${e.time}</div>
+                <div class="event-content">
+                  <div class="event-title">
+                    <span class="event-title-text">${e.title}</span>
+                    <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>
+                  </div>
+                  ${metaParts.length ? `<div class="event-meta">${metaParts.join('')}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+        document.getElementById('eventCount').textContent = todayCount + ' events';
+        
+        // Kanban tasks
+        const kanbanEl = document.getElementById('kanban');
+        const q1 = (data.tasks || []).filter(t => t.priority === 'q1');
+        const q2 = (data.tasks || []).filter(t => t.priority === 'q2');
+        const q3 = (data.tasks || []).filter(t => t.priority === 'q3');
+        
+        const renderTasks = (tasks) => {
+          if (tasks.length === 0) return '<div class="kanban-empty">—</div>';
+          return tasks.map(t => `
+            <div class="task">
+              <div class="task-title">${t.title}</div>
+              ${t.meta ? `<div class="task-meta">${t.meta}</div>` : ''}
+            </div>
+          `).join('');
+        };
+        
+        kanbanEl.innerHTML = `
+          <div class="kanban-col">
+            <div class="kanban-col-header q1-header"><span class="dot"></span>Do Now</div>
+            ${renderTasks(q1)}
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header q2-header"><span class="dot"></span>Schedule</div>
+            ${renderTasks(q2)}
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header q3-header"><span class="dot"></span>Quick</div>
+            ${renderTasks(q3)}
           </div>
         `;
         
-        // Tasks
-        const tasksEl = document.getElementById('tasks');
-        if (data.tasks.length === 0) {
-          tasksEl.innerHTML = '<div class="empty">All clear</div>';
-        } else {
-          tasksEl.innerHTML = data.tasks.map(t => `
-            <div class="task ${t.priority}">
-              <div class="task-dot"></div>
-              <div class="task-content">
-                <div class="task-title">${t.title}</div>
-                <div class="task-meta">${t.meta}</div>
-              </div>
-            </div>
-          `).join('');
-        }
       } catch (e) {
         console.error('Load failed:', e);
       }

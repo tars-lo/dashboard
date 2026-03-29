@@ -1,33 +1,37 @@
 {
-  "date": "Sunday, 29 March 2026",
-  "updated": "8:53 PM",
-  "today": [
-    {"time": "10:00am", "title": "Solomon's Porch", "tag": "F"},
-    {"time": "6:30pm", "title": "Dinner @ Little Farms Table", "tag": "F"}
-  ],
-  "tomorrow": [
-    {"time": "All day", "title": "Kristen on call", "tag": "F"},
-    {"time": "10:00am", "title": "Zoe + Leia — Open Studio @ Kada", "tag": "F"},
-    {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W"},
-    {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W"},
-    {"time": "5:00pm", "title": "Claire Pilot - Recap", "tag": "W"},
-    {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F"}
-  ],
-  "callout": {
-    "title": "📍 Tomorrow: Kristen on call",
-    "body": "Solo parenting day — Zoe has Kada open studio 10am"
-  },
+  "date": "Sun, 29 Mar",
+  "updated": "9:11 PM",
   "weather": {
     "icon": "⛅",
     "temp": "28",
     "desc": "Partly cloudy"
   },
+  "alerts": [
+    {
+      "icon": "📍",
+      "title": "Tomorrow:",
+      "body": "Kristen on call — solo parenting day",
+      "type": "warning"
+    }
+  ],
+  "today": [
+    {"time": "10:00am", "title": "Solomon's Porch", "tag": "F", "location": "Church"},
+    {"time": "6:30pm", "title": "Dinner @ Little Farms Table", "tag": "F", "location": "Dempsey"}
+  ],
+  "tomorrow": [
+    {"time": "All day", "title": "Kristen on call", "tag": "F"},
+    {"time": "10:00am", "title": "Zoe + Leia — Kada Open Studio", "tag": "F", "location": "Kada"},
+    {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W", "attendees": "Advant team"},
+    {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W"},
+    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "attendees": "Claire, Anisha"},
+    {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F", "attendees": "David"}
+  ],
   "tasks": [
-    {"priority": "q1", "title": "Ask Celeene re Time+Tides lost wire transfer", "meta": "Q1 Urgent+Important • Need details on missing transfer"},
-    {"priority": "q2", "title": "Ask Alice + Celeene re Advant FY24 tax filing", "meta": "Q2 Important • Follow up on status"},
-    {"priority": "q2", "title": "Send Bernold deck from Friday mtg", "meta": "Q2 Important"},
-    {"priority": "q2", "title": "Call FOC - bday reminder", "meta": "Q2 Important"},
-    {"priority": "q2", "title": "Setup Zoe curriculum tracking skill", "meta": "Q2 Important • After-school activity guidance"},
-    {"priority": "q3", "title": "Pickup glue for Zoe's desk chair", "meta": "Q3 Urgent • Quick errand"}
+    {"priority": "q1", "title": "Ask Celeene re Time+Tides wire transfer", "meta": "Lost payment"},
+    {"priority": "q2", "title": "Ask Alice + Celeene re FY24 tax filing", "meta": "Advant"},
+    {"priority": "q2", "title": "Send Bernold deck from Friday", "meta": "Follow-up"},
+    {"priority": "q2", "title": "Setup Zoe curriculum skill", "meta": "TARS project"},
+    {"priority": "q3", "title": "Pickup glue for Zoe's chair", "meta": "Errand"},
+    {"priority": "q3", "title": "Call FOC - bday reminder", "meta": "Quick call"}
   ]
 }
