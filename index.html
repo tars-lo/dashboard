@@ -24,8 +24,9 @@
       --q3-dim: rgba(68,136,255,0.12);
       --q4: #666;
       --q4-dim: rgba(102,102,102,0.12);
+      --hot: #ff4444;
+      --warm: #fbbf24;
       --success: #00ff88;
-      --warning: #ffcc00;
     }
     .light {
       --bg: #f5f5f0;
@@ -94,7 +95,6 @@
       border-radius: 11px;
       cursor: pointer;
       position: relative;
-      flex-shrink: 0;
     }
     .mode-toggle::after {
       content: '';
@@ -112,39 +112,46 @@
       background: #fbbf24;
     }
     
-    /* Status bar */
-    .status-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
+    /* Vibe bar */
+    .vibe-bar {
+      padding: 12px;
       background: var(--surface);
       border: 2px solid var(--border);
       border-radius: 8px;
       margin-bottom: 10px;
     }
-    .weather-compact {
+    .vibe-main {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-family: 'Space Mono', monospace;
+      gap: 10px;
+      margin-bottom: 6px;
     }
-    .weather-icon { font-size: 1.3rem; }
-    .weather-temp { font-size: 1rem; font-weight: 700; }
-    .status-divider {
+    .vibe-weather {
+      font-family: 'Space Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .vibe-weather-icon { font-size: 1.2rem; }
+    .vibe-weather-temp { font-weight: 700; }
+    .vibe-divider {
       width: 1px;
-      height: 20px;
+      height: 16px;
       background: var(--border);
     }
-    .status-location {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-    .status-time {
+    .vibe-time {
       font-family: 'Space Mono', monospace;
       font-size: 0.75rem;
       color: var(--text-dim);
       margin-left: auto;
+    }
+    .vibe-summary {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+    .vibe-summary strong {
+      color: var(--text);
     }
     
     /* Alert strip */
@@ -159,21 +166,8 @@
       align-items: center;
       gap: 8px;
     }
-    .alert-strip.warning {
-      border-left-color: var(--warning);
-      background: rgba(251,191,36,0.12);
-    }
-    .alert-strip.urgent {
-      border-left-color: var(--q1);
-      background: var(--q1-dim);
-    }
-    .alert-icon { font-size: 1rem; }
-    .alert-text { flex: 1; }
-    .alert-text strong { 
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-    }
+    .alert-strip.warning { border-left-color: var(--warm); background: rgba(251,191,36,0.12); }
+    .alert-strip.urgent { border-left-color: var(--q1); background: var(--q1-dim); }
     
     /* Cards */
     .card {
@@ -219,7 +213,6 @@
       margin: 0 -12px;
       padding: 8px 12px;
       border-radius: 4px;
-      border-bottom: none;
     }
     .event-time {
       font-family: 'Space Mono', monospace;
@@ -227,26 +220,11 @@
       font-size: 0.75rem;
       color: var(--accent);
       font-weight: 700;
-      flex-shrink: 0;
     }
     .event.past .event-time { color: var(--text-dim); }
     .event-content { flex: 1; min-width: 0; }
-    .event-title { 
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    .event-title-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .event-meta {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      margin-top: 2px;
-    }
+    .event-title { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .event-meta { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
     .tag {
       font-family: 'Space Mono', monospace;
       font-size: 0.55rem;
@@ -267,7 +245,6 @@
       color: white;
       border-radius: 2px;
     }
-    
     .section-label {
       font-family: 'Space Mono', monospace;
       font-size: 0.6rem;
@@ -279,11 +256,57 @@
       border-top: 1px dashed var(--border);
     }
     
+    /* Pipeline */
+    .pipeline-summary {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .pipeline-stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+    .stat-dot.hot { background: var(--hot); }
+    .stat-dot.warm { background: var(--warm); }
+    .stat-dot.active { background: var(--q3); }
+    .pipeline-item {
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.8rem;
+    }
+    .pipeline-item:last-child { border-bottom: none; }
+    .pipeline-item-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pipeline-heat {
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+    .pipeline-heat.hot { background: var(--q1-dim); color: var(--hot); }
+    .pipeline-heat.stale { background: var(--q1-dim); color: var(--hot); border: 1px dashed var(--hot); }
+    .pipeline-heat.warm { background: rgba(251,191,36,0.12); color: var(--warm); }
+    .pipeline-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+    
     /* Eisenhower Matrix */
     .matrix {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto;
       gap: 8px;
     }
     .matrix-quadrant {
@@ -291,82 +314,93 @@
       border: 2px solid var(--border);
       border-radius: 6px;
       padding: 8px;
-      min-height: 100px;
-      max-height: 180px;
+      min-height: 80px;
+      max-height: 160px;
       overflow-y: auto;
     }
     .matrix-quadrant.q1 { border-color: var(--q1); background: var(--q1-dim); }
     .matrix-quadrant.q2 { border-color: var(--q2); background: var(--q2-dim); }
     .matrix-quadrant.q3 { border-color: var(--q3); background: var(--q3-dim); }
     .matrix-quadrant.q4 { border-color: var(--q4); background: var(--q4-dim); }
-    
     .matrix-header {
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      margin-bottom: 6px;
     }
     .matrix-quadrant.q1 .matrix-header { color: var(--q1); }
     .matrix-quadrant.q2 .matrix-header { color: var(--q2); }
     .matrix-quadrant.q3 .matrix-header { color: var(--q3); }
     .matrix-quadrant.q4 .matrix-header { color: var(--q4); }
-    
     .matrix-task {
       background: var(--surface);
       border-radius: 4px;
       padding: 6px 8px;
-      margin-bottom: 6px;
-      font-size: 0.8rem;
+      margin-bottom: 5px;
+      font-size: 0.75rem;
       border: 1px solid var(--border);
     }
     .matrix-task:last-child { margin-bottom: 0; }
-    .matrix-task-title {
-      line-height: 1.3;
-    }
-    .matrix-task-meta {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      margin-top: 3px;
-    }
     .matrix-empty {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
       font-style: italic;
       text-align: center;
-      padding: 12px 0;
+      padding: 8px 0;
     }
     
-    /* Axis labels */
-    .matrix-wrapper { position: relative; }
-    .matrix-axis-top {
+    /* Reading */
+    .reading-item {
       display: flex;
-      justify-content: space-around;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.55rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-      padding: 0 20px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
     }
-    .matrix-axis-left {
-      position: absolute;
-      left: -8px;
-      top: 50%;
-      transform: rotate(-90deg) translateX(-50%);
-      transform-origin: left center;
+    .reading-item:last-child { border-bottom: none; }
+    .reading-progress {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) var(--pct), var(--border) var(--pct));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .reading-progress-inner {
+      width: 32px;
+      height: 32px;
+      background: var(--surface);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reading-info { flex: 1; min-width: 0; }
+    .reading-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .reading-author {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .reading-tag {
       font-family: 'Space Mono', monospace;
       font-size: 0.55rem;
+      padding: 2px 5px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
       color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      white-space: nowrap;
     }
     
     /* Footer */
@@ -379,13 +413,7 @@
       padding-top: 12px;
       border-top: 2px solid var(--border);
     }
-    
-    .empty { 
-      color: var(--text-dim); 
-      font-style: italic; 
-      font-size: 0.8rem;
-      padding: 6px 0;
-    }
+    .empty { color: var(--text-dim); font-style: italic; font-size: 0.8rem; padding: 6px 0; }
   </style>
 </head>
 <body>
@@ -401,14 +429,16 @@
       </div>
     </div>
     
-    <div class="status-bar">
-      <div class="weather-compact" id="weather">
-        <span class="weather-icon">--</span>
-        <span class="weather-temp">--°</span>
+    <div class="vibe-bar">
+      <div class="vibe-main">
+        <div class="vibe-weather" id="weather">
+          <span class="vibe-weather-icon">--</span>
+          <span class="vibe-weather-temp">--°</span>
+        </div>
+        <div class="vibe-divider"></div>
+        <div class="vibe-time" id="statusTime">--:--</div>
       </div>
-      <div class="status-divider"></div>
-      <div class="status-location" id="location">Singapore</div>
-      <div class="status-time" id="statusTime">--:--</div>
+      <div class="vibe-summary" id="vibeSummary">Loading...</div>
     </div>
     
     <div id="alerts"></div>
@@ -427,39 +457,45 @@
     
     <div class="card">
       <div class="card-header">
-        <span>✓ Eisenhower Matrix</span>
+        <span>🔥 Pipeline</span>
+        <span class="card-badge" id="pipelineCount">--</span>
       </div>
       <div class="card-body">
-        <div class="matrix-wrapper">
-          <div class="matrix-axis-top">
-            <span>Urgent</span>
-            <span>Not Urgent</span>
+        <div class="pipeline-summary" id="pipelineSummary"></div>
+        <div id="pipelineItems">Loading...</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><span>✓ Tasks</span></div>
+      <div class="card-body">
+        <div class="matrix" id="matrix">
+          <div class="matrix-quadrant q1">
+            <div class="matrix-header">🔥 Do Now</div>
+            <div id="q1-tasks"></div>
           </div>
-          <div class="matrix" id="matrix">
-            <div class="matrix-quadrant q1">
-              <div class="matrix-header">🔥 Do Now</div>
-              <div class="matrix-tasks" id="q1-tasks"></div>
-            </div>
-            <div class="matrix-quadrant q2">
-              <div class="matrix-header">📅 Schedule</div>
-              <div class="matrix-tasks" id="q2-tasks"></div>
-            </div>
-            <div class="matrix-quadrant q3">
-              <div class="matrix-header">⚡ Delegate</div>
-              <div class="matrix-tasks" id="q3-tasks"></div>
-            </div>
-            <div class="matrix-quadrant q4">
-              <div class="matrix-header">🗑️ Drop</div>
-              <div class="matrix-tasks" id="q4-tasks"></div>
-            </div>
+          <div class="matrix-quadrant q2">
+            <div class="matrix-header">📅 Schedule</div>
+            <div id="q2-tasks"></div>
+          </div>
+          <div class="matrix-quadrant q3">
+            <div class="matrix-header">⚡ Delegate</div>
+            <div id="q3-tasks"></div>
+          </div>
+          <div class="matrix-quadrant q4">
+            <div class="matrix-header">🗑️ Drop</div>
+            <div id="q4-tasks"></div>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="footer">
-      ↻ <span id="lastUpdated">--</span> · TARS × TE
+    <div class="card">
+      <div class="card-header"><span>📚 Reading</span></div>
+      <div class="card-body" id="reading">Loading...</div>
     </div>
+    
+    <div class="footer">↻ <span id="lastUpdated">--</span> · TARS × TE</div>
   </div>
 
   <script>
@@ -467,172 +503,125 @@
       document.body.classList.toggle('light');
       localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark');
     }
-    
-    function autoMode() {
+    (function autoMode() {
       const hour = new Date().getHours();
       const saved = localStorage.getItem('mode');
-      if (saved) {
-        if (saved === 'light') document.body.classList.add('light');
-      } else {
-        if (hour >= 6 && hour < 18) document.body.classList.add('light');
-      }
-    }
-    autoMode();
+      if (saved === 'light' || (!saved && hour >= 6 && hour < 18)) document.body.classList.add('light');
+    })();
     
     function updateClock() {
-      const now = new Date();
       document.getElementById('statusTime').textContent = 
-        now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
     }
     updateClock();
     setInterval(updateClock, 60000);
     
-    function parseTime(timeStr) {
-      if (!timeStr || timeStr === 'All day') return null;
-      const match = timeStr.match(/(\d+):(\d+)(am|pm)/i);
-      if (!match) return null;
-      let h = parseInt(match[1]);
-      const m = parseInt(match[2]);
-      if (match[3].toLowerCase() === 'pm' && h !== 12) h += 12;
-      if (match[3].toLowerCase() === 'am' && h === 12) h = 0;
-      const d = new Date();
-      d.setHours(h, m, 0, 0);
+    function parseTime(t) {
+      if (!t || t === 'All day') return null;
+      const m = t.match(/(\d+):(\d+)(am|pm)/i);
+      if (!m) return null;
+      let h = parseInt(m[1]);
+      if (m[3].toLowerCase() === 'pm' && h !== 12) h += 12;
+      if (m[3].toLowerCase() === 'am' && h === 12) h = 0;
+      const d = new Date(); d.setHours(h, parseInt(m[2]), 0, 0);
       return d;
     }
-    
-    function isEventNow(timeStr) {
-      const start = parseTime(timeStr.split('-')[0]);
-      if (!start) return false;
-      const endStr = timeStr.split('-')[1];
-      const end = endStr ? parseTime(endStr) : new Date(start.getTime() + 60*60*1000);
-      const now = new Date();
-      return now >= start && now <= end;
+    function isNow(t) {
+      const s = parseTime(t.split('-')[0]);
+      if (!s) return false;
+      const e = parseTime(t.split('-')[1]) || new Date(s.getTime() + 3600000);
+      const n = new Date();
+      return n >= s && n <= e;
+    }
+    function isPast(t) {
+      const p = t.split('-');
+      const e = parseTime(p[1] || p[0]);
+      return e ? new Date() > e : false;
     }
     
-    function isEventPast(timeStr) {
-      const parts = timeStr.split('-');
-      const endTime = parseTime(parts[1] || parts[0]);
-      if (!endTime) return false;
-      return new Date() > endTime;
-    }
-    
-    async function loadDashboard() {
+    async function load() {
       try {
-        const res = await fetch('data.json?' + Date.now());
-        const data = await res.json();
+        const d = await (await fetch('data.json?' + Date.now())).json();
         
-        document.getElementById('currentDate').textContent = data.date;
-        document.getElementById('lastUpdated').textContent = data.updated;
-        if (data.location) document.getElementById('location').textContent = data.location;
-        
-        // Weather
-        document.getElementById('weather').innerHTML = `
-          <span class="weather-icon">${data.weather.icon}</span>
-          <span class="weather-temp">${data.weather.temp}°</span>
-        `;
+        document.getElementById('currentDate').textContent = d.date;
+        document.getElementById('lastUpdated').textContent = d.updated;
+        document.getElementById('weather').innerHTML = `<span class="vibe-weather-icon">${d.weather.icon}</span><span class="vibe-weather-temp">${d.weather.temp}°</span>`;
+        document.getElementById('vibeSummary').innerHTML = d.vibe || '';
         
         // Alerts
-        const alertsEl = document.getElementById('alerts');
-        alertsEl.innerHTML = '';
-        if (data.alerts && data.alerts.length > 0) {
-          data.alerts.forEach(a => {
-            alertsEl.innerHTML += `
-              <div class="alert-strip ${a.type || ''}">
-                <span class="alert-icon">${a.icon || '📍'}</span>
-                <span class="alert-text"><strong>${a.title}</strong> ${a.body}</span>
-              </div>
-            `;
-          });
-        }
+        const al = document.getElementById('alerts');
+        al.innerHTML = (d.alerts||[]).map(a => `<div class="alert-strip ${a.type||''}">${a.icon||'📍'} <strong>${a.title}</strong> ${a.body}</div>`).join('');
         
-        // Today events
-        const todayEl = document.getElementById('todayEvents');
-        let eventCount = 0;
-        if (!data.today || data.today.length === 0) {
-          todayEl.innerHTML = '<div class="empty">Clear schedule</div>';
-        } else {
-          eventCount = data.today.length;
-          todayEl.innerHTML = data.today.map(e => {
-            const isNow = isEventNow(e.time);
-            const isPast = !isNow && isEventPast(e.time);
-            const cls = isNow ? 'now' : (isPast ? 'past' : '');
-            let meta = '';
-            if (e.location || e.attendees) {
-              const parts = [];
-              if (e.location) parts.push('📍 ' + e.location);
-              if (e.attendees) parts.push('👥 ' + e.attendees);
-              meta = `<div class="event-meta">${parts.join(' · ')}</div>`;
-            }
-            return `
-              <div class="event ${cls}">
-                <div class="event-time">${e.time}</div>
-                <div class="event-content">
-                  <div class="event-title">
-                    <span class="event-title-text">${e.title}</span>
-                    <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>
-                    ${isNow ? '<span class="now-badge">Now</span>' : ''}
-                  </div>
-                  ${meta}
-                </div>
-              </div>
-            `;
+        // Events
+        let ec = 0;
+        const te = document.getElementById('todayEvents');
+        if (!d.today?.length) te.innerHTML = '<div class="empty">Clear</div>';
+        else {
+          ec = d.today.length;
+          te.innerHTML = d.today.map(e => {
+            const n = isNow(e.time), p = !n && isPast(e.time);
+            let m = '';
+            if (e.location) m = `<div class="event-meta">📍 ${e.location}</div>`;
+            return `<div class="event ${n?'now':''} ${p?'past':''}"><div class="event-time">${e.time}</div><div class="event-content"><div class="event-title">${e.title} <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>${n?'<span class="now-badge">Now</span>':''}</div>${m}</div></div>`;
           }).join('');
         }
-        
-        // Tomorrow
-        const tmrwEl = document.getElementById('tomorrowEvents');
-        if (!data.tomorrow || data.tomorrow.length === 0) {
-          tmrwEl.innerHTML = '<div class="empty">Clear schedule</div>';
-        } else {
-          eventCount += data.tomorrow.length;
-          tmrwEl.innerHTML = data.tomorrow.map(e => {
-            let meta = '';
-            if (e.location || e.attendees) {
-              const parts = [];
-              if (e.location) parts.push('📍 ' + e.location);
-              if (e.attendees) parts.push('👥 ' + e.attendees);
-              meta = `<div class="event-meta">${parts.join(' · ')}</div>`;
-            }
-            return `
-              <div class="event">
-                <div class="event-time">${e.time}</div>
-                <div class="event-content">
-                  <div class="event-title">
-                    <span class="event-title-text">${e.title}</span>
-                    <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>
-                  </div>
-                  ${meta}
-                </div>
-              </div>
-            `;
+        const tm = document.getElementById('tomorrowEvents');
+        if (!d.tomorrow?.length) tm.innerHTML = '<div class="empty">Clear</div>';
+        else {
+          ec += d.tomorrow.length;
+          tm.innerHTML = d.tomorrow.map(e => {
+            let m = e.location ? `<div class="event-meta">📍 ${e.location}</div>` : '';
+            return `<div class="event"><div class="event-time">${e.time}</div><div class="event-content"><div class="event-title">${e.title} <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span></div>${m}</div></div>`;
           }).join('');
         }
-        document.getElementById('eventCount').textContent = eventCount + ' events';
+        document.getElementById('eventCount').textContent = ec + ' events';
         
-        // Eisenhower Matrix
-        const renderTasks = (tasks) => {
-          if (!tasks || tasks.length === 0) return '<div class="matrix-empty">—</div>';
-          return tasks.map(t => `
-            <div class="matrix-task">
-              <div class="matrix-task-title">${t.title}</div>
-              ${t.meta ? `<div class="matrix-task-meta">${t.meta}</div>` : ''}
+        // Pipeline
+        if (d.pipeline) {
+          document.getElementById('pipelineCount').textContent = d.pipeline.hot + ' hot';
+          document.getElementById('pipelineSummary').innerHTML = `
+            <div class="pipeline-stat"><span class="stat-dot hot"></span>${d.pipeline.hot} Hot</div>
+            <div class="pipeline-stat"><span class="stat-dot warm"></span>${d.pipeline.warm} Warm</div>
+            <div class="pipeline-stat"><span class="stat-dot active"></span>${d.pipeline.active} Active</div>
+          `;
+          const pi = document.getElementById('pipelineItems');
+          if (!d.pipeline.items?.length) pi.innerHTML = '<div class="empty">All clear</div>';
+          else pi.innerHTML = d.pipeline.items.map(p => `
+            <div class="pipeline-item">
+              <div class="pipeline-item-header">
+                <span class="pipeline-heat ${p.heat}">${p.heat.toUpperCase()}</span>
+                <strong>${p.name}</strong> @ ${p.company}
+              </div>
+              <div class="pipeline-meta">${p.days}d → ${p.action}</div>
             </div>
           `).join('');
-        };
+        }
         
-        const tasks = data.tasks || [];
-        document.getElementById('q1-tasks').innerHTML = renderTasks(tasks.filter(t => t.priority === 'q1'));
-        document.getElementById('q2-tasks').innerHTML = renderTasks(tasks.filter(t => t.priority === 'q2'));
-        document.getElementById('q3-tasks').innerHTML = renderTasks(tasks.filter(t => t.priority === 'q3'));
-        document.getElementById('q4-tasks').innerHTML = renderTasks(tasks.filter(t => t.priority === 'q4'));
+        // Tasks
+        const rt = t => !t?.length ? '<div class="matrix-empty">—</div>' : t.map(x => `<div class="matrix-task">${x.title}</div>`).join('');
+        document.getElementById('q1-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q1'));
+        document.getElementById('q2-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q2'));
+        document.getElementById('q3-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q3'));
+        document.getElementById('q4-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q4'));
         
-      } catch (e) {
-        console.error('Load failed:', e);
-      }
+        // Reading
+        const rd = document.getElementById('reading');
+        if (!d.reading?.length) rd.innerHTML = '<div class="empty">Nothing tracked</div>';
+        else rd.innerHTML = d.reading.map(r => `
+          <div class="reading-item">
+            <div class="reading-progress" style="--pct:${r.progress}%"><div class="reading-progress-inner">${r.progress}%</div></div>
+            <div class="reading-info">
+              <div class="reading-title">${r.title}</div>
+              <div class="reading-author">${r.author}</div>
+            </div>
+            <span class="reading-tag">${r.type}</span>
+          </div>
+        `).join('');
+        
+      } catch(e) { console.error(e); }
     }
-    
-    loadDashboard();
-    setInterval(loadDashboard, 5 * 60 * 1000);
+    load();
+    setInterval(load, 300000);
   </script>
 </body>
 </html>

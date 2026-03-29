@@ -1,12 +1,11 @@
 {
   "date": "Sun, 29 Mar",
-  "updated": "9:32 PM",
-  "location": "Singapore",
+  "updated": "9:45 PM",
   "weather": {
     "icon": "⛅",
-    "temp": "28",
-    "desc": "Partly cloudy"
+    "temp": "28"
   },
+  "vibe": "<strong>Light morning, stacked afternoon.</strong> Kristen on call tomorrow — solo parenting. 5 hot leads need attention. Didion at 58%, close to finishing.",
   "alerts": [
     {
       "icon": "📍",
@@ -24,16 +23,32 @@
     {"time": "10:00am", "title": "Zoe + Leia — Kada Open Studio", "tag": "F", "location": "Kada"},
     {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W", "location": "Teams"},
     {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W", "location": "Teams"},
-    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "attendees": "Claire, Alex", "location": "Teams"},
-    {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F", "attendees": "David"}
+    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "location": "Teams"},
+    {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F"}
   ],
+  "pipeline": {
+    "active": 13,
+    "hot": 5,
+    "warm": 8,
+    "items": [
+      {"name": "Marine Poirel", "company": "Le Mas des Herbes Blanches", "heat": "stale", "days": 10, "action": "Send comp set + book call"},
+      {"name": "Eliana Kokotos", "company": "Elounda S.A.", "heat": "hot", "days": 6, "action": "Send CLAIR deck + propose call"},
+      {"name": "G. Torre", "company": "Grand Hotel Parker's", "heat": "hot", "days": 2, "action": "Reply + intro call (Villa Matilde)"},
+      {"name": "Ann Kristin", "company": "62°N", "heat": "hot", "days": 2, "action": "Confirm Mar 26 slot"},
+      {"name": "Arine K.", "company": "R&C HQ", "heat": "hot", "days": 1, "action": "Warm reply + seed next engagement"}
+    ]
+  },
   "tasks": [
-    {"priority": "q1", "title": "Ask Celeene re Time+Tides wire transfer", "meta": "Lost payment"},
-    {"priority": "q2", "title": "Ask Alice + Celeene re FY24 tax filing", "meta": "Advant"},
-    {"priority": "q2", "title": "Send Bernold deck from Friday", "meta": "Follow-up"},
-    {"priority": "q2", "title": "Setup Zoe curriculum skill", "meta": "TARS project"},
-    {"priority": "q3", "title": "Pickup glue for Zoe's chair", "meta": "Errand"},
-    {"priority": "q3", "title": "Call FOC - bday reminder", "meta": "Quick call"},
-    {"priority": "q4", "title": "Research new task apps", "meta": "Someday"}
+    {"priority": "q1", "title": "Ask Celeene re Time+Tides wire"},
+    {"priority": "q2", "title": "Ask Alice + Celeene re FY24 tax"},
+    {"priority": "q2", "title": "Send Bernold deck from Friday"},
+    {"priority": "q2", "title": "Setup Zoe curriculum skill"},
+    {"priority": "q3", "title": "Pickup glue for Zoe's chair"},
+    {"priority": "q3", "title": "Call FOC - bday reminder"},
+    {"priority": "q4", "title": "Doodle Farms signup"}
+  ],
+  "reading": [
+    {"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"},
+    {"title": "The Creative Act", "author": "Rick Rubin", "progress": 12, "type": "Non-fiction"}
   ]
 }
