@@ -1,6 +1,7 @@
 {
   "date": "Sun, 29 Mar",
-  "updated": "9:11 PM",
+  "updated": "9:32 PM",
+  "location": "Singapore",
   "weather": {
     "icon": "⛅",
     "temp": "28",
@@ -15,15 +16,15 @@
     }
   ],
   "today": [
-    {"time": "10:00am", "title": "Solomon's Porch", "tag": "F", "location": "Church"},
+    {"time": "10:00am", "title": "Solomon's Porch", "tag": "F"},
     {"time": "6:30pm", "title": "Dinner @ Little Farms Table", "tag": "F", "location": "Dempsey"}
   ],
   "tomorrow": [
     {"time": "All day", "title": "Kristen on call", "tag": "F"},
     {"time": "10:00am", "title": "Zoe + Leia — Kada Open Studio", "tag": "F", "location": "Kada"},
-    {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W", "attendees": "Advant team"},
-    {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W"},
-    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "attendees": "Claire, Anisha"},
+    {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W", "location": "Teams"},
+    {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W", "location": "Teams"},
+    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "attendees": "Claire, Alex", "location": "Teams"},
     {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F", "attendees": "David"}
   ],
   "tasks": [
@@ -32,6 +33,7 @@
     {"priority": "q2", "title": "Send Bernold deck from Friday", "meta": "Follow-up"},
     {"priority": "q2", "title": "Setup Zoe curriculum skill", "meta": "TARS project"},
     {"priority": "q3", "title": "Pickup glue for Zoe's chair", "meta": "Errand"},
-    {"priority": "q3", "title": "Call FOC - bday reminder", "meta": "Quick call"}
+    {"priority": "q3", "title": "Call FOC - bday reminder", "meta": "Quick call"},
+    {"priority": "q4", "title": "Research new task apps", "meta": "Someday"}
   ]
 }
