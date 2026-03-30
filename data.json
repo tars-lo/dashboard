@@ -144,7 +144,7 @@
       "icon": "🙏",
       "target": 7,
       "week": [
-        false,
+        true,
         false,
         false,
         false,
