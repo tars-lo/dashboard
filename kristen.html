@@ -123,9 +123,14 @@
             gap: 14px;
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
+            align-items: flex-start;
         }
         .event:last-child { border-bottom: none; }
         
+        .event-emoji {
+            font-size: 20px;
+            line-height: 1;
+        }
         .event-time {
             font-size: 13px;
             color: var(--blush);
@@ -160,7 +165,7 @@
         .week-day-events {
             font-size: 14px;
             flex: 1;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         .quiet {
             color: var(--muted);
@@ -182,14 +187,18 @@
             gap: 14px;
             padding: 10px 0;
             border-bottom: 1px solid var(--border);
+            align-items: center;
         }
         .recurring-item:last-child { border-bottom: none; }
         
+        .recurring-emoji {
+            font-size: 18px;
+        }
         .recurring-time {
             font-size: 13px;
             color: var(--sage);
             font-weight: 500;
-            min-width: 100px;
+            min-width: 90px;
         }
         .recurring-title {
             font-size: 14px;
@@ -247,7 +256,7 @@
     </div>
     
     <div class="on-call-banner">
-        <div class="label">On Call This Week</div>
+        <div class="label">🏥 On Call This Week</div>
         <div class="days">Friday 3 Apr (Good Friday)</div>
     </div>
     
@@ -258,10 +267,12 @@
         </div>
         <div class="section-body">
             <div class="event">
+                <span class="event-emoji">🎨</span>
                 <span class="event-time">10:00am – 12:30pm</span>
                 <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
             </div>
             <div class="event">
+                <span class="event-emoji">🏊‍♀️</span>
                 <span class="event-time">5:00pm – 6:00pm</span>
                 <span class="event-title">Zoe Swimming (5pm this week only)</span>
             </div>
@@ -276,31 +287,31 @@
         <div class="section-body">
             <div class="week-day">
                 <span class="week-day-name today">Mon</span>
-                <span class="week-day-events">Kada, Zoe Swimming 5pm</span>
+                <span class="week-day-events">🎨 Kada · 🏊‍♀️ Zoe Swimming 5pm</span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Tue</span>
-                <span class="week-day-events">Kada</span>
+                <span class="week-day-events">🎨 Kada</span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Wed</span>
-                <span class="week-day-events">Kada, Clean car</span>
+                <span class="week-day-events">🎨 Kada · 🚗 Clean car</span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Thu</span>
-                <span class="week-day-events">Play date — Pottery painting (Zoe + Yuna)</span>
+                <span class="week-day-events">🎭 Play date — Pottery painting (Zoe + Yuna)</span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Fri</span>
-                <span class="week-day-events">Good Friday · House Church 8pm <span class="tag-oncall">On call</span></span>
+                <span class="week-day-events">✝️ Good Friday · ⛪ House Church 8pm <span class="tag-oncall">🏥 On call</span></span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Sat</span>
-                <span class="week-day-events">Art @ Kada 10:30am · Chinese 3pm · <em>Gladys</em></span>
+                <span class="week-day-events">🎨 Art @ Kada 10:30am · 📚 Chinese 3pm · 👩‍👧 <em>Gladys</em></span>
             </div>
             <div class="week-day">
                 <span class="week-day-name">Sun</span>
-                <span class="week-day-events">Solomon's Porch 10am · <em>Marie (Easter)</em></span>
+                <span class="week-day-events">⛪ Solomon's Porch 10am · 🐣 Easter · 👩‍👧 <em>Marie</em></span>
             </div>
         </div>
     </div>
@@ -312,18 +323,22 @@
         </div>
         <div class="section-body">
             <div class="recurring-item">
+                <span class="recurring-emoji">🎨</span>
                 <span class="recurring-time">Sat 10:30am</span>
                 <span class="recurring-title">Art at Kada (Zoe)</span>
             </div>
             <div class="recurring-item">
+                <span class="recurring-emoji">📚</span>
                 <span class="recurring-time">Sat 3:00pm</span>
                 <span class="recurring-title">Chinese Class (Zoe)</span>
             </div>
             <div class="recurring-item">
+                <span class="recurring-emoji">⛪</span>
                 <span class="recurring-time">Sun 10:00am</span>
                 <span class="recurring-title">Solomon's Porch</span>
             </div>
             <div class="recurring-item">
+                <span class="recurring-emoji">🏠</span>
                 <span class="recurring-time">Fri 8:00pm</span>
                 <span class="recurring-title">House Church</span>
             </div>
@@ -333,13 +348,13 @@
     <div class="section">
         <div class="section-header">
             <span class="section-number">04</span>
-            <span class="section-title">Helper Schedule · April</span>
+            <span class="section-title">👩‍👧 Helper Schedule · April</span>
         </div>
         <div class="section-body">
             <div class="helper-row">
                 <span class="helper-date">Fri 3 Apr</span>
                 <span class="helper-name">Gladys</span>
-                <span class="helper-note">Good Friday</span>
+                <span class="helper-note">✝️ Good Friday</span>
             </div>
             <div class="helper-row">
                 <span class="helper-date">Sat 4 Apr</span>
@@ -348,7 +363,7 @@
             <div class="helper-row">
                 <span class="helper-date">Sun 5 Apr</span>
                 <span class="helper-name">Marie</span>
-                <span class="helper-note">Easter</span>
+                <span class="helper-note">🐣 Easter</span>
             </div>
             <div class="helper-row">
                 <span class="helper-date">Sat 11 Apr</span>
@@ -376,7 +391,7 @@
             </div>
             <div class="helper-row">
                 <span class="helper-date">Apr 28 – May 4</span>
-                <span class="helper-name">Marie away</span>
+                <span class="helper-name">Marie away ✈️</span>
                 <span class="helper-note">Returns May 5, 9am</span>
             </div>
         </div>
@@ -384,7 +399,7 @@
     
     <div class="footer">
         <div class="footer-logo">🏠 Lo Home</div>
-        <div class="footer-time">Updated 7:50 PM</div>
+        <div class="footer-time">Updated 8:00 PM</div>
     </div>
 </body>
 </html>
