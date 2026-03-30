@@ -28,7 +28,6 @@
         .title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
         .subtitle { font-size: 0.85rem; color: var(--mid-gray); }
         
-        /* Filters */
         .filters { margin-bottom: 1.5rem; }
         .filter-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
         .filter-btn {
@@ -44,7 +43,6 @@
         .filter-btn:hover { border-color: var(--accent); }
         .filter-btn.active { background: var(--black); color: white; border-color: var(--black); }
         
-        /* Recipe Cards */
         .recipe-list { display: flex; flex-direction: column; gap: 1rem; }
         .recipe-card {
             background: white;
@@ -72,7 +70,6 @@
             color: var(--mid-gray);
         }
         
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -146,7 +143,7 @@
     <div class="container">
         <header>
             <h1 class="title">Lo Family Recipes</h1>
-            <p class="subtitle">12 recipes • Built with love by TARS</p>
+            <p class="subtitle">22 recipes • Built with love by TARS</p>
         </header>
         
         <div class="filters">
@@ -163,6 +160,9 @@
                 <button class="filter-btn" data-filter="chinese">Chinese</button>
                 <button class="filter-btn" data-filter="western">Western</button>
                 <button class="filter-btn" data-filter="indian">Indian</button>
+                <button class="filter-btn" data-filter="soup">Soup</button>
+                <button class="filter-btn" data-filter="salad">Salad</button>
+                <button class="filter-btn" data-filter="breakfast">Breakfast</button>
             </div>
         </div>
         
@@ -193,29 +193,8 @@
             servings: "4",
             rating: "5/5 (12,214)",
             tags: ["chicken", "western", "one-pot"],
-            ingredients: [
-                "4 bone-in, skin-on chicken thighs (~1½ lbs)",
-                "2 cups long-grain white rice",
-                "4 cups chicken broth",
-                "2 lemons",
-                "1 cup Castelvetrano/kalamata olives",
-                "6 garlic cloves",
-                "1 shallot",
-                "2 tsp dried oregano",
-                "Fresh parsley",
-                "Salt, pepper, crushed red pepper",
-                "2 tbsp olive oil"
-            ],
-            method: [
-                "Season chicken with salt, pepper, oregano, and red pepper.",
-                "Heat oil in Dutch oven over medium-high. Sear chicken skin-side down 5 min until golden. Remove.",
-                "Cut 1 lemon into slices, caramelize in pot 2 min. Remove.",
-                "Sauté olives, garlic, shallot with oregano 2-3 min.",
-                "Add rice and broth, stir, bring to boil covered ~5 min.",
-                "Place chicken on rice skin-side up, top with lemon slices.",
-                "Cover and bake at 400°F for 25-30 min.",
-                "Serve topped with parsley and lemon juice."
-            ]
+            ingredients: ["4 bone-in, skin-on chicken thighs (~1½ lbs)","2 cups long-grain white rice","4 cups chicken broth","2 lemons","1 cup Castelvetrano/kalamata olives","6 garlic cloves","1 shallot","2 tsp dried oregano","Fresh parsley","Salt, pepper, crushed red pepper","2 tbsp olive oil"],
+            method: ["Season chicken with salt, pepper, oregano, and red pepper.","Heat oil in Dutch oven over medium-high. Sear chicken skin-side down 5 min until golden. Remove.","Cut 1 lemon into slices, caramelize in pot 2 min. Remove.","Sauté olives, garlic, shallot with oregano 2-3 min.","Add rice and broth, stir, bring to boil covered ~5 min.","Place chicken on rice skin-side up, top with lemon slices.","Cover and bake at 400°F for 25-30 min.","Serve topped with parsley and lemon juice."]
         },
         {
             id: 2,
@@ -224,27 +203,8 @@
             servings: "8-10",
             rating: "5/5 (6,971)",
             tags: ["vegetarian", "western", "dessert"],
-            ingredients: [
-                "3½ lbs mixed apples (~8 medium) — Granny Smith, Macintosh, Pink Lady",
-                "12 tbsp unsalted butter, melted",
-                "1½ cups all-purpose flour",
-                "1½ cups packed dark brown sugar",
-                "1 cup old-fashioned rolled oats",
-                "1 cup pecans, chopped",
-                "1 tbsp ground cinnamon",
-                "2 tbsp fresh lemon juice",
-                "1 tsp kosher salt"
-            ],
-            method: [
-                "Heat oven to 350°F. Butter a 13x9 inch baking dish.",
-                "Combine flour, 1 cup brown sugar, oats, pecans, and salt. Add melted butter, stir until crumbs form.",
-                "Peel and slice apples into ½-inch wedges.",
-                "Toss apples with remaining ½ cup brown sugar, cinnamon, and lemon juice.",
-                "Spread apples in baking dish.",
-                "Press crumb mixture together to form clumps, sprinkle over apples.",
-                "Bake 50-60 min until apples are tender and topping is golden brown.",
-                "Serve warm or at room temperature."
-            ]
+            ingredients: ["3½ lbs mixed apples (~8 medium) — Granny Smith, Macintosh, Pink Lady","12 tbsp unsalted butter, melted","1½ cups all-purpose flour","1½ cups packed dark brown sugar","1 cup old-fashioned rolled oats","1 cup pecans, chopped","1 tbsp ground cinnamon","2 tbsp fresh lemon juice","1 tsp kosher salt"],
+            method: ["Heat oven to 350°F. Butter a 13x9 inch baking dish.","Combine flour, 1 cup brown sugar, oats, pecans, and salt. Add melted butter, stir until crumbs form.","Peel and slice apples into ½-inch wedges.","Toss apples with remaining ½ cup brown sugar, cinnamon, and lemon juice.","Spread apples in baking dish.","Press crumb mixture together to form clumps, sprinkle over apples.","Bake 50-60 min until apples are tender and topping is golden brown.","Serve warm or at room temperature."]
         },
         {
             id: 3,
@@ -253,24 +213,8 @@
             servings: "4",
             rating: "5/5 (5,235)",
             tags: ["chicken", "western", "roast"],
-            ingredients: [
-                "1 whole chicken (3½ lbs)",
-                "4 tbsp unsalted butter",
-                "2 tbsp maple syrup",
-                "2-3 rosemary sprigs",
-                "2½ tsp fresh rosemary, chopped",
-                "Kosher salt and black pepper"
-            ],
-            method: [
-                "Heat oven to 375°F.",
-                "Pat chicken dry, season well with salt and pepper inside and out.",
-                "Place chicken breast-side up in cast-iron skillet, stuff rosemary sprigs in cavity.",
-                "Melt butter over medium-low, add chopped rosemary and maple syrup, cook 1-2 min.",
-                "Spoon maple butter over chicken evenly.",
-                "Roast 55-60 min, basting every 15-20 min, until thigh reaches 165°F.",
-                "Rest 10 min before carving.",
-                "Whisk pan juices and pass at table."
-            ]
+            ingredients: ["1 whole chicken (3½ lbs)","4 tbsp unsalted butter","2 tbsp maple syrup","2-3 rosemary sprigs","2½ tsp fresh rosemary, chopped","Kosher salt and black pepper"],
+            method: ["Heat oven to 375°F.","Pat chicken dry, season well with salt and pepper inside and out.","Place chicken breast-side up in cast-iron skillet, stuff rosemary sprigs in cavity.","Melt butter over medium-low, add chopped rosemary and maple syrup, cook 1-2 min.","Spoon maple butter over chicken evenly.","Roast 55-60 min, basting every 15-20 min, until thigh reaches 165°F.","Rest 10 min before carving.","Whisk pan juices and pass at table."]
         },
         {
             id: 4,
@@ -279,34 +223,8 @@
             servings: "4",
             rating: "5/5 (1,869)",
             tags: ["pork", "western"],
-            ingredients: [
-                "1¼ lbs boneless pork cutlets, pounded ⅛-inch thin",
-                "½ cup flour",
-                "⅛ tsp cayenne",
-                "⅛ tsp nutmeg",
-                "2 eggs, beaten",
-                "1½ cups panko breadcrumbs",
-                "Oil for frying",
-                "Scallions, lingonberry jam (optional)",
-                "--- Quick Pickles ---",
-                "2 limes (zest + juice)",
-                "3 Kirby cucumbers, thinly sliced",
-                "⅓ cup fennel, thinly sliced",
-                "1 shallot, thinly sliced",
-                "1 tbsp brown sugar",
-                "½ tsp salt"
-            ],
-            method: [
-                "Make pickles: combine lime zest/juice, cucumbers, fennel, shallot, sugar, salt. Let sit 30+ min.",
-                "Mix flour with cayenne and nutmeg.",
-                "Set up breading station: flour → eggs → panko.",
-                "Season pork with salt and pepper.",
-                "Heat ⅛ inch oil in skillet over medium-high.",
-                "Dredge cutlets: flour, shake off excess → eggs → panko.",
-                "Fry 3-4 min per side until golden, swirling pan.",
-                "Drain on paper towels, sprinkle with salt.",
-                "Serve with pickles and pickle juice drizzle."
-            ]
+            ingredients: ["1¼ lbs boneless pork cutlets, pounded ⅛-inch thin","½ cup flour","⅛ tsp cayenne","⅛ tsp nutmeg","2 eggs, beaten","1½ cups panko breadcrumbs","Oil for frying","Scallions, lingonberry jam (optional)","--- Quick Pickles ---","2 limes (zest + juice)","3 Kirby cucumbers, thinly sliced","⅓ cup fennel, thinly sliced","1 shallot, thinly sliced","1 tbsp brown sugar","½ tsp salt"],
+            method: ["Make pickles: combine lime zest/juice, cucumbers, fennel, shallot, sugar, salt. Let sit 30+ min.","Mix flour with cayenne and nutmeg.","Set up breading station: flour → eggs → panko.","Season pork with salt and pepper.","Heat ⅛ inch oil in skillet over medium-high.","Dredge cutlets: flour, shake off excess → eggs → panko.","Fry 3-4 min per side until golden, swirling pan.","Drain on paper towels, sprinkle with salt.","Serve with pickles and pickle juice drizzle."]
         },
         {
             id: 5,
@@ -315,29 +233,8 @@
             servings: "4-6",
             rating: "5/5 (1,743)",
             tags: ["chicken", "western", "italian"],
-            ingredients: [
-                "1½ lbs chicken cutlets, pounded ¼-inch thick",
-                "⅔ cup + ¼ cup olive oil",
-                "⅔ cup fresh basil leaves",
-                "1 garlic clove",
-                "1 lb cherry tomatoes, halved",
-                "8 oz fresh mozzarella, cubed",
-                "½ cup all-purpose flour",
-                "2 eggs, beaten",
-                "1¼ cups panko + ¼ cup parmesan",
-                "2 tbsp butter",
-                "Lemon wedges"
-            ],
-            method: [
-                "Season chicken with salt and pepper.",
-                "Make basil oil: blend ⅔ cup oil, basil, garlic, and salt.",
-                "Toss tomatoes and mozzarella with half the basil oil.",
-                "Set up breading station: flour → eggs → panko/parmesan.",
-                "Melt butter with ¼ cup oil over medium heat.",
-                "Dredge cutlets and fry 2 at a time, 3 min per side until golden.",
-                "Transfer to paper towel-lined plate, sprinkle with salt.",
-                "Serve topped with lemon squeeze, basil oil drizzle, and tomato-mozzarella salad."
-            ]
+            ingredients: ["1½ lbs chicken cutlets, pounded ¼-inch thick","⅔ cup + ¼ cup olive oil","⅔ cup fresh basil leaves","1 garlic clove","1 lb cherry tomatoes, halved","8 oz fresh mozzarella, cubed","½ cup all-purpose flour","2 eggs, beaten","1¼ cups panko + ¼ cup parmesan","2 tbsp butter","Lemon wedges"],
+            method: ["Season chicken with salt and pepper.","Make basil oil: blend ⅔ cup oil, basil, garlic, and salt.","Toss tomatoes and mozzarella with half the basil oil.","Set up breading station: flour → eggs → panko/parmesan.","Melt butter with ¼ cup oil over medium heat.","Dredge cutlets and fry 2 at a time, 3 min per side until golden.","Transfer to paper towel-lined plate, sprinkle with salt.","Serve topped with lemon squeeze, basil oil drizzle, and tomato-mozzarella salad."]
         },
         {
             id: 6,
@@ -346,37 +243,8 @@
             servings: "6",
             rating: "5/5 (11,238)",
             tags: ["chicken", "indian"],
-            ingredients: [
-                "3 lbs chicken thighs (bone-in)",
-                "--- Marinade ---",
-                "1½ cups Greek yogurt",
-                "2 tbsp lemon juice",
-                "1½ tbsp turmeric",
-                "2 tbsp cumin",
-                "1 tbsp garam masala",
-                "--- Sauce ---",
-                "¼ lb butter + 4 tsp oil",
-                "2 onions, diced",
-                "4 garlic cloves + 3 tbsp ginger",
-                "1 tbsp cumin seeds",
-                "1 cinnamon stick",
-                "2 tomatoes + 2 red chiles",
-                "⅔ cup chicken stock",
-                "1½ cups cream + 1½ tsp tomato paste",
-                "3 tbsp ground almonds (optional)",
-                "Cilantro for garnish"
-            ],
-            method: [
-                "Whisk marinade ingredients, coat chicken, refrigerate overnight.",
-                "Melt butter in oil, cook onions until translucent.",
-                "Add garlic, ginger, cumin seeds until onions brown.",
-                "Add cinnamon, tomatoes, chiles, salt. Cook 10 min.",
-                "Add chicken + marinade, cook 5 min.",
-                "Add stock, bring to boil, simmer uncovered 30 min.",
-                "Stir in cream and tomato paste, simmer 10-15 min until cooked through.",
-                "Add almonds if using, cook 5 min more.",
-                "Garnish with cilantro."
-            ]
+            ingredients: ["3 lbs chicken thighs (bone-in)","--- Marinade ---","1½ cups Greek yogurt","2 tbsp lemon juice","1½ tbsp turmeric","2 tbsp cumin","1 tbsp garam masala","--- Sauce ---","¼ lb butter + 4 tsp oil","2 onions, diced","4 garlic cloves + 3 tbsp ginger","1 tbsp cumin seeds","1 cinnamon stick","2 tomatoes + 2 red chiles","⅔ cup chicken stock","1½ cups cream + 1½ tsp tomato paste","3 tbsp ground almonds (optional)","Cilantro for garnish"],
+            method: ["Whisk marinade ingredients, coat chicken, refrigerate overnight.","Melt butter in oil, cook onions until translucent.","Add garlic, ginger, cumin seeds until onions brown.","Add cinnamon, tomatoes, chiles, salt. Cook 10 min.","Add chicken + marinade, cook 5 min.","Add stock, bring to boil, simmer uncovered 30 min.","Stir in cream and tomato paste, simmer 10-15 min until cooked through.","Add almonds if using, cook 5 min more.","Garnish with cilantro."]
         },
         {
             id: 7,
@@ -385,33 +253,8 @@
             servings: "4",
             rating: "5/5 (4,723)",
             tags: ["beef", "western", "pasta"],
-            ingredients: [
-                "--- Meatballs ---",
-                "12 oz ground beef",
-                "1 cup parmesan, grated (reserve ½ cup for topping)",
-                "½ cup parsley, chopped",
-                "¼ cup breadcrumbs",
-                "1 egg",
-                "Salt & pepper",
-                "--- Sauce & Pasta ---",
-                "2 tbsp olive oil",
-                "1 large onion, chopped",
-                "3 garlic cloves, minced",
-                "6 cups crushed tomatoes",
-                "3 bay leaves",
-                "1 lb spaghetti"
-            ],
-            method: [
-                "Bring large pot of salted water to boil. Heat oil in skillet.",
-                "Mix beef, 1 cup parmesan, parsley (reserve 2 tbsp), breadcrumbs, egg, salt, pepper.",
-                "Drop spoonfuls of meatball mixture into hot skillet. Brown undisturbed 5-6 min.",
-                "Add onion around meatballs, add garlic on top.",
-                "When meatballs browned and aromatics soft, add tomatoes, bay leaves, salt, pepper.",
-                "Cover, simmer 8 min. Uncover, thicken 5-10 min while pasta cooks.",
-                "Cook pasta until al dente, drain (reserve some water).",
-                "Discard bay leaves, toss pasta with half the sauce.",
-                "Serve pasta topped with meatballs, remaining sauce, parmesan, and parsley."
-            ]
+            ingredients: ["--- Meatballs ---","12 oz ground beef","1 cup parmesan, grated (reserve ½ cup for topping)","½ cup parsley, chopped","¼ cup breadcrumbs","1 egg","Salt & pepper","--- Sauce & Pasta ---","2 tbsp olive oil","1 large onion, chopped","3 garlic cloves, minced","6 cups crushed tomatoes","3 bay leaves","1 lb spaghetti"],
+            method: ["Bring large pot of salted water to boil. Heat oil in skillet.","Mix beef, 1 cup parmesan, parsley (reserve 2 tbsp), breadcrumbs, egg, salt, pepper.","Drop spoonfuls of meatball mixture into hot skillet. Brown undisturbed 5-6 min.","Add onion around meatballs, add garlic on top.","When meatballs browned and aromatics soft, add tomatoes, bay leaves, salt, pepper.","Cover, simmer 8 min. Uncover, thicken 5-10 min while pasta cooks.","Cook pasta until al dente, drain (reserve some water).","Discard bay leaves, toss pasta with half the sauce.","Serve pasta topped with meatballs, remaining sauce, parmesan, and parsley."]
         },
         {
             id: 8,
@@ -420,36 +263,8 @@
             servings: "4",
             rating: "Hong Kong Classic",
             tags: ["chicken", "seafood", "chinese"],
-            ingredients: [
-                "--- Fried Rice ---",
-                "5 cups cooked rice",
-                "3 eggs",
-                "1 tsp salt",
-                "3 tbsp oil",
-                "--- Red Sauce ---",
-                "250g chicken, sliced",
-                "Marinade: 1 tsp soy, ½ tsp sugar, 1 tsp cornstarch",
-                "½ onion (wedges) + 1 tomato (wedges)",
-                "3 tbsp tomato paste + 3 tbsp ketchup",
-                "1 tbsp vinegar + 1 tbsp soy + 2 tsp sugar",
-                "250ml chicken broth + cornstarch slurry",
-                "--- White Sauce ---",
-                "250g shrimp",
-                "½ onion (diced) + 50g frozen peas",
-                "250ml chicken broth",
-                "¼ tsp white pepper, ½ tsp salt",
-                "50ml heavy cream",
-                "Cornstarch slurry"
-            ],
-            method: [
-                "Red sauce: marinate chicken, sauté until browned, add aromatics and tomato mixture, simmer with broth.",
-                "Fried rice: beat eggs, heat wok, add oil, pour eggs, add rice immediately, stir-fry with salt.",
-                "White sauce: season shrimp with white pepper, sauté, add onion/peas, broth, cream.",
-                "Assemble: place rice on plate, use foil divider in 'S' shape.",
-                "Ladle white sauce on one half, red sauce on other.",
-                "Remove foil to reveal yin-yang pattern.",
-                "Serve immediately."
-            ]
+            ingredients: ["--- Fried Rice ---","5 cups cooked rice","3 eggs","1 tsp salt","3 tbsp oil","--- Red Sauce ---","250g chicken, sliced","Marinade: 1 tsp soy, ½ tsp sugar, 1 tsp cornstarch","½ onion (wedges) + 1 tomato (wedges)","3 tbsp tomato paste + 3 tbsp ketchup","1 tbsp vinegar + 1 tbsp soy + 2 tsp sugar","250ml chicken broth + cornstarch slurry","--- White Sauce ---","250g shrimp","½ onion (diced) + 50g frozen peas","250ml chicken broth","¼ tsp white pepper, ½ tsp salt","50ml heavy cream","Cornstarch slurry"],
+            method: ["Red sauce: marinate chicken, sauté until browned, add aromatics and tomato mixture, simmer with broth.","Fried rice: beat eggs, heat wok, add oil, pour eggs, add rice immediately, stir-fry with salt.","White sauce: season shrimp with white pepper, sauté, add onion/peas, broth, cream.","Assemble: place rice on plate, use foil divider in 'S' shape.","Ladle white sauce on one half, red sauce on other.","Remove foil to reveal yin-yang pattern.","Serve immediately."]
         },
         {
             id: 9,
@@ -458,30 +273,8 @@
             servings: "4",
             rating: "Dim Sum Classic",
             tags: ["pork", "chinese", "dim-sum"],
-            ingredients: [
-                "Baby back ribs, cut crosswise into 2\" pieces",
-                "2 tbsp fermented black beans (douchi)",
-                "3 cloves garlic, minced",
-                "1 tbsp ginger, minced",
-                "2 tbsp oil (for blooming)",
-                "1 tbsp Shaoxing wine",
-                "1 tbsp oyster sauce",
-                "1 tbsp light soy sauce",
-                "1 tsp sugar",
-                "Salt to taste",
-                "1 tbsp cornstarch",
-                "Sliced green onions (garnish)"
-            ],
-            method: [
-                "Soak ribs in cold water 1 hour to draw out impurities. Drain and pat dry.",
-                "Make black bean sauce: pour hot oil over black beans + garlic + ginger.",
-                "Add wine, oyster sauce, soy sauce, sugar, salt to the mixture.",
-                "Toss ribs in sauce with cornstarch. Marinate 30+ min (or overnight).",
-                "Spread ribs on plate with minimal overlap.",
-                "Steam 15-20 min until juices run clear.",
-                "Garnish with green onions.",
-                "Tip: Don't skip blooming the black beans in hot oil — that's the secret!"
-            ]
+            ingredients: ["Baby back ribs, cut crosswise into 2\" pieces","2 tbsp fermented black beans (douchi)","3 cloves garlic, minced","1 tbsp ginger, minced","2 tbsp oil (for blooming)","1 tbsp Shaoxing wine","1 tbsp oyster sauce","1 tbsp light soy sauce","1 tsp sugar","Salt to taste","1 tbsp cornstarch","Sliced green onions (garnish)"],
+            method: ["Soak ribs in cold water 1 hour to draw out impurities. Drain and pat dry.","Make black bean sauce: pour hot oil over black beans + garlic + ginger.","Add wine, oyster sauce, soy sauce, sugar, salt to the mixture.","Toss ribs in sauce with cornstarch. Marinate 30+ min (or overnight).","Spread ribs on plate with minimal overlap.","Steam 15-20 min until juices run clear.","Garnish with green onions.","Tip: Don't skip blooming the black beans in hot oil — that's the secret!"]
         },
         {
             id: 10,
@@ -490,113 +283,128 @@
             servings: "4",
             rating: "Cantonese Classic",
             tags: ["tofu", "vegetarian", "chinese"],
-            ingredients: [
-                "1 block firm tofu, cut into ½\" rectangles",
-                "--- Brine ---",
-                "Garlic powder, onion powder, salt, sugar, warm water",
-                "Sesame oil + Shaoxing wine (after draining)",
-                "--- Salt & Pepper Seasoning ---",
-                "Salt",
-                "Ground white pepper",
-                "Sichuan peppercorn powder",
-                "Sand ginger powder (or five-spice)",
-                "--- Coating & Aromatics ---",
-                "All-purpose flour + cornstarch",
-                "4 tbsp oil",
-                "4 cloves garlic (for crispy garlic)",
-                "Long hot green peppers, sliced",
-                "Shallots, sliced",
-                "Scallions + cilantro (garnish)"
-            ],
-            method: [
-                "Brine tofu 1-2 hours. Drain, toss with sesame oil and wine.",
-                "Make crispy garlic: shallow-fry over low heat until golden. Set aside.",
-                "Mix half the seasoning with flour and cornstarch.",
-                "Dredge tofu in the flour mixture.",
-                "Pan-fry tofu until golden on both sides.",
-                "Stir-fry peppers and shallots 15-30 sec.",
-                "Add tofu, toss 30-60 sec.",
-                "Add scallions, cilantro, crispy garlic, remaining seasoning.",
-                "Toss and serve immediately."
-            ]
+            ingredients: ["1 block firm tofu, cut into ½\" rectangles","--- Brine ---","Garlic powder, onion powder, salt, sugar, warm water","Sesame oil + Shaoxing wine (after draining)","--- Salt & Pepper Seasoning ---","Salt","Ground white pepper","Sichuan peppercorn powder","Sand ginger powder (or five-spice)","--- Coating & Aromatics ---","All-purpose flour + cornstarch","4 tbsp oil","4 cloves garlic (for crispy garlic)","Long hot green peppers, sliced","Shallots, sliced","Scallions + cilantro (garnish)"],
+            method: ["Brine tofu 1-2 hours. Drain, toss with sesame oil and wine.","Make crispy garlic: shallow-fry over low heat until golden. Set aside.","Mix half the seasoning with flour and cornstarch.","Dredge tofu in the flour mixture.","Pan-fry tofu until golden on both sides.","Stir-fry peppers and shallots 15-30 sec.","Add tofu, toss 30-60 sec.","Add scallions, cilantro, crispy garlic, remaining seasoning.","Toss and serve immediately."]
         },
         {
             id: 11,
             name: "Pan-Fried Pork Chops 煎豬扒",
-            chinese: "煎豬扒",
             time: "40 min",
             servings: "4",
             rating: "Made with Lau",
             tags: ["pork", "chinese"],
-            ingredients: [
-                "1 lb pork chops",
-                "½ white onion + ½ red onion, sliced",
-                "½ oz ginger, minced",
-                "3 cloves garlic, minced",
-                "3 tbsp cornstarch (for coating)",
-                "3 tbsp cooking oil",
-                "1 tsp garlic salt",
-                "1 tsp Shaoxing wine",
-                "--- Marinade ---",
-                "2 tbsp oyster sauce",
-                "1 tbsp soy sauce",
-                "1 tbsp Shaoxing wine",
-                "2 tsp sugar",
-                "½ tsp black pepper",
-                "1 tbsp cornstarch"
-            ],
-            method: [
-                "Tenderize pork with back of knife in cross-hatch pattern.",
-                "Mix marinade ingredients, coat pork, marinate 20 min.",
-                "Coat pork lightly in cornstarch, dust off excess.",
-                "Heat oil over high, add pork, reduce to medium.",
-                "Pan-fry 4-5 min per side until golden.",
-                "Push pork aside, add garlic/ginger/onions in center.",
-                "Cook aromatics 2-3 min.",
-                "Sprinkle garlic salt, add wine, cover with lid, turn heat off.",
-                "Steam covered 2-3 min.",
-                "Serve pork on bed of caramelized onions."
-            ]
+            ingredients: ["1 lb pork chops","½ white onion + ½ red onion, sliced","½ oz ginger, minced","3 cloves garlic, minced","3 tbsp cornstarch (for coating)","3 tbsp cooking oil","1 tsp garlic salt","1 tsp Shaoxing wine","--- Marinade ---","2 tbsp oyster sauce","1 tbsp soy sauce","1 tbsp Shaoxing wine","2 tsp sugar","½ tsp black pepper","1 tbsp cornstarch"],
+            method: ["Tenderize pork with back of knife in cross-hatch pattern.","Mix marinade ingredients, coat pork, marinate 20 min.","Coat pork lightly in cornstarch, dust off excess.","Heat oil over high, add pork, reduce to medium.","Pan-fry 4-5 min per side until golden.","Push pork aside, add garlic/ginger/onions in center.","Cook aromatics 2-3 min.","Sprinkle garlic salt, add wine, cover with lid, turn heat off.","Steam covered 2-3 min.","Serve pork on bed of caramelized onions."]
         },
         {
             id: 12,
             name: "Soy Sauce Chicken Drumsticks 豉油雞髀",
-            chinese: "豉油雞髀",
             time: "35 min",
             servings: "4-6",
             rating: "Made with Lau",
             tags: ["chicken", "chinese"],
-            ingredients: [
-                "30 oz chicken drumsticks (~6 pieces)",
-                "1 oz ginger, sliced",
-                "3 cloves garlic, sliced",
-                "¼ oz dried mandarin peel",
-                "6 cups water (for blanching)",
-                "½ cup water (for braising)",
-                "1 tbsp oil",
-                "--- Sauce ---",
-                "2 tbsp oyster sauce",
-                "3 tbsp light soy sauce",
-                "3 tbsp dark soy sauce",
-                "2 tbsp Shaoxing wine",
-                "¼ tsp white pepper",
-                "2 tbsp dark brown sugar",
-                "½ tsp salt",
-                "½ cup water"
-            ],
-            method: [
-                "Pierce thickest part of drumsticks with knife (not through skin).",
-                "Blanch drumsticks in boiling water 1.5-2 min. Drain.",
-                "Mix all sauce ingredients together.",
-                "Stir-fry ginger and garlic in oil 1 min.",
-                "Add mandarin peel, stir-fry 20-30 sec.",
-                "Add ½ cup water, simmer covered 1.5-2 min.",
-                "Add half the sauce, then drumsticks, spoon remaining sauce over top.",
-                "Braise covered on low 10 min.",
-                "Flip drumsticks, cover 2 min more.",
-                "Uncover, high heat, reduce sauce 5-6 min, basting, until 165°F.",
-                "Serve with sauce on the side."
-            ]
+            ingredients: ["30 oz chicken drumsticks (~6 pieces)","1 oz ginger, sliced","3 cloves garlic, sliced","¼ oz dried mandarin peel","6 cups water (for blanching)","½ cup water (for braising)","1 tbsp oil","--- Sauce ---","2 tbsp oyster sauce","3 tbsp light soy sauce","3 tbsp dark soy sauce","2 tbsp Shaoxing wine","¼ tsp white pepper","2 tbsp dark brown sugar","½ tsp salt","½ cup water"],
+            method: ["Pierce thickest part of drumsticks with knife (not through skin).","Blanch drumsticks in boiling water 1.5-2 min. Drain.","Mix all sauce ingredients together.","Stir-fry ginger and garlic in oil 1 min.","Add mandarin peel, stir-fry 20-30 sec.","Add ½ cup water, simmer covered 1.5-2 min.","Add half the sauce, then drumsticks, spoon remaining sauce over top.","Braise covered on low 10 min.","Flip drumsticks, cover 2 min more.","Uncover, high heat, reduce sauce 5-6 min, basting, until 165°F.","Serve with sauce on the side."]
+        },
+        {
+            id: 13,
+            name: "Couscous with Herbs & Raisins",
+            time: "15 min",
+            servings: "4",
+            rating: "Family Recipe",
+            tags: ["vegetarian", "western", "salad"],
+            ingredients: ["2 cups pearl couscous","½ cup raisins","½ cup finely diced celery","⅓-½ cup chopped dill","½ cup chopped scallions","½ cup chopped mint leaves","--- Dressing ---","2 tbsp lemon juice","Zest of 1 lemon","3 tbsp olive oil","3 cloves garlic, very finely minced","Salt & pepper"],
+            method: ["Cook couscous in boiling water 6-8 min until fork tender.","Drain well.","Whisk dressing ingredients together.","Toss warm couscous with dressing.","Add herbs, celery, and raisins.","Toss to combine.","Serve warm or at room temperature."]
+        },
+        {
+            id: 14,
+            name: "Little Gem Salad with Crispy Halloumi",
+            time: "15 min",
+            servings: "4",
+            rating: "5/5 (563)",
+            tags: ["vegetarian", "western", "salad"],
+            ingredients: ["8-9 oz halloumi cheese, coarsely grated","4 heads Little Gem lettuce (or 2 romaine hearts)","¼ cup roasted salted pistachios, chopped","1 tbsp fennel/cumin/coriander seeds (or mix)","1 shallot, thinly sliced","1 lemon (zest + juice)","4½ tbsp olive oil","Salt & pepper"],
+            method: ["Heat 2½ tbsp oil in nonstick skillet over medium.","Add halloumi, pistachios, seeds — spread evenly.","Cook 4-6 min, stirring occasionally, until golden-brown.","Spread on plate to cool, season with pepper.","Toss lettuce + shallot with salt, pepper, lemon zest/juice, remaining 2 tbsp oil.","Arrange leaves cup-side up.","Top with halloumi crumbs.","Serve immediately."]
+        },
+        {
+            id: 15,
+            name: "Puréed Tomato & Red Pepper Soup",
+            time: "50 min",
+            servings: "6",
+            rating: "5/5 (1,155)",
+            tags: ["vegetarian", "western", "soup"],
+            ingredients: ["2 red bell peppers, roasted","2 tbsp olive oil","1 medium onion, chopped","½ cup diced carrot","½ cup diced celery","4 garlic cloves, minced","1 (28-oz) can chopped tomatoes","¼ cup tomato paste","2 sprigs fresh basil","Pinch of cinnamon","½ tsp sugar (optional)","1½ quarts vegetable stock","¼ cup rice (arborio works well)","Salt & pepper","Garnish: garlic croutons, parmesan, slivered basil"],
+            method: ["Roast peppers, cool, peel, seed, and dice.","Sauté onion 3 min, add carrot/celery 5 min, then garlic 30 sec.","Add tomatoes, tomato paste, basil, cinnamon, sugar — cook 10 min.","Add roasted peppers, stock, rice — simmer covered 30 min.","Remove basil, purée with immersion blender.","Serve with croutons, parmesan, fresh basil."]
+        },
+        {
+            id: 16,
+            name: "Lemon Ricotta Pancakes",
+            time: "20 min",
+            servings: "8-10 pancakes",
+            rating: "5/5 (7,285)",
+            tags: ["vegetarian", "western", "breakfast"],
+            ingredients: ["¾ cup flour","1½ tsp baking powder","¾ tsp fine salt","¼ cup sugar","1 lemon (zest)","1½ tsp vanilla extract","3 large eggs","¾ cup whole-milk ricotta","¼ cup buttermilk","2 tbsp butter, melted (+ more for cooking)","Blueberry syrup or toppings (optional)"],
+            method: ["Whisk flour, baking powder, salt in small bowl.","In large bowl, rub lemon zest into sugar with fingers.","Add vanilla, whisk, then add eggs — whisk until foamy.","Add ricotta, buttermilk, melted butter — whisk until blended.","Gently fold in flour mixture until just combined.","Heat griddle over medium-low, butter generously.","Drop scant ¼ cup batter, cook 2-3 min until bubbling.","Flip, cook 2 min more until golden.","Serve with butter and syrup."]
+        },
+        {
+            id: 17,
+            name: "Chopped Salad with Chickpeas, Feta & Avocado",
+            time: "20 min",
+            servings: "4-6",
+            rating: "5/5 (8,982)",
+            tags: ["vegetarian", "western", "salad"],
+            ingredients: ["2 cups stale bread, diced ½\" (for croutons)","6 tbsp olive oil + more for croutons","1 romaine heart, chopped ½\"","1 (15-oz) can chickpeas, rinsed","1 English cucumber, seeded and diced","½ cup Castelvetrano olives, chopped","⅓ cup scallions, thinly sliced","1 avocado, diced","¾ cup feta, diced or crumbled","¼ cup fresh herbs (dill, basil, mint, parsley)","--- Dressing ---","2 tbsp red wine vinegar","1 tbsp capers, chopped","1 tbsp shallots, minced","¼ tsp Dijon mustard","Salt & pepper"],
+            method: ["Toast bread cubes at 350°F for 10-12 min with oil, salt, pepper.","Combine romaine, chickpeas, cucumber, olives, scallions in large bowl.","Whisk dressing ingredients with 6 tbsp olive oil.","Toss salad with dressing.","Gently fold in avocado, feta, herbs.","Top with croutons and more herbs."]
+        },
+        {
+            id: 18,
+            name: "Pasta with Spicy Sausage, Broccoli Rabe & Chickpeas",
+            time: "30 min",
+            servings: "4-6",
+            rating: "5/5 (5,092)",
+            tags: ["pork", "western", "pasta"],
+            ingredients: ["1 lb shaped pasta (campanelle or orecchiette)","1½ lbs broccoli rabe, chopped (or broccolini/kale)","1 lb hot Italian sausage, casings removed","1 (15-oz) can chickpeas, drained","3 garlic cloves, minced","½ cup dry white wine (or chicken stock)","2 tbsp olive oil","2 tbsp butter","½ cup parmesan, grated","1 lemon (zest + juice)","Salt & pepper"],
+            method: ["Boil salted water, cook broccoli rabe 3 min, remove and drain.","Cook pasta in same water, reserve 1 cup pasta water, drain.","Brown sausage in oil 3-5 min, breaking up with spoon.","Add garlic 30 sec, then wine — reduce by half.","Add broccoli rabe, chickpeas, salt, pepper — cook 3 min.","Add pasta + ½ cup pasta water, toss over low heat 1-2 min.","Remove from heat, add butter, parmesan, lemon zest + juice.","Serve with extra cheese."]
+        },
+        {
+            id: 19,
+            name: "Classic Tomato Soup",
+            time: "1 hr",
+            servings: "8",
+            rating: "5/5 (9,084)",
+            tags: ["vegetarian", "western", "soup"],
+            ingredients: ["½ lb butter","1 lb onions (~3 medium), diced ¼\"","½ cup all-purpose flour","4 (28-oz) cans diced tomatoes","1¼ cups chicken broth","¼ cup sugar","1 tbsp kosher salt","1 tsp celery salt","¾ tsp pepper","¾ cup half-and-half","2 tbsp honey"],
+            method: ["Melt butter over medium-low, cook onions until soft and translucent ~20 min.","Add flour, stir until slightly thickened and pale gold ~3 min (don't brown).","Add tomatoes + juices, broth, sugar, salt, celery salt, pepper.","Bring to bubble, reduce heat, simmer 30 min (scrape bottom frequently).","Stir in half-and-half and honey.","Purée with immersion blender (or in batches).","Heat through and serve hot."]
+        },
+        {
+            id: 20,
+            name: "Spicy & Saucy Cherry Tomato Pasta",
+            time: "25 min",
+            servings: "4",
+            rating: "5/5 (4,397)",
+            tags: ["vegetarian", "western", "pasta"],
+            ingredients: ["16 oz orecchiette (or other shaped pasta)","1½ lbs cherry tomatoes, halved","3 tbsp tomato paste","3 tbsp capers, drained","3 garlic cloves, thinly sliced","1-2 tsp red pepper flakes (optional)","4 tbsp olive oil","½ cup fresh basil, thinly sliced + whole leaves for garnish","Ricotta, ricotta salata, pecorino or parmesan (optional)","Salt & pepper"],
+            method: ["Boil salted water for pasta.","Crisp capers in 2 tbsp oil over medium-high 3-4 min → remove to plate.","Add tomato paste, cook until darkened ~2 min.","Reduce heat, add remaining 2 tbsp oil, garlic, red pepper flakes ~2 min.","Cook pasta al dente meanwhile.","Add cherry tomatoes to skillet, season, cook 5 min.","Add ⅔ cup pasta water, cook until tomatoes break down and saucy ~10 min.","Toss pasta with sauce, stir in half the basil.","Serve topped with crispy capers, remaining basil, cheese."]
+        },
+        {
+            id: 21,
+            name: "Spicy Corn & Shishito Salad",
+            time: "15 min",
+            servings: "4",
+            rating: "5/5 (3,571)",
+            tags: ["vegetarian", "western", "salad"],
+            ingredients: ["3 cups fresh corn kernels (4-6 ears)","6 oz shishito peppers, sliced ¼\" (or green bell pepper)","1 large jalapeño, seeded and diced","⅓ cup red onion, diced","1 garlic clove, minced","3½ tbsp olive oil","2 tbsp fresh lime juice","¼ tsp ground cumin","¼ cup Cotija or feta, crumbled (optional)","¼ cup fresh cilantro, chopped","Kosher salt"],
+            method: ["Whisk 2 tbsp oil with lime juice, cumin, ¾ tsp salt.","Stir in red onion and garlic — set aside to mellow.","Place raw corn in large bowl.","Sauté shishitos + jalapeño in remaining 1½ tbsp oil until tender and browning ~4-6 min.","Add peppers and dressing to corn, toss well.","Add cheese if using, garnish with cilantro."]
+        },
+        {
+            id: 22,
+            name: "Carrot-Parsnip Soup with Parsnip Chips",
+            time: "1 hr",
+            servings: "6",
+            rating: "5/5 (1,311)",
+            tags: ["vegetarian", "western", "soup"],
+            ingredients: ["2½ cups yellow onion, chopped","3 cups parsnip (~1 lb), coarsely chopped","2½ cups carrot (~1 lb), coarsely chopped","2 (14-oz) cans vegetable broth","3 cups water","2 tbsp olive oil, divided","¼ tsp salt","¼ tsp black pepper","½ cup parsnip, sliced ⅛\" thin (for chips)","1 tbsp fresh chives, chopped"],
+            method: ["Heat 1 tsp oil in Dutch oven, cook onion 10 min until tender.","Add chopped parsnip, water, carrot, broth — bring to boil.","Reduce heat, simmer 50 min (or ~20 min) until tender.","Let stand 5 min, then blend in batches until smooth.","Stir in salt and pepper.","Fry parsnip slices in remaining 5 tsp oil until lightly browned ~5 min.","Drain chips on paper towels.","Serve soup topped with parsnip chips and chives."]
         }
     ];
 
