@@ -14,6 +14,8 @@
         .date { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
         .greeting { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
         .weather { font-size: 0.875rem; color: var(--mid-gray); }
+        .verse { font-family: 'Playfair Display', Georgia, serif; font-size: 0.85rem; font-style: italic; color: var(--mid-gray); margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--rule); line-height: 1.5; }
+        .verse-ref { font-style: normal; font-size: 0.7rem; color: var(--accent); display: block; margin-top: 0.4rem; }
         section { margin-bottom: 2.5rem; }
         .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
         .section-number { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; color: var(--accent); font-weight: 500; }
@@ -72,8 +74,9 @@
     <div class="container">
         <header>
             <div class="date" id="dateDisplay">—</div>
-            <h1 class="greeting" id="greetingDisplay">Hello, Kristen</h1>
+            <h1 class="greeting" id="greetingDisplay">Good morning, Lo Family</h1>
             <div class="weather" id="weatherDisplay">+27°C · Partly cloudy · Singapore</div>
+            <div class="verse">"I can do all things through him who strengthens me."<span class="verse-ref">— Philippians 4:13</span></div>
         </header>
         
 
@@ -122,7 +125,7 @@
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 6:31 AM</div>
+            <div class="update-time">Updated 6:33 AM</div>
         </footer>
     </div>
     
@@ -135,7 +138,7 @@
         
         var h = now.getHours();
         var greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-        document.getElementById('greetingDisplay').textContent = greet + ', Kristen';
+        document.getElementById('greetingDisplay').textContent = greet + ', Lo Family';
         
 
     })();
