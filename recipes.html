@@ -22,8 +22,6 @@
             --blue-light: #e8f4fa;
             --lavender: #d4c4e8;
             --lavender-light: #f5f0fa;
-            --baby-pink: #f8e1e7;
-            --baby-pink-dark: #d4899a;
             --border: #e8e2dc;
         }
         
@@ -102,8 +100,6 @@
         }
         .btn:hover { border-color: var(--honey); }
         .btn.active { background: var(--honey-light); border-color: var(--honey); color: var(--text); }
-        .btn.baby { background: var(--baby-pink); border-color: var(--baby-pink-dark); color: var(--baby-pink-dark); }
-        .btn.baby.active { background: var(--baby-pink-dark); color: #fff; }
         
         .count {
             text-align: center;
@@ -129,7 +125,6 @@
         }
         .recipe-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
         .recipe-card.hidden { display: none; }
-        .recipe-card.baby-recipe { border: 2px solid var(--baby-pink); }
         
         .recipe-img { width: 100%; aspect-ratio: 4/3; overflow: hidden; }
         .recipe-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -147,15 +142,6 @@
             overflow: hidden;
         }
         .recipe-meta { font-size: 12px; color: var(--muted); }
-        .recipe-badge {
-            display: inline-block;
-            background: var(--baby-pink);
-            color: var(--baby-pink-dark);
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 8px;
-            margin-top: 4px;
-        }
         
         .empty { text-align: center; padding: 40px; color: var(--muted); }
         .hidden { display: none; }
@@ -228,7 +214,6 @@
             border-radius: 14px;
         }
         .modal-meta span { display: flex; align-items: center; gap: 5px; }
-        .modal-meta.baby { background: var(--baby-pink); }
         
         .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .modal-tag {
@@ -240,7 +225,6 @@
             font-weight: 500;
         }
         .modal-tag.cuisine { background: var(--lavender-light); color: #9b8bb8; }
-        .modal-tag.baby { background: var(--baby-pink); color: var(--baby-pink-dark); }
         
         .modal-section { margin-bottom: 20px; }
         .modal-section:last-child { margin-bottom: 0; }
@@ -271,15 +255,6 @@
         </div>
         
         <div class="section">
-            <div class="section-title">👶 Category</div>
-            <div class="btn-grid" id="categoryBtns">
-                <button class="btn active" data-category="all">All</button>
-                <button class="btn baby" data-category="baby">🍼 Baby & Toddler</button>
-                <button class="btn" data-category="family">👨‍👩‍👧 Family</button>
-            </div>
-        </div>
-        
-        <div class="section">
             <div class="section-title">🥩 Protein</div>
             <div class="btn-grid" id="proteinBtns">
                 <button class="btn active" data-protein="all">All</button>
@@ -302,7 +277,7 @@
             </div>
         </div>
         
-        <div class="count" id="count">🍴 Showing 42 recipes</div>
+        <div class="count" id="count">🍴 Showing 22 recipes</div>
     </div>
     
     <div class="recipe-grid" id="grid"></div>
@@ -321,67 +296,41 @@
 <script>
 (function(){
     var data = [
-        // FAMILY RECIPES (1-22)
-        {id:1,name:"One-Pot Chicken & Rice with Caramelized Lemon",img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"chicken",cuisine:"western",category:"family",rating:"5/5",ingredients:["4 bone-in, skin-on chicken thighs","2 cups long-grain white rice","4 cups chicken broth","2 lemons","1 cup olives","6 garlic cloves","1 shallot","2 tsp dried oregano","Fresh parsley"],method:["Sear chicken until golden","Caramelize lemon slices in rendered fat","Sauté olives, garlic, shallot","Add rice and broth","Nestle chicken on top","Bake 400°F for 25-30 min"],source:"NYT Cooking"},
-        {id:2,name:"Apple Crumble",img:"https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&h=300&fit=crop",time:"60 min",servings:"8-10",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["3½ lbs mixed apples","12 tbsp butter, melted","1½ cups flour","1½ cups dark brown sugar","1 cup rolled oats","1 cup pecans, chopped","1 tbsp cinnamon","2 tbsp lemon juice"],method:["Mix crumble topping","Toss apples with sugar, cinnamon, lemon","Top with crumble","Bake 350°F for 50-60 min"],source:"NYT Cooking"},
-        {id:3,name:"Roast Chicken with Maple Butter & Rosemary",img:"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",time:"70 min",servings:"4",protein:"chicken",cuisine:"western",category:"family",rating:"5/5",ingredients:["1 whole chicken (3½ lbs)","4 tbsp unsalted butter","2 tbsp maple syrup","Rosemary sprigs","Salt & pepper"],method:["Season chicken inside and out","Stuff with rosemary sprigs","Make maple-rosemary butter","Coat chicken generously","Roast 375°F for 55-60 min, basting","Rest 10 min before serving"],source:"NYT Cooking",tip:"Try with lemon + garlic instead of rosemary"},
-        {id:4,name:"Pork Schnitzel with Quick Pickles",img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"pork",cuisine:"western",category:"family",rating:"5/5",ingredients:["1¼ lbs pork cutlets, pounded thin","½ cup flour + cayenne + nutmeg","2 eggs, beaten","1½ cups panko","Quick pickles: limes, cucumbers, fennel, shallot"],method:["Make pickles (30+ min)","Dredge pork: flour → egg → panko","Shallow fry 3-4 min per side","Serve with pickles"],source:"NYT Cooking"},
-        {id:5,name:"Chicken Milanese with Tomato Mozzarella Salad",img:"https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=400&h=300&fit=crop",time:"40 min",servings:"4-6",protein:"chicken",cuisine:"western",category:"family",rating:"5/5",ingredients:["1½ lbs chicken cutlets","Basil, garlic, olive oil","Cherry tomatoes, mozzarella","Flour, eggs, panko, parmesan"],method:["Make basil oil","Toss tomatoes & mozzarella with basil oil","Dredge chicken: flour → egg → panko","Fry 3 min per side","Top with salad"],source:"NYT Cooking"},
-        {id:6,name:"Butter Chicken",img:"https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&h=300&fit=crop",time:"60+ min",servings:"6",protein:"chicken",cuisine:"indian",category:"family",rating:"5/5",ingredients:["3 lbs chicken thighs","Greek yogurt, lemon juice, spices","Butter, onions, garlic, ginger","Tomatoes, chiles, cream"],method:["Marinate chicken overnight","Sauté aromatics in butter","Add tomatoes and chiles","Simmer chicken 30 min","Finish with cream"],source:"NYT Cooking"},
-        {id:7,name:"Spaghetti & Drop Meatballs",img:"https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"beef",cuisine:"western",category:"family",rating:"5/5",ingredients:["1 lb spaghetti","12 oz ground beef","Parmesan, parsley, breadcrumbs, egg","Crushed tomatoes, bay leaves","Onion, garlic"],method:["Mix and drop meatballs into hot skillet","Brown 5-6 min","Add aromatics and tomatoes","Simmer, toss with pasta"],source:"NYT Cooking"},
-        {id:8,name:"Yin Yang Fried Rice",img:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop",time:"50 min",servings:"4",protein:"chicken",cuisine:"chinese",category:"family",ingredients:["5 cups cooked rice","3 eggs","Chicken, tomato paste, ketchup","Shrimp, peas, cream"],method:["Make red sauce with chicken","Make fried rice","Make white sauce with shrimp","Assemble in yin-yang pattern"],source:"Made with Lau"},
-        {id:9,name:"Steamed Spare Ribs in Black Bean Sauce",img:"https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",time:"30+ min",servings:"4",protein:"pork",cuisine:"chinese",category:"family",ingredients:["Baby back ribs","Fermented black beans","Garlic, ginger","Shaoxing wine, oyster sauce"],method:["Soak ribs 1 hr","Make black bean sauce with hot oil","Marinate ribs 30+ min","Steam 15-20 min"],source:"Made with Lau",tip:"Bloom black beans in hot oil — that's the secret!"},
-        {id:10,name:"Salt & Pepper Tofu",img:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",time:"30+ min",servings:"4",protein:"tofu",cuisine:"chinese",category:"family",ingredients:["Firm tofu","Flour, cornstarch, spices","Garlic, peppers, shallots","Scallions, cilantro"],method:["Brine tofu, dredge in coating","Pan-fry until golden","Stir-fry aromatics","Toss together with crispy garlic"],source:"Made with Lau"},
-        {id:11,name:"Pan-Fried Pork Chops",img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&h=300&fit=crop",time:"40 min",servings:"4",protein:"pork",cuisine:"chinese",category:"family",rating:"James Beard",ingredients:["1 lb pork chops","White and red onion","Ginger, garlic","Oyster sauce, soy sauce, Shaoxing wine"],method:["Tenderize and marinate pork","Pan-fry until golden","Caramelize onions","Serve pork on onion bed"],source:"Made with Lau"},
-        {id:12,name:"Soy Sauce Chicken Drumsticks",img:"https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&h=300&fit=crop",time:"35 min",servings:"4",protein:"chicken",cuisine:"chinese",category:"family",rating:"James Beard",ingredients:["6 chicken drumsticks","Ginger, garlic, mandarin peel","Light and dark soy sauce","Shaoxing wine, brown sugar"],method:["Blanch drumsticks","Build sauce with aromatics","Braise covered 10 min","Reduce sauce, basting constantly"],source:"Made with Lau"},
-        {id:13,name:"Couscous with Herbs & Raisins",img:"https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"family",ingredients:["2 cups pearl couscous","½ cup raisins","Dill, scallions, mint","Lemon, olive oil, garlic"],method:["Cook couscous until fork tender","Toss with dressing and herbs","Serve warm or room temp"],source:"Family recipe"},
-        {id:14,name:"Little Gem Salad with Crispy Halloumi",img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Halloumi, grated","Little Gem lettuce","Pistachios, seeds","Shallot, lemon, olive oil"],method:["Crisp halloumi with nuts and seeds","Dress lettuce with lemon vinaigrette","Top with halloumi crumbs"],source:"NYT Cooking"},
-        {id:15,name:"Puréed Tomato & Red Pepper Soup",img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",time:"50 min",servings:"6",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Roasted red peppers","Tomatoes, tomato paste","Onion, carrot, celery, garlic","Vegetable stock, rice"],method:["Roast and prep peppers","Build soup base","Simmer with rice 30 min","Purée until smooth"],source:"NYT Cooking"},
-        {id:16,name:"Lemon Ricotta Pancakes",img:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop",time:"20 min",servings:"8-10",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Flour, baking powder","Lemon zest, sugar","Eggs, ricotta, buttermilk","Melted butter"],method:["Mix dry ingredients","Combine wet with ricotta","Fold together gently","Cook on buttered griddle"],source:"NYT Cooking"},
-        {id:17,name:"Chopped Salad with Chickpeas & Feta",img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop",time:"20 min",servings:"4-6",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Romaine, chickpeas","Cucumber, olives, scallions","Avocado, feta, herbs","Red wine vinaigrette, croutons"],method:["Toast croutons","Combine vegetables","Toss with dressing","Fold in avocado and feta"],source:"NYT Cooking"},
-        {id:18,name:"Pasta with Sausage, Broccoli Rabe & Chickpeas",img:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop",time:"30 min",servings:"4-6",protein:"pork",cuisine:"western",category:"family",rating:"5/5",ingredients:["1 lb pasta","Broccoli rabe","Hot Italian sausage","Chickpeas, garlic, white wine"],method:["Blanch broccoli rabe","Cook pasta in same water","Brown sausage, build sauce","Finish with butter and parmesan"],source:"NYT Cooking"},
-        {id:19,name:"Classic Tomato Soup",img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",time:"60 min",servings:"8",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Butter, onions","Flour, canned tomatoes","Chicken broth, sugar","Half-and-half, honey"],method:["Slowly cook onions in butter","Add flour, then tomatoes","Simmer 30 min","Finish with cream and honey"],source:"NYT Cooking",tip:"Add carrots to reduce need for sugar"},
-        {id:20,name:"Spicy Cherry Tomato Pasta",img:"https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=300&fit=crop",time:"25 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Orecchiette","Cherry tomatoes","Tomato paste, capers","Garlic, red pepper flakes, basil"],method:["Crisp capers in oil","Build sauce with tomato paste","Burst cherry tomatoes","Toss with pasta and basil"],source:"NYT Cooking"},
-        {id:21,name:"Spicy Corn & Shishito Salad",img:"https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Fresh corn kernels","Shishito peppers, jalapeño","Red onion, garlic, lime","Cotija, cilantro"],method:["Make lime-cumin dressing","Char peppers","Toss raw corn with dressing","Finish with cheese and cilantro"],source:"NYT Cooking"},
-        {id:22,name:"Carrot-Parsnip Soup with Chips",img:"https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&h=300&fit=crop",time:"60 min",servings:"6",protein:"vegetarian",cuisine:"western",category:"family",rating:"5/5",ingredients:["Onion, parsnip, carrot","Vegetable broth","Parsnip slices for chips","Chives"],method:["Simmer vegetables 50 min","Blend until smooth","Fry parsnip chips","Serve with chips and chives"],source:"NYT Cooking",tip:"Add apple or pear for sweetness"},
-        
-        // BABY & TODDLER RECIPES (23-42)
-        {id:23,name:"Chicken & Broccoli Rosti",img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop",time:"30 min",servings:"15 rosti",protein:"chicken",cuisine:"western",category:"baby",age:"9+ months",ingredients:["75g sweet potato, grated","75g potato, grated","2 spring onions, chopped","1 egg, beaten","2 tsp cornflour","50g cooked chicken, diced","50g cooked broccoli, chopped"],method:["Squeeze liquid from grated potatoes in tea towel","Mix with spring onions, egg, cornflour, chicken, broccoli","Heat oil, add spoonfuls and flatten","Fry 3-4 min each side until golden"],source:"Annabel Karmel",tip:"Stack cooked rosti with baking paper, freeze for later"},
-        {id:24,name:"Quick Courgette & Cheese Macaroni",img:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop",time:"20 min",servings:"2-3",protein:"vegetarian",cuisine:"western",category:"baby",age:"9+ months",ingredients:["75g macaroni pasta","30g cream cheese","25g Parmesan, grated","75g courgette, grated"],method:["Cook macaroni, reserve 3 tbsp water before draining","Return pasta to pan with cream cheese, Parmesan, courgette and reserved water","Stir over heat until cheese melts"],source:"Annabel Karmel",tip:"Peel courgette before grating to hide the green"},
-        {id:25,name:"Orzo, Tomato & Tuna Puree",img:"https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=300&fit=crop",time:"35 min",servings:"4",protein:"seafood",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["2 tsp olive oil","75g onion, diced","75g carrot, diced","50g courgette, diced","75g red pepper, diced","1 clove garlic","200g passata","150ml water","30g orzo","2 tsp cream cheese","50g tinned tuna","2 tsp basil"],method:["Sauté vegetables 5 min, add garlic","Add passata, water, orzo — simmer covered 15 min","Stir in cream cheese, tuna, basil"],source:"Annabel Karmel"},
-        {id:26,name:"Chicken, Bean & Carrot Puree",img:"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",time:"25 min",servings:"4",protein:"chicken",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["1 tsp sunflower oil","50g onion, chopped","175g carrot, sliced","150g chicken thigh, chopped","100g cannellini beans","300ml unsalted vegetable stock"],method:["Fry onion and carrot 2 min, add chicken to seal","Add beans and stock, simmer covered 20 min","Blend until smooth"],source:"Annabel Karmel",tip:"Dairy-free but still creamy from the beans"},
-        {id:27,name:"Carrot, Parsnip & Chicken with Rice",img:"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",time:"30 min",servings:"2",protein:"chicken",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["125g carrot, sliced","100g parsnip, sliced","25g cooked rice","25g cooked chicken, diced finely"],method:["Steam carrot and parsnip 15 min until soft","Blend with 3 tbsp steamer water until smooth","Stir in rice and chicken, heat through"],source:"Annabel Karmel"},
-        {id:28,name:"Lovely Veggie Puree",img:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",time:"50 min",servings:"3",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["1 small onion","1 medium carrot, chopped","25g red pepper, chopped","1 tbsp vegetable oil","70g butternut squash, diced","40g peas","100ml water","30g mature Cheddar, grated"],method:["Fry onion, carrot, pepper 3-4 min","Add squash and water, simmer covered 25-30 min","Add peas, cook 3-4 min","Stir in cheese and blend"],source:"Annabel Karmel"},
-        {id:29,name:"Cod, Leek, Potato & Pea Puree",img:"https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&h=300&fit=crop",time:"25 min",servings:"8",protein:"seafood",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["1 tbsp olive oil","1 leek, sliced","150g potato, cubed","200ml vegetable stock","100g peas","150g cod, cubed","1 tbsp dill, chopped"],method:["Fry leek and potatoes briefly","Add stock, cover, simmer 10 min","Add peas, cod, dill — simmer 5-8 min","Blend until smooth"],source:"Annabel Karmel"},
-        {id:30,name:"Apricot & Carrot Teething Rings",img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop",time:"75 min",servings:"20 rings",protein:"vegetarian",cuisine:"western",category:"baby",age:"6+ months",ingredients:["180g carrot, sliced","25g dried apricot","200g plain flour","50g butter, cubed","½ tsp baking powder","½ tsp mixed spice"],method:["Steam carrot with apricot 10 min, blend smooth, cool","Rub butter into flour, baking powder, spice until like breadcrumbs","Mix in cooled puree to form dough, chill 30 min","Roll 1½cm thick, stamp out rings with 4cm + 2cm cutters","Bake 140°C for 50 min until firm"],source:"Annabel Karmel"},
-        {id:31,name:"Tomato, Spinach & Cheese Couscous",img:"https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=400&h=300&fit=crop",time:"25 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["1 tsp olive oil","100g cherry tomatoes, halved","1 clove garlic, crushed","30g spinach, chopped","50g couscous","100ml weak vegetable stock","15g Parmesan, grated"],method:["Fry tomatoes, garlic, spinach briefly","Add couscous and stock, cover, bring to boil","Turn off heat, let stand 10 min","Mix in cheese before serving"],source:"Annabel Karmel"},
-        {id:32,name:"Sweet Potato & Squash Tots",img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop",time:"25 min",servings:"12 tots",protein:"vegetarian",cuisine:"western",category:"baby",age:"9+ months",ingredients:["300g butternut squash, cubed","250g sweet potato, cubed","25g Parmesan, grated","1 tbsp plain flour","30g panko breadcrumbs"],method:["Steam squash and sweet potato 10 min, cool and mash","Mix with Parmesan, flour, breadcrumbs","Shape into 12 tots, roll in extra flour","Pan-fry until golden or air fry 180°C for 8 min"],source:"Annabel Karmel"},
-        {id:33,name:"Avocado, Kiwi & Pear Puree",img:"https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&h=300&fit=crop",time:"5 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"baby",age:"6+ months",ingredients:["1 avocado, diced","1 pear, peeled and diced","1 kiwi, peeled and diced"],method:["Put avocado, pear and kiwi into a jug","Blend until smooth"],source:"Annabel Karmel",tip:"No cooking required — perfect quick snack"},
-        {id:34,name:"Broccoli & Salmon Patties",img:"https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop",time:"30 min",servings:"20 patties",protein:"seafood",cuisine:"western",category:"baby",age:"9+ months",ingredients:["100g broccoli, finely chopped","1 large carrot, grated","4 spring onions, chopped","200g salmon fillet, finely chopped","85g Parmesan, grated","2 tbsp ketchup","1 egg, beaten","180ml milk","150g plain flour","½ tsp bicarbonate of soda"],method:["Mix all ingredients in a large bowl","Heat oil in frying pan","Add spoonfuls, spread evenly","Fry 2 min each side until golden and cooked through"],source:"Annabel Karmel"},
-        {id:35,name:"Sweet Potato & Peanut Butter Teething Rings",img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop",time:"60 min",servings:"20 rings",protein:"vegetarian",cuisine:"western",category:"baby",age:"6+ months",ingredients:["1 small sweet potato","120g plain flour","½ tsp baking powder","½ tsp ground cinnamon","50g smooth peanut butter","4 tbsp milk"],method:["Microwave sweet potato 8 min, scoop out 50g flesh and mash","Rub peanut butter into flour, baking powder, cinnamon","Add mashed sweet potato and milk, mix to dough","Roll 1cm thick, stamp out rings","Bake 140°C for 40 min until firm"],source:"Annabel Karmel"},
-        {id:36,name:"Butternut Squash & Rice Balls",img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop",time:"35 min",servings:"16 balls",protein:"vegetarian",cuisine:"western",category:"baby",age:"9+ months",ingredients:["200g butternut squash, cubed","250g packet cooked rice","4 spring onions, sliced","50g mature Cheddar, grated","1 tsp fresh thyme, chopped","60g panko breadcrumbs"],method:["Steam squash 10 min until soft, mash","Cook rice per packet, cool","Mix squash, rice, spring onions, cheese, thyme, 40g panko","Shape into 16 balls, roll in remaining panko","Fry until golden or air fry 200°C for 8-10 min"],source:"Annabel Karmel"},
-        {id:37,name:"Salmon & Sweet Potato Fritters",img:"https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=300&fit=crop",time:"25 min",servings:"12 fritters",protein:"seafood",cuisine:"western",category:"baby",age:"9+ months",ingredients:["1 large sweet potato","100g canned pink salmon, drained","1 egg, beaten","3 tbsp self-raising flour"],method:["Microwave sweet potato 8 min, cool and scoop flesh","Mix with salmon, egg, flour","Heat oil, fry spoonfuls until golden, turning halfway"],source:"Annabel Karmel",tip:"Great for baby-led weaning"},
-        {id:38,name:"Parsnip, Carrot & Apricot Puree",img:"https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["100g parsnip, diced","225g carrot, sliced","25g dried apricot, chopped"],method:["Steam parsnip, carrot and apricot 10 min","Add 4 tbsp steamer water","Blend until smooth"],source:"Annabel Karmel"},
-        {id:39,name:"Cheesy Broccoli & Carrot Puree",img:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",time:"25 min",servings:"2-3",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["175g potato, diced","60g carrot, sliced","100g broccoli florets","25g Cheddar, grated"],method:["Simmer potatoes, carrots with 200ml water for 8 min","Add broccoli, simmer 5 min more","Add cheese and blend until smooth"],source:"Annabel Karmel"},
-        {id:40,name:"Apple, Prune, Banana & Oats Puree",img:"https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&h=300&fit=crop",time:"20 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["25g soft dried prunes, halved","2 large Pink Lady apples, peeled and sliced","25g porridge oats","2 ripe bananas, sliced"],method:["Steam apple and prunes 8-10 min until soft","Place in jug with oats, bananas, and a little steamer water","Blend until smooth"],source:"Annabel Karmel",tip:"Great for healthy digestion"},
-        {id:41,name:"Chicken, Broccoli & Sweetcorn Puree",img:"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",time:"20 min",servings:"4",protein:"chicken",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["1 tsp oil","120g chicken thigh, diced","125g potatoes, diced","80g broccoli florets","50g sweetcorn","125ml water"],method:["Fry chicken and potatoes briefly in oil","Add broccoli, sweetcorn and water","Cover and simmer 10 min until tender","Blend until smooth"],source:"Annabel Karmel"},
-        {id:42,name:"Oat, Prune & Berry Puree",img:"https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",category:"baby",age:"6-9 months",ingredients:["Porridge oats","Prunes","Mixed berries","Apple"],method:["Put all ingredients in saucepan, heat until bubbling","Reduce to simmer for 5 min until apple is soft","Blend until smooth"],source:"Annabel Karmel"}
+        {id:1,name:"One-Pot Chicken & Rice with Caramelized Lemon",img:"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"chicken",cuisine:"western",rating:"5/5",ingredients:["4 bone-in, skin-on chicken thighs","2 cups long-grain white rice","4 cups chicken broth","2 lemons","1 cup olives","6 garlic cloves","1 shallot","2 tsp dried oregano","Fresh parsley"],method:["Sear chicken until golden","Caramelize lemon slices in rendered fat","Sauté olives, garlic, shallot","Add rice and broth","Nestle chicken on top","Bake 400°F for 25-30 min"],source:"NYT Cooking"},
+        {id:2,name:"Apple Crumble",img:"https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?w=400&h=300&fit=crop",time:"60 min",servings:"8-10",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["3½ lbs mixed apples","12 tbsp butter, melted","1½ cups flour","1½ cups dark brown sugar","1 cup rolled oats","1 cup pecans, chopped","1 tbsp cinnamon","2 tbsp lemon juice"],method:["Mix crumble topping","Toss apples with sugar, cinnamon, lemon","Top with crumble","Bake 350°F for 50-60 min"],source:"NYT Cooking"},
+        {id:3,name:"Roast Chicken with Maple Butter & Rosemary",img:"https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",time:"70 min",servings:"4",protein:"chicken",cuisine:"western",rating:"5/5",ingredients:["1 whole chicken (3½ lbs)","4 tbsp unsalted butter","2 tbsp maple syrup","Rosemary sprigs","Salt & pepper"],method:["Season chicken inside and out","Stuff with rosemary sprigs","Make maple-rosemary butter","Coat chicken generously","Roast 375°F for 55-60 min, basting","Rest 10 min before serving"],source:"NYT Cooking",tip:"Try with lemon + garlic instead of rosemary"},
+        {id:4,name:"Pork Schnitzel with Quick Pickles",img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"pork",cuisine:"western",rating:"5/5",ingredients:["1¼ lbs pork cutlets, pounded thin","½ cup flour + cayenne + nutmeg","2 eggs, beaten","1½ cups panko","Quick pickles: limes, cucumbers, fennel, shallot"],method:["Make pickles (30+ min)","Dredge pork: flour → egg → panko","Shallow fry 3-4 min per side","Serve with pickles"],source:"NYT Cooking"},
+        {id:5,name:"Chicken Milanese with Tomato Mozzarella Salad",img:"https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=400&h=300&fit=crop",time:"40 min",servings:"4-6",protein:"chicken",cuisine:"western",rating:"5/5",ingredients:["1½ lbs chicken cutlets","Basil, garlic, olive oil","Cherry tomatoes, mozzarella","Flour, eggs, panko, parmesan"],method:["Make basil oil","Toss tomatoes & mozzarella with basil oil","Dredge chicken: flour → egg → panko","Fry 3 min per side","Top with salad"],source:"NYT Cooking"},
+        {id:6,name:"Butter Chicken",img:"https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&h=300&fit=crop",time:"60+ min",servings:"6",protein:"chicken",cuisine:"indian",rating:"5/5",ingredients:["3 lbs chicken thighs","Greek yogurt, lemon juice, spices","Butter, onions, garlic, ginger","Tomatoes, chiles, cream"],method:["Marinate chicken overnight","Sauté aromatics in butter","Add tomatoes and chiles","Simmer chicken 30 min","Finish with cream"],source:"NYT Cooking"},
+        {id:7,name:"Spaghetti & Drop Meatballs",img:"https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?w=400&h=300&fit=crop",time:"45 min",servings:"4",protein:"beef",cuisine:"western",rating:"5/5",ingredients:["1 lb spaghetti","12 oz ground beef","Parmesan, parsley, breadcrumbs, egg","Crushed tomatoes, bay leaves","Onion, garlic"],method:["Mix and drop meatballs into hot skillet","Brown 5-6 min","Add aromatics and tomatoes","Simmer, toss with pasta"],source:"NYT Cooking"},
+        {id:8,name:"Yin Yang Fried Rice",img:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop",time:"50 min",servings:"4",protein:"chicken",cuisine:"chinese",ingredients:["5 cups cooked rice","3 eggs","Chicken, tomato paste, ketchup","Shrimp, peas, cream"],method:["Make red sauce with chicken","Make fried rice","Make white sauce with shrimp","Assemble in yin-yang pattern"],source:"Made with Lau"},
+        {id:9,name:"Steamed Spare Ribs in Black Bean Sauce",img:"https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",time:"30+ min",servings:"4",protein:"pork",cuisine:"chinese",ingredients:["Baby back ribs","Fermented black beans","Garlic, ginger","Shaoxing wine, oyster sauce"],method:["Soak ribs 1 hr","Make black bean sauce with hot oil","Marinate ribs 30+ min","Steam 15-20 min"],source:"Made with Lau",tip:"Bloom black beans in hot oil — that's the secret!"},
+        {id:10,name:"Salt & Pepper Tofu",img:"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",time:"30+ min",servings:"4",protein:"tofu",cuisine:"chinese",ingredients:["Firm tofu","Flour, cornstarch, spices","Garlic, peppers, shallots","Scallions, cilantro"],method:["Brine tofu, dredge in coating","Pan-fry until golden","Stir-fry aromatics","Toss together with crispy garlic"],source:"Made with Lau"},
+        {id:11,name:"Pan-Fried Pork Chops",img:"https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=400&h=300&fit=crop",time:"40 min",servings:"4",protein:"pork",cuisine:"chinese",rating:"James Beard",ingredients:["1 lb pork chops","White and red onion","Ginger, garlic","Oyster sauce, soy sauce, Shaoxing wine"],method:["Tenderize and marinate pork","Pan-fry until golden","Caramelize onions","Serve pork on onion bed"],source:"Made with Lau"},
+        {id:12,name:"Soy Sauce Chicken Drumsticks",img:"https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&h=300&fit=crop",time:"35 min",servings:"4",protein:"chicken",cuisine:"chinese",rating:"James Beard",ingredients:["6 chicken drumsticks","Ginger, garlic, mandarin peel","Light and dark soy sauce","Shaoxing wine, brown sugar"],method:["Blanch drumsticks","Build sauce with aromatics","Braise covered 10 min","Reduce sauce, basting constantly"],source:"Made with Lau"},
+        {id:13,name:"Couscous with Herbs & Raisins",img:"https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",ingredients:["2 cups pearl couscous","½ cup raisins","Dill, scallions, mint","Lemon, olive oil, garlic"],method:["Cook couscous until fork tender","Toss with dressing and herbs","Serve warm or room temp"],source:"Family recipe"},
+        {id:14,name:"Little Gem Salad with Crispy Halloumi",img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Halloumi, grated","Little Gem lettuce","Pistachios, seeds","Shallot, lemon, olive oil"],method:["Crisp halloumi with nuts and seeds","Dress lettuce with lemon vinaigrette","Top with halloumi crumbs"],source:"NYT Cooking"},
+        {id:15,name:"Puréed Tomato & Red Pepper Soup",img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",time:"50 min",servings:"6",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Roasted red peppers","Tomatoes, tomato paste","Onion, carrot, celery, garlic","Vegetable stock, rice"],method:["Roast and prep peppers","Build soup base","Simmer with rice 30 min","Purée until smooth"],source:"NYT Cooking"},
+        {id:16,name:"Lemon Ricotta Pancakes",img:"https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop",time:"20 min",servings:"8-10",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Flour, baking powder","Lemon zest, sugar","Eggs, ricotta, buttermilk","Melted butter"],method:["Mix dry ingredients","Combine wet with ricotta","Fold together gently","Cook on buttered griddle"],source:"NYT Cooking"},
+        {id:17,name:"Chopped Salad with Chickpeas & Feta",img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop",time:"20 min",servings:"4-6",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Romaine, chickpeas","Cucumber, olives, scallions","Avocado, feta, herbs","Red wine vinaigrette, croutons"],method:["Toast croutons","Combine vegetables","Toss with dressing","Fold in avocado and feta"],source:"NYT Cooking"},
+        {id:18,name:"Pasta with Sausage, Broccoli Rabe & Chickpeas",img:"https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=300&fit=crop",time:"30 min",servings:"4-6",protein:"pork",cuisine:"western",rating:"5/5",ingredients:["1 lb pasta","Broccoli rabe","Hot Italian sausage","Chickpeas, garlic, white wine"],method:["Blanch broccoli rabe","Cook pasta in same water","Brown sausage, build sauce","Finish with butter and parmesan"],source:"NYT Cooking"},
+        {id:19,name:"Classic Tomato Soup",img:"https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",time:"60 min",servings:"8",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Butter, onions","Flour, canned tomatoes","Chicken broth, sugar","Half-and-half, honey"],method:["Slowly cook onions in butter","Add flour, then tomatoes","Simmer 30 min","Finish with cream and honey"],source:"NYT Cooking",tip:"Add carrots to reduce need for sugar"},
+        {id:20,name:"Spicy Cherry Tomato Pasta",img:"https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&h=300&fit=crop",time:"25 min",servings:"4",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Orecchiette","Cherry tomatoes","Tomato paste, capers","Garlic, red pepper flakes, basil"],method:["Crisp capers in oil","Build sauce with tomato paste","Burst cherry tomatoes","Toss with pasta and basil"],source:"NYT Cooking"},
+        {id:21,name:"Spicy Corn & Shishito Salad",img:"https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&h=300&fit=crop",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Fresh corn kernels","Shishito peppers, jalapeño","Red onion, garlic, lime","Cotija, cilantro"],method:["Make lime-cumin dressing","Char peppers","Toss raw corn with dressing","Finish with cheese and cilantro"],source:"NYT Cooking"},
+        {id:22,name:"Carrot-Parsnip Soup with Chips",img:"https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&h=300&fit=crop",time:"60 min",servings:"6",protein:"vegetarian",cuisine:"western",rating:"5/5",ingredients:["Onion, parsnip, carrot","Vegetable broth","Parsnip slices for chips","Chives"],method:["Simmer vegetables 50 min","Blend until smooth","Fry parsnip chips","Serve with chips and chives"],source:"NYT Cooking",tip:"Add apple or pear for sweetness"}
     ];
     
     var grid=document.getElementById('grid'),search=document.getElementById('search'),count=document.getElementById('count'),empty=document.getElementById('empty'),overlay=document.getElementById('overlay'),modalImg=document.getElementById('modalImg'),modalBody=document.getElementById('modalBody'),modalX=document.getElementById('modalX');
-    var protein='all',cuisine='all',category='all';
+    var protein='all',cuisine='all';
     
     function render(){
         var h='';
         for(var i=0;i<data.length;i++){
             var r=data[i];
-            var isBaby = r.category === 'baby';
-            h+='<div class="recipe-card'+(isBaby?' baby-recipe':'')+'" data-id="'+r.id+'" data-protein="'+r.protein+'" data-cuisine="'+r.cuisine+'" data-category="'+r.category+'" data-s="'+(r.name+' '+r.ingredients.join(' ')).toLowerCase()+'">';
+            h+='<div class="recipe-card" data-id="'+r.id+'" data-protein="'+r.protein+'" data-cuisine="'+r.cuisine+'" data-s="'+(r.name+' '+r.ingredients.join(' ')).toLowerCase()+'">';
             h+='<div class="recipe-img"><img src="'+r.img+'" alt="'+r.name+'" loading="lazy"></div>';
             h+='<div class="recipe-info"><div class="recipe-name">'+r.name+'</div>';
-            h+='<div class="recipe-meta">⏱️ '+r.time+'</div>';
-            if(isBaby && r.age) h+='<div class="recipe-badge">👶 '+r.age+'</div>';
-            h+='</div></div>';
+            h+='<div class="recipe-meta">⏱️ '+r.time+'</div></div></div>';
         }
         grid.innerHTML=h;
         var cards=grid.querySelectorAll('.recipe-card');
@@ -394,12 +343,11 @@
         var q=search.value.toLowerCase(),n=0;
         var cards=grid.querySelectorAll('.recipe-card');
         for(var i=0;i<cards.length;i++){
-            var c=cards[i],p=c.getAttribute('data-protein'),cu=c.getAttribute('data-cuisine'),cat=c.getAttribute('data-category'),s=c.getAttribute('data-s'),ok=true;
+            var c=cards[i],p=c.getAttribute('data-protein'),cu=c.getAttribute('data-cuisine'),s=c.getAttribute('data-s'),ok=true;
             if(protein!='all'&&p!=protein)ok=false;
             if(cuisine!='all'&&cu!=cuisine)ok=false;
-            if(category!='all'&&cat!=category)ok=false;
             if(q&&s.indexOf(q)<0)ok=false;
-            c.className=ok?'recipe-card'+(cat==='baby'?' baby-recipe':''):'recipe-card hidden';
+            c.className=ok?'recipe-card':'recipe-card hidden';
             if(ok)n++;
         }
         count.textContent='🍴 Showing '+n+' recipe'+(n!=1?'s':'');
@@ -410,20 +358,17 @@
         var r;for(var i=0;i<data.length;i++){if(data[i].id==id)r=data[i];}
         if(!r)return;
         modalImg.src=r.img;
-        var isBaby = r.category === 'baby';
         
         var thtml='<span class="modal-tag">'+r.protein+'</span>';
         thtml+='<span class="modal-tag cuisine">'+r.cuisine+'</span>';
-        if(isBaby) thtml+='<span class="modal-tag baby">👶 Baby</span>';
         
         var ihtml='';for(var j=0;j<r.ingredients.length;j++){ihtml+='<li>'+r.ingredients[j]+'</li>';}
         var mhtml='';for(var k=0;k<r.method.length;k++){mhtml+='<li>'+r.method[k]+'</li>';}
         
         var h='<div class="modal-title">'+r.name+'</div>';
-        h+='<div class="modal-meta'+(isBaby?' baby':'')+'">';
+        h+='<div class="modal-meta">';
         h+='<span>⏱️ '+r.time+'</span>';
         h+='<span>👥 '+r.servings+'</span>';
-        if(r.age)h+='<span>👶 '+r.age+'</span>';
         if(r.rating)h+='<span>⭐ '+r.rating+'</span>';
         h+='</div>';
         h+='<div class="modal-tags">'+thtml+'</div>';
@@ -443,11 +388,10 @@
         var btns=document.getElementById(containerId).querySelectorAll('.btn');
         for(var i=0;i<btns.length;i++){
             (function(b){b.onclick=function(){
-                for(var x=0;x<btns.length;x++)btns[x].className=btns[x].className.replace(' active','');
-                b.className=b.className+' active';
+                for(var x=0;x<btns.length;x++)btns[x].className='btn';
+                b.className='btn active';
                 if(filterKey=='protein')protein=b.getAttribute('data-protein');
                 if(filterKey=='cuisine')cuisine=b.getAttribute('data-cuisine');
-                if(filterKey=='category')category=b.getAttribute('data-category');
                 filter();
             };})(btns[i]);
         }
@@ -455,7 +399,6 @@
     
     setupBtns('proteinBtns','protein');
     setupBtns('cuisineBtns','cuisine');
-    setupBtns('categoryBtns','category');
     search.oninput=filter;
     modalX.onclick=hide;
     overlay.onclick=function(e){if(e.target==overlay)hide();};
