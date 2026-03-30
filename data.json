@@ -1,57 +1,15 @@
 {
-  "date": "Sun, 29 Mar",
-  "updated": "9:58 PM",
+  "date": "Mon, 30 Mar",
+  "updated": "8:01 AM",
   "weather": {
     "icon": "⛅",
-    "temp": "28"
+    "temp": "26"
   },
-  "vibe": "<strong>Light morning, stacked afternoon.</strong> Kristen on call tomorrow — solo parenting. 2 stale leads need rescue. Didion at 58%, close to finishing.",
-  "alerts": [
-    {
-      "icon": "📍",
-      "title": "Tomorrow:",
-      "body": "Kristen on call — solo parenting day",
-      "type": "warning"
-    }
-  ],
-  "today": [
-    {"time": "10:00am", "title": "Solomon's Porch", "tag": "F"},
-    {"time": "6:30pm", "title": "Dinner @ Little Farms Table", "tag": "F", "location": "Dempsey"}
-  ],
-  "tomorrow": [
-    {"time": "All day", "title": "Kristen on call", "tag": "F"},
-    {"time": "10:00am", "title": "Zoe + Leia — Kada Open Studio", "tag": "F", "location": "Kada"},
-    {"time": "11:30am", "title": "Monday Morning Standup", "tag": "W", "location": "Teams"},
-    {"time": "2:00pm", "title": "Internal Projects Check-In", "tag": "W", "location": "Teams"},
-    {"time": "5:00pm", "title": "Claire Pilot Recap", "tag": "W", "location": "Teams"},
-    {"time": "5:00pm", "title": "Zoe Swimming", "tag": "F"}
-  ],
-  "pipeline": {
-    "stale": [
-      {"name": "Marine Poirel", "company": "Le Mas des Herbes Blanches", "days": 10, "action": "Send comp set + book call"},
-      {"name": "Thierry Naidu", "company": "Chevre d'Or", "days": 11, "action": "Add to CLAIR alongside Cheneaudiere"}
-    ],
-    "hot": [
-      {"name": "Eliana Kokotos", "company": "Elounda S.A.", "days": 6, "action": "Send CLAIR deck + propose call"},
-      {"name": "G. Torre", "company": "Grand Hotel Parker's", "days": 2, "action": "Reply + intro call"},
-      {"name": "Ann Kristin", "company": "62°N", "days": 2, "action": "Confirm Mar 26 slot"}
-    ],
-    "warm": [
-      {"name": "Asa Wetterwald", "company": "R&C", "days": 4, "action": "CLAIR setup issues"},
-      {"name": "Oliver Gillow", "company": "Ahama", "days": 2, "action": "Comp set update ETA"},
-      {"name": "Andrea Ansaldi", "company": "Gallia Palace", "days": 2, "action": "Confirm receipt"}
-    ]
-  },
-  "tasks": [
-    {"priority": "q1", "title": "Ask Celeene re Time+Tides wire"},
-    {"priority": "q1", "title": "Credit card — address + late fee"},
-    {"priority": "q2", "title": "File SG income taxes (Apr 15)"},
-    {"priority": "q2", "title": "Ask Alice + Celeene re FY24 tax"},
-    {"priority": "q2", "title": "Setup Zoe curriculum skill"},
-    {"priority": "q3", "title": "Pickup glue for Zoe's chair"}
-  ],
-  "reading": [
-    {"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"},
-    {"title": "The Creative Act", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}
-  ]
+  "vibe": "<strong>2 events tomorrow.</strong> 1 stale leads need attention.",
+  "alerts": [],
+  "today": [{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"},{"time":"11:30am-12:00pm","title":"Tri - Recap/Sync","tag":"W"},{"time":"11:30am-12:15pm","title":"Internal <> Advant: Monday Morning Standup","tag":"W"},{"time":"2:00pm-2:30pm","title":"Internal Projects Check-In","tag":"W"},{"time":"5:00pm-6:00pm","title":"Claire Pilot - Recap & Next Steps","tag":"W"},{"time":"5:00pm-6:00pm","title":"Zoe Swimming (5pm this week only)","tag":"F"}],
+  "tomorrow": [{"time":"10:00am-10:30am","title":"Matt & Anisha Synch Up","tag":"W"},{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"}],
+  "pipeline": {"stale": [{"name": "Marine Poirel", "company": "Le Mas des Herbes Blanche", "days": 10, "action": "Send updated comp set + book call"}], "hot": [{"name": "5 Hot", "company": "8 Warm", "days": 0, "action": ""}, {"name": "Eliana Kokotos", "company": "Elounda S.A.", "days": 6, "action": "Send CLAIR deck + propose call"}, {"name": "G. Torre", "company": "Grand Hotel Parker's", "days": 2, "action": "Reply + set up intro call (Villa Matilde"}], "warm": [{"name": "Asa Wetterwald", "company": "Relais & Ch\u00e2teaux", "days": 4, "action": "CLAIR setup issues (Ahama + Elounda Mare"}, {"name": "Oliver Gillow", "company": "Ahama", "days": 2, "action": "Comp set update for CLAIR \u2014 reply with E"}, {"name": "Thierry Naidu", "company": "Chevre d'Or (Phoenix HMC)", "days": 11, "action": "Add Chevre d'Or to CLAIR alongside Chene"}]},
+  "tasks": [],
+  "reading": [{"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"}, {"title": "The Creative Act \u2b50", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}]
 }
