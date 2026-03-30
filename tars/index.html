@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TARS Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface2: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #fafafa;
+      --text-dim: #888;
+      --accent: #ff6b35;
+      --accent-dim: rgba(255,107,53,0.15);
+      --q1: #ff4444;
+      --q1-dim: rgba(255,68,68,0.12);
+      --q2: #ff6b35;
+      --q2-dim: rgba(255,107,53,0.12);
+      --q3: #4488ff;
+      --q3-dim: rgba(68,136,255,0.12);
+      --q4: #666;
+      --q4-dim: rgba(102,102,102,0.12);
+      --hot: #ff4444;
+      --hot-dim: rgba(255,68,68,0.12);
+      --warm: #fbbf24;
+      --warm-dim: rgba(251,191,36,0.12);
+      --stale: #ff6b35;
+      --stale-dim: rgba(255,107,53,0.12);
+      --success: #00ff88;
+    }
+    .light {
+      --bg: #f5f5f0;
+      --surface: #ffffff;
+      --surface2: #fafafa;
+      --border: #e0e0e0;
+      --text: #1a1a1a;
+      --text-dim: #666;
+      --q1-dim: rgba(255,68,68,0.08);
+      --q2-dim: rgba(255,107,53,0.08);
+      --q3-dim: rgba(68,136,255,0.08);
+      --q4-dim: rgba(102,102,102,0.08);
+      --hot-dim: rgba(255,68,68,0.08);
+      --warm-dim: rgba(251,191,36,0.08);
+      --stale-dim: rgba(255,107,53,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 12px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 540px; margin: 0 auto; }
+    
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .logo { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .logo-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .date-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-dim); }
+    .mode-toggle { width: 40px; height: 22px; background: var(--surface2); border: 2px solid var(--border); border-radius: 11px; cursor: pointer; position: relative; }
+    .mode-toggle::after { content: ''; position: absolute; left: 3px; top: 3px; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; transition: all 0.2s; }
+    .light .mode-toggle::after { left: 21px; background: #fbbf24; }
+    
+    .vibe-bar { padding: 12px; background: var(--surface); border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; }
+    .vibe-main { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .vibe-weather { font-family: 'Space Mono', monospace; display: flex; align-items: center; gap: 4px; }
+    .vibe-weather-icon { font-size: 1.2rem; }
+    .vibe-weather-temp { font-weight: 700; }
+    .vibe-divider { width: 1px; height: 16px; background: var(--border); }
+    .vibe-time { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); margin-left: auto; }
+    .vibe-summary { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; }
+    .vibe-summary strong { color: var(--text); }
+    
+    .alert-strip { background: var(--accent-dim); border-left: 3px solid var(--accent); padding: 8px 12px; margin-bottom: 10px; border-radius: 0 6px 6px 0; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; }
+    .alert-strip.warning { border-left-color: var(--warm); background: var(--warm-dim); }
+    .alert-strip.urgent { border-left-color: var(--q1); background: var(--q1-dim); }
+    
+    .card { background: var(--surface); border: 2px solid var(--border); border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+    .card-header { font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 12px; background: var(--surface2); border-bottom: 2px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .card-badge { font-size: 0.6rem; padding: 2px 6px; background: var(--accent-dim); color: var(--accent); border-radius: 3px; }
+    .card-body { padding: 10px 12px; }
+    
+    .event { display: flex; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 0.85rem; }
+    .event:last-child { border-bottom: none; }
+    .event.past { opacity: 0.4; }
+    .event.now { background: var(--accent-dim); margin: 0 -12px; padding: 8px 12px; border-radius: 4px; }
+    .event-time { font-family: 'Space Mono', monospace; width: 65px; font-size: 0.75rem; color: var(--accent); font-weight: 700; }
+    .event.past .event-time { color: var(--text-dim); }
+    .event-content { flex: 1; min-width: 0; }
+    .event-title { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .event-meta { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; }
+    .tag { font-family: 'Space Mono', monospace; font-size: 0.55rem; font-weight: 700; padding: 1px 4px; border-radius: 2px; border: 1px solid currentColor; }
+    .tag-f { color: #ff69b4; }
+    .tag-w { color: #4488ff; }
+    .tag-t { color: var(--success); }
+    .now-badge { font-family: 'Space Mono', monospace; font-size: 0.55rem; font-weight: 700; padding: 1px 5px; background: var(--accent); color: white; border-radius: 2px; }
+    .section-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin: 10px 0 6px; padding-top: 8px; border-top: 1px dashed var(--border); }
+    
+    /* Pipeline Lanes */
+    .pipeline-lanes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    .pipeline-lane { background: var(--surface2); border: 2px solid var(--border); border-radius: 6px; padding: 8px; min-height: 120px; max-height: 200px; overflow-y: auto; }
+    .pipeline-lane.stale { border-color: var(--stale); background: var(--stale-dim); }
+    .pipeline-lane.hot { border-color: var(--hot); background: var(--hot-dim); }
+    .pipeline-lane.warm { border-color: var(--warm); background: var(--warm-dim); }
+    .pipeline-lane-header { font-family: 'Space Mono', monospace; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+    .pipeline-lane.stale .pipeline-lane-header { color: var(--stale); }
+    .pipeline-lane.hot .pipeline-lane-header { color: var(--hot); }
+    .pipeline-lane.warm .pipeline-lane-header { color: var(--warm); }
+    .pipeline-card { background: var(--surface); border-radius: 4px; padding: 8px; margin-bottom: 6px; font-size: 0.75rem; border: 1px solid var(--border); }
+    .pipeline-card:last-child { margin-bottom: 0; }
+    .pipeline-card-name { font-weight: 600; margin-bottom: 2px; }
+    .pipeline-card-company { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; }
+    .pipeline-card-action { font-size: 0.65rem; color: var(--text-dim); }
+    .pipeline-card-days { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); }
+    .pipeline-empty { font-size: 0.7rem; color: var(--text-dim); font-style: italic; text-align: center; padding: 16px 0; }
+    
+    /* Eisenhower Matrix */
+    .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .matrix-quadrant { background: var(--surface2); border: 2px solid var(--border); border-radius: 6px; padding: 8px; min-height: 80px; max-height: 160px; overflow-y: auto; }
+    .matrix-quadrant.q1 { border-color: var(--q1); background: var(--q1-dim); }
+    .matrix-quadrant.q2 { border-color: var(--q2); background: var(--q2-dim); }
+    .matrix-quadrant.q3 { border-color: var(--q3); background: var(--q3-dim); }
+    .matrix-quadrant.q4 { border-color: var(--q4); background: var(--q4-dim); }
+    .matrix-header { font-family: 'Space Mono', monospace; font-size: 0.55rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .matrix-quadrant.q1 .matrix-header { color: var(--q1); }
+    .matrix-quadrant.q2 .matrix-header { color: var(--q2); }
+    .matrix-quadrant.q3 .matrix-header { color: var(--q3); }
+    .matrix-quadrant.q4 .matrix-header { color: var(--q4); }
+    .matrix-task { background: var(--surface); border-radius: 4px; padding: 6px 8px; margin-bottom: 5px; font-size: 0.75rem; border: 1px solid var(--border); }
+    .matrix-task:last-child { margin-bottom: 0; }
+    .matrix-empty { font-size: 0.7rem; color: var(--text-dim); font-style: italic; text-align: center; padding: 8px 0; }
+    
+    /* Reading */
+    .reading-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+    .reading-item:last-child { border-bottom: none; }
+    .reading-progress { width: 40px; height: 40px; border-radius: 50%; background: conic-gradient(var(--accent) var(--pct), var(--border) var(--pct)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .reading-progress-inner { width: 32px; height: 32px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.6rem; font-weight: 700; }
+    .reading-info { flex: 1; min-width: 0; }
+    .reading-title { font-size: 0.85rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .reading-author { font-size: 0.7rem; color: var(--text-dim); }
+    .reading-tag { font-family: 'Space Mono', monospace; font-size: 0.55rem; padding: 2px 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; color: var(--text-dim); }
+    
+    .footer { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); text-align: center; margin-top: 16px; padding-top: 12px; border-top: 2px solid var(--border); }
+    .empty { color: var(--text-dim); font-style: italic; font-size: 0.8rem; padding: 6px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo"><div class="logo-icon">◉</div>TARS_</div>
+      <div class="header-right">
+        <div class="date-label" id="currentDate">Loading...</div>
+        <div class="mode-toggle" onclick="toggleMode()"></div>
+      </div>
+    </div>
+    
+    <div class="vibe-bar">
+      <div class="vibe-main">
+        <div class="vibe-weather" id="weather"><span class="vibe-weather-icon">--</span><span class="vibe-weather-temp">--°</span></div>
+        <div class="vibe-divider"></div>
+        <div class="vibe-time" id="statusTime">--:--</div>
+      </div>
+      <div class="vibe-summary" id="vibeSummary">Loading...</div>
+    </div>
+    
+    <div id="alerts"></div>
+    
+    <div class="card">
+      <div class="card-header"><span>📅 Schedule</span><span class="card-badge" id="eventCount">--</span></div>
+      <div class="card-body">
+        <div id="todayEvents">Loading...</div>
+        <div class="section-label">Tomorrow</div>
+        <div id="tomorrowEvents">Loading...</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><span>🔥 Pipeline</span><span class="card-badge" id="pipelineCount">--</span></div>
+      <div class="card-body">
+        <div class="pipeline-lanes">
+          <div class="pipeline-lane stale">
+            <div class="pipeline-lane-header">⚠️ Stale (>7d)</div>
+            <div id="pipeline-stale"></div>
+          </div>
+          <div class="pipeline-lane hot">
+            <div class="pipeline-lane-header">🔥 Hot</div>
+            <div id="pipeline-hot"></div>
+          </div>
+          <div class="pipeline-lane warm">
+            <div class="pipeline-lane-header">🌡️ Warm</div>
+            <div id="pipeline-warm"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><span>✓ Tasks</span></div>
+      <div class="card-body">
+        <div class="matrix">
+          <div class="matrix-quadrant q1"><div class="matrix-header">🔥 Do Now</div><div id="q1-tasks"></div></div>
+          <div class="matrix-quadrant q2"><div class="matrix-header">📅 Schedule</div><div id="q2-tasks"></div></div>
+          <div class="matrix-quadrant q3"><div class="matrix-header">⚡ Delegate</div><div id="q3-tasks"></div></div>
+          <div class="matrix-quadrant q4"><div class="matrix-header">🗑️ Drop</div><div id="q4-tasks"></div></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><span>📚 Reading</span></div>
+      <div class="card-body" id="reading">Loading...</div>
+    </div>
+    
+    <div class="footer">↻ <span id="lastUpdated">--</span> · TARS × TE</div>
+  </div>
+
+  <script>
+    function toggleMode() { document.body.classList.toggle('light'); localStorage.setItem('mode', document.body.classList.contains('light') ? 'light' : 'dark'); }
+    (function() { const h = new Date().getHours(), s = localStorage.getItem('mode'); if (s === 'light' || (!s && h >= 6 && h < 18)) document.body.classList.add('light'); })();
+    function updateClock() { document.getElementById('statusTime').textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); }
+    updateClock(); setInterval(updateClock, 60000);
+    
+    function parseTime(t) { if (!t || t === 'All day') return null; const m = t.match(/(\d+):(\d+)(am|pm)/i); if (!m) return null; let h = parseInt(m[1]); if (m[3].toLowerCase() === 'pm' && h !== 12) h += 12; if (m[3].toLowerCase() === 'am' && h === 12) h = 0; const d = new Date(); d.setHours(h, parseInt(m[2]), 0, 0); return d; }
+    function isNow(t) { const s = parseTime(t.split('-')[0]); if (!s) return false; const e = parseTime(t.split('-')[1]) || new Date(s.getTime() + 3600000); return new Date() >= s && new Date() <= e; }
+    function isPast(t) { const p = t.split('-'), e = parseTime(p[1] || p[0]); return e ? new Date() > e : false; }
+    
+    async function load() {
+      try {
+        const d = await (await fetch('data.json?' + Date.now())).json();
+        document.getElementById('currentDate').textContent = d.date;
+        document.getElementById('lastUpdated').textContent = d.updated;
+        document.getElementById('weather').innerHTML = `<span class="vibe-weather-icon">${d.weather.icon}</span><span class="vibe-weather-temp">${d.weather.temp}°</span>`;
+        document.getElementById('vibeSummary').innerHTML = d.vibe || '';
+        
+        document.getElementById('alerts').innerHTML = (d.alerts||[]).map(a => `<div class="alert-strip ${a.type||''}">${a.icon||'📍'} <strong>${a.title}</strong> ${a.body}</div>`).join('');
+        
+        let ec = 0;
+        const te = document.getElementById('todayEvents');
+        if (!d.today?.length) te.innerHTML = '<div class="empty">Clear</div>';
+        else { ec = d.today.length; te.innerHTML = d.today.map(e => { const n = isNow(e.time), p = !n && isPast(e.time); let m = e.location ? `<div class="event-meta">📍 ${e.location}</div>` : ''; return `<div class="event ${n?'now':''} ${p?'past':''}"><div class="event-time">${e.time}</div><div class="event-content"><div class="event-title">${e.title} <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span>${n?'<span class="now-badge">Now</span>':''}</div>${m}</div></div>`; }).join(''); }
+        
+        const tm = document.getElementById('tomorrowEvents');
+        if (!d.tomorrow?.length) tm.innerHTML = '<div class="empty">Clear</div>';
+        else { ec += d.tomorrow.length; tm.innerHTML = d.tomorrow.map(e => { let m = e.location ? `<div class="event-meta">📍 ${e.location}</div>` : ''; return `<div class="event"><div class="event-time">${e.time}</div><div class="event-content"><div class="event-title">${e.title} <span class="tag tag-${e.tag.toLowerCase()}">${e.tag}</span></div>${m}</div></div>`; }).join(''); }
+        document.getElementById('eventCount').textContent = ec + ' events';
+        
+        // Pipeline lanes
+        if (d.pipeline) {
+          document.getElementById('pipelineCount').textContent = (d.pipeline.stale?.length || 0) + (d.pipeline.hot?.length || 0) + ' hot';
+          const renderPipeline = items => !items?.length ? '<div class="pipeline-empty">—</div>' : items.map(p => `<div class="pipeline-card"><div class="pipeline-card-name">${p.name}</div><div class="pipeline-card-company">${p.company}</div><div class="pipeline-card-action">${p.action}</div><div class="pipeline-card-days">${p.days}d</div></div>`).join('');
+          document.getElementById('pipeline-stale').innerHTML = renderPipeline(d.pipeline.stale);
+          document.getElementById('pipeline-hot').innerHTML = renderPipeline(d.pipeline.hot);
+          document.getElementById('pipeline-warm').innerHTML = renderPipeline(d.pipeline.warm);
+        }
+        
+        const rt = t => !t?.length ? '<div class="matrix-empty">—</div>' : t.map(x => `<div class="matrix-task">${x.title}</div>`).join('');
+        document.getElementById('q1-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q1'));
+        document.getElementById('q2-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q2'));
+        document.getElementById('q3-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q3'));
+        document.getElementById('q4-tasks').innerHTML = rt((d.tasks||[]).filter(t=>t.priority==='q4'));
+        
+        const rd = document.getElementById('reading');
+        if (!d.reading?.length) rd.innerHTML = '<div class="empty">Nothing tracked</div>';
+        else rd.innerHTML = d.reading.map(r => `<div class="reading-item"><div class="reading-progress" style="--pct:${r.progress}%"><div class="reading-progress-inner">${r.progress}%</div></div><div class="reading-info"><div class="reading-title">${r.title}</div><div class="reading-author">${r.author}</div></div><span class="reading-tag">${r.type}</span></div>`).join('');
+      } catch(e) { console.error(e); }
+    }
+    load(); setInterval(load, 300000);
+  </script>
+</body>
+</html>

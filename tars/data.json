@@ -1,0 +1,15 @@
+{
+  "date": "Mon, 30 Mar",
+  "updated": "8:00 PM",
+  "weather": {
+    "icon": "⛅",
+    "temp": "30"
+  },
+  "vibe": "<strong>2 events tomorrow.</strong> 2 urgent tasks.",
+  "alerts": [],
+  "today": [{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"},{"time":"11:30am-12:00pm","title":"Tri - Recap/Sync","tag":"W"},{"time":"11:30am-12:15pm","title":"Internal <> Advant: Monday Morning Standup","tag":"W"},{"time":"2:00pm-2:30pm","title":"Internal Projects Check-In","tag":"W"},{"time":"4:00pm-5:00pm","title":"<Block> Claire Pilot - structure , resourcing and pilot structure.","tag":"W"},{"time":"5:00pm-6:00pm","title":"Claire Pilot - Recap & Next Steps","tag":"W"}],
+  "tomorrow": [{"time":"10:00am-10:30am","title":"Matt & Anisha Synch Up","tag":"W"},{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"}],
+  "pipeline": {"stale": [], "hot": [], "warm": []},
+  "tasks": [{"priority": "q1", "title": "ASK CELEENE RE TIME+TIDES LOST WIRE"}, {"priority": "q1", "title": "CREDIT CARD \u2014 CHANGE ADDRESS + PAY "}, {"priority": "q2", "title": "FILE SINGAPOREAN INCOME TAXES"}, {"priority": "q2", "title": "[T] SETUP ZOE CURRICULUM TRACKING S"}, {"priority": "q2", "title": "ASK ALICE + CELEENE RE ADVANT FY24 "}, {"priority": "q3", "title": "[P] PICKUP GLUE FOR ZOE'S DESK CHAI"}],
+  "reading": [{"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"}, {"title": "The Creative Act \u2b50", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}]
+}
