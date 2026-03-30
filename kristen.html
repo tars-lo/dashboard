@@ -6,7 +6,7 @@
     <title>Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --black: #1a1a1a; --warm-gray: #f7f6f3; --mid-gray: #888; --accent: #c4a77d; --rule: #e0ded9; }
+        :root { --black: #1a1a1a; --warm-gray: #f7f6f3; --mid-gray: #888; --accent: #c4a77d; --rule: #e0ded9; --sage: #7a9a7a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', -apple-system, sans-serif; background: var(--warm-gray); color: var(--black); line-height: 1.6; font-weight: 300; min-height: 100vh; }
         .container { max-width: 540px; margin: 0 auto; padding: 3rem 1.5rem; }
@@ -21,6 +21,13 @@
         .on-call-banner { background: var(--black); color: var(--warm-gray); padding: 1rem 1.25rem; margin-bottom: 2rem; text-align: center; }
         .on-call-banner .label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem; }
         .on-call-banner .days { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; }
+        .helper-schedule { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        .helper-card { flex: 1; background: white; border: 1px solid var(--rule); padding: 1rem; text-align: center; }
+        .helper-card.on-duty { border-color: var(--sage); background: rgba(122, 154, 122, 0.08); }
+        .helper-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; margin-bottom: 0.25rem; }
+        .helper-focus { font-size: 0.7rem; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .helper-status { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.5rem; background: var(--rule); color: var(--mid-gray); display: inline-block; }
+        .helper-card.on-duty .helper-status { background: var(--sage); color: white; }
         .event { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--rule); }
         .event:last-child { border-bottom: none; }
         .event-time { font-size: 0.8rem; color: var(--mid-gray); min-width: 7rem; font-variant-numeric: tabular-nums; }
@@ -31,11 +38,13 @@
         .week-day-name.today { color: var(--black); font-weight: 500; }
         .week-day-events { font-size: 0.85rem; flex: 1; }
         .quiet { color: var(--mid-gray); font-style: italic; }
-        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--rule); }
         .task:last-child { border-bottom: none; }
-        .task-bullet { color: var(--accent); font-size: 0.6rem; margin-top: 0.4rem; }
-        .task-text { font-size: 0.9rem; }
+        .task-bullet { color: var(--accent); font-size: 0.5rem; margin-top: 0.3rem; }
+        .task-text { font-size: 0.8rem; }
         .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
+        .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+        .grocery-count { font-size: 0.7rem; color: var(--mid-gray); margin-left: auto; }
         footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
         .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
         .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
@@ -44,19 +53,35 @@
 <body>
     <div class="container">
         <header>
-            <div class="date">Tuesday, 31 March 2026</div>
-            <h1 class="greeting">Good morning, Kristen</h1>
-            <div class="weather">+27°C · Partly cloudy · Singapore</div>
+            <div class="date" id="dateDisplay">—</div>
+            <h1 class="greeting" id="greetingDisplay">Hello, Kristen</h1>
+            <div class="weather" id="weatherDisplay">+27°C · Partly cloudy · Singapore</div>
         </header>
         
-        <div class="on-call-banner"><div class="label">On Call This Week</div><div class="days">Friday</div></div>
+        <div class="helper-schedule">
+            <div class="helper-card" id="gladysCard">
+                <div class="helper-name">Gladys</div>
+                <div class="helper-focus">Lily</div>
+                <div class="helper-status" id="gladysStatus">Off</div>
+            </div>
+            <div class="helper-card" id="marieCard">
+                <div class="helper-name">Marie</div>
+                <div class="helper-focus">Household + Zoe</div>
+                <div class="helper-status" id="marieStatus">Off</div>
+            </div>
+        </div>
+        
+        <div class="on-call-banner" id="onCallBanner" style="display:block;">
+            <div class="label">On Call This Week</div>
+            <div class="days">Tuesday</div>
+        </div>
         
         <section>
             <div class="section-header">
                 <span class="section-number">01</span>
                 <span class="section-title">Today</span>
             </div>
-            <div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div>
+            <div id="todayEvents"><div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div><div class="event"><span class="event-time">All day</span><span class="event-title">Clean inside of car and vacuum</span></div><div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div></div>
         </section>
         
         <section>
@@ -64,25 +89,46 @@
                 <span class="section-number">02</span>
                 <span class="section-title">This Week</span>
             </div>
-            <div class="week-list">
-                <div class="week-day"><span class="week-day-name today">Tue</span><span class="week-day-events">Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Kada, Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Mon</span><span class="week-day-events"><span class="quiet">Clear</span></span></div>
-            </div>
+            <div class="week-list"><div class="week-day"><span class="week-day-name today">Tue</span><span class="week-day-events">Zoe + Leia — Open Studio @ Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Zoe + Leia — Open Studio @ Kada,Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">Duck feeding at school,House Church Call [F]</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events">Zoe's Chinese Class</span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events">Solomon's Porch</span></div><div class="week-day"><span class="week-day-name">Mon</span><span class="week-day-events"><span class="quiet">Clear</span></span></div></div>
         </section>
         
         <section>
             <div class="section-header">
                 <span class="section-number">03</span>
-                <span class="section-title">Doodle Farms</span>
+                <span class="section-title">Groceries</span>
+                <span class="grocery-count">20 items</span>
             </div>
-            <div class="task"><span class="task-bullet">◆</span><span class="task-text">KAL bus login: matthewjlo@gmail.com. Dai</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Zoe swimming at 5pm (not 3:30pm)</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Place Talula Farm order (Tuesday </span></div>
+            <div class="grocery-grid"><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mushrooms</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Raspberry Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Vanilla Bean Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Passion Fruit Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Plain Greek Yoghurt (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Chicken Leg Whole</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Chicken Breast Boneless (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Firm Tofu - Tau Kwa</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Silken Tofu (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mini Watermelon</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Native Mandarins</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Passion Fruit (Yellow)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Achigold Musk Melon</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Papaya</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mango - Best of Season</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Apples</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Avocado Large (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Lemons</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Acai Superfruit Packs</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Broccoli</span></div></div>
         </section>
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 5:00 AM</div>
+            <div class="update-time">Updated 6:04 AM</div>
         </footer>
     </div>
+    
+    <script>
+    (function() {
+        var now = new Date();
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        document.getElementById('dateDisplay').textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+        
+        var h = now.getHours();
+        var greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+        document.getElementById('greetingDisplay').textContent = greet + ', Kristen';
+        
+        // Helper schedule: Gladys weekdays, Marie weekends
+        var dow = now.getDay();
+        var isWeekend = (dow === 0 || dow === 6);
+        if (isWeekend) {
+            document.getElementById('marieCard').classList.add('on-duty');
+            document.getElementById('marieStatus').textContent = 'On Duty';
+        } else {
+            document.getElementById('gladysCard').classList.add('on-duty');
+            document.getElementById('gladysStatus').textContent = 'On Duty';
+        }
+    })();
+    </script>
 </body>
 </html>
