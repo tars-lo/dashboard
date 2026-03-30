@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #1a1a1a;
+            --warm-gray: #f7f6f3;
+            --mid-gray: #888;
+            --accent: #c4a77d;
+            --rule: #e0ded9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--warm-gray);
+            color: var(--black);
+            line-height: 1.6;
+            font-weight: 300;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .date {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--mid-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .greeting {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.25rem;
+        }
+        
+        .weather {
+            font-size: 0.875rem;
+            color: var(--mid-gray);
+        }
+        
+        /* Sections */
+        section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .section-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mid-gray);
+        }
+        
+        /* Events */
+        .event {
+            display: flex;
+            gap: 1rem;
+            padding: 0.875rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .event:last-child {
+            border-bottom: none;
+        }
+        
+        .event-time {
+            font-size: 0.8rem;
+            color: var(--mid-gray);
+            min-width: 5rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .event-title {
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        
+        .event-tag {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        /* Call indicator */
+        .on-call {
+            background: var(--black);
+            color: var(--warm-gray);
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .on-call-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .on-call-text {
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Tasks */
+        .task {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .task:last-child {
+            border-bottom: none;
+        }
+        
+        .task-check {
+            width: 16px;
+            height: 16px;
+            border: 1.5px solid var(--mid-gray);
+            border-radius: 50%;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .task-text {
+            font-size: 0.9rem;
+        }
+        
+        /* Week glance */
+        .week-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.25rem;
+            text-align: center;
+        }
+        
+        .day-col {
+            padding: 0.5rem 0;
+        }
+        
+        .day-name {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mid-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .day-num {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .day-num.today {
+            background: var(--black);
+            color: var(--warm-gray);
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .day-dots {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+        }
+        
+        .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        
+        .dot.call {
+            background: var(--black);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--rule);
+            margin-top: 3rem;
+        }
+        
+        .footer-text {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mid-gray);
+        }
+        
+        .update-time {
+            font-size: 0.75rem;
+            color: var(--mid-gray);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="date">Monday, 30 March 2026</div>
+            <h1 class="greeting">Good morning, Kristen</h1>
+            <div class="weather">26° · Partly cloudy · Singapore</div>
+        </header>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <span class="section-title">The Week</span>
+            </div>
+            <div class="week-grid">
+                <div class="day-col">
+                    <div class="day-name">Mon</div>
+                    <div class="day-num today">30</div>
+                    <div class="day-dots"><span class="dot"></span><span class="dot"></span></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Tue</div>
+                    <div class="day-num">31</div>
+                    <div class="day-dots"><span class="dot"></span></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Wed</div>
+                    <div class="day-num">1</div>
+                    <div class="day-dots"></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Thu</div>
+                    <div class="day-num">2</div>
+                    <div class="day-dots"><span class="dot"></span></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Fri</div>
+                    <div class="day-num">3</div>
+                    <div class="day-dots"></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Sat</div>
+                    <div class="day-num">4</div>
+                    <div class="day-dots"><span class="dot call"></span></div>
+                </div>
+                <div class="day-col">
+                    <div class="day-name">Sun</div>
+                    <div class="day-num">5</div>
+                    <div class="day-dots"><span class="dot call"></span></div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <span class="section-title">Today</span>
+            </div>
+            <div class="event">
+                <span class="event-time">10:00 am</span>
+                <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
+            </div>
+            <div class="event">
+                <span class="event-time">5:00 pm</span>
+                <span class="event-title">Zoe Swimming</span>
+                <span class="event-tag">5pm this week</span>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <span class="section-title">Tomorrow</span>
+            </div>
+            <div class="event">
+                <span class="event-time">10:00 am</span>
+                <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <span class="section-title">Doodle Farms</span>
+            </div>
+            <div class="task">
+                <div class="task-check"></div>
+                <span class="task-text">Order organic eggs (2 dozen)</span>
+            </div>
+            <div class="task">
+                <div class="task-check"></div>
+                <span class="task-text">Sourdough loaf</span>
+            </div>
+            <div class="task">
+                <div class="task-check"></div>
+                <span class="task-text">Mixed greens box</span>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="footer-text">TARS</div>
+            <div class="update-time">Updated 9:52 am</div>
+        </footer>
+    </div>
+</body>
+</html>
