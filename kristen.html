@@ -45,16 +45,18 @@
         .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
         .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
         .grocery-count { font-size: 0.7rem; color: var(--mid-gray); margin-left: auto; }
-        .helper-grid { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
-        .helper-row { display: grid; grid-template-columns: 70px repeat(7, 1fr); text-align: center; font-size: 0.75rem; border-bottom: 1px solid var(--rule); }
-        .helper-row:last-child { border-bottom: none; }
-        .helper-row.header { background: var(--rule); font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mid-gray); padding: 0.5rem 0; }
-        .helper-row.header .weekend { color: var(--accent); }
-        .helper-row span { padding: 0.6rem 0; }
-        .helper-row .helper-name { text-align: left; padding-left: 0.75rem; font-weight: 500; }
-        .helper-row .on { color: var(--sage); }
-        .helper-row .off { color: var(--rule); }
-        .helper-note { font-size: 0.7rem; color: var(--mid-gray); text-align: center; margin-top: 0.75rem; font-style: italic; }
+        .helper-info { font-size: 0.8rem; margin-bottom: 1rem; padding: 0.75rem; background: rgba(122, 154, 122, 0.08); border-radius: 4px; }
+        .helper-weekday { color: var(--mid-gray); }
+        .helper-weekday strong { color: var(--black); }
+        .helper-weekend-title { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .helper-weekend-list { }
+        .helper-day { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--rule); font-size: 0.85rem; }
+        .helper-day:last-child { border-bottom: none; }
+        .helper-day .date { color: var(--mid-gray); }
+        .helper-day .name { font-weight: 500; }
+        .helper-day .name.gladys { color: var(--sage); }
+        .helper-day .name.marie { color: var(--accent); }
+        .helper-day .note { font-size: 0.7rem; color: var(--mid-gray); margin-left: 0.5rem; }
         footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
         .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
         .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
@@ -105,29 +107,16 @@
                 <span class="section-number">04</span>
                 <span class="section-title">Helper Schedule</span>
             </div>
-            <div class="helper-grid">
-                <div class="helper-row header">
-                    <span></span>
-                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-                    <span class="weekend">Sat</span><span class="weekend">Sun</span>
-                </div>
-                <div class="helper-row">
-                    <span class="helper-name">Gladys</span>
-                    <span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span>
-                    <span class="off">—</span><span class="off">—</span>
-                </div>
-                <div class="helper-row">
-                    <span class="helper-name">Marie</span>
-                    <span class="off">—</span><span class="off">—</span><span class="off">—</span><span class="off">—</span><span class="off">—</span>
-                    <span class="on">✓</span><span class="on">✓</span>
-                </div>
+            <div class="helper-info">
+                <div class="helper-weekday">Weekdays: <strong>Both on duty</strong> — Gladys (Lily) · Marie (Household + Zoe)</div>
             </div>
-            <div class="helper-note">Gladys → Lily · Marie → Household + Zoe</div>
+            <div class="helper-weekend-title">Upcoming Weekends & Holidays</div>
+            <div class="helper-weekend-list"><div class="helper-day"><span class="date">Fri Apr 3</span><span class="name gladys">Gladys <span class="note">(Good Friday)</span></span></div><div class="helper-day"><span class="date">Sat Apr 4</span><span class="name gladys">Gladys </span></div><div class="helper-day"><span class="date">Sun Apr 5</span><span class="name marie">Marie <span class="note">(Easter Sunday)</span></span></div><div class="helper-day"><span class="date">Mon Apr 6</span><span class="name marie">Marie <span class="note">(Easter Monday)</span></span></div><div class="helper-day"><span class="date">Sat Apr 11</span><span class="name marie">Marie </span></div><div class="helper-day"><span class="date">Sun Apr 12</span><span class="name gladys">Gladys </span></div></div>
         </section>
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 6:17 AM</div>
+            <div class="update-time">Updated 6:26 AM</div>
         </footer>
     </div>
     
