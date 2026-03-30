@@ -94,6 +94,28 @@
             color: var(--mid-gray);
         }
         
+        /* On-call banner */
+        .on-call-banner {
+            background: var(--black);
+            color: var(--warm-gray);
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .on-call-banner .label {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        
+        .on-call-banner .days {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1rem;
+        }
+        
         /* Events */
         .event {
             display: flex;
@@ -118,43 +140,59 @@
             flex: 1;
         }
         
-        .event-tag {
-            font-size: 0.65rem;
+        .event-note {
+            font-size: 0.75rem;
+            color: var(--mid-gray);
+            font-style: italic;
+        }
+        
+        /* Week ahead - simple list */
+        .week-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        
+        .week-day {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--rule);
+        }
+        
+        .week-day:last-child {
+            border-bottom: none;
+        }
+        
+        .week-day-name {
+            font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--accent);
+            color: var(--mid-gray);
+            min-width: 3rem;
+        }
+        
+        .week-day-name.today {
+            color: var(--black);
             font-weight: 500;
         }
         
-        /* Call indicator */
-        .on-call {
-            background: var(--black);
-            color: var(--warm-gray);
-            padding: 1rem 1.25rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .week-day-events {
+            font-size: 0.85rem;
+            flex: 1;
         }
         
-        .on-call-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
+        .week-day-events.quiet {
+            color: var(--mid-gray);
+            font-style: italic;
         }
         
-        .on-call-text {
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-        }
-        
-        /* Tasks */
+        /* Tasks - simple list with bullets */
         .task {
             display: flex;
             align-items: flex-start;
             gap: 0.75rem;
-            padding: 0.75rem 0;
+            padding: 0.6rem 0;
             border-bottom: 1px solid var(--rule);
         }
         
@@ -162,70 +200,21 @@
             border-bottom: none;
         }
         
-        .task-check {
-            width: 16px;
-            height: 16px;
-            border: 1.5px solid var(--mid-gray);
-            border-radius: 50%;
-            margin-top: 2px;
-            flex-shrink: 0;
+        .task-bullet {
+            color: var(--accent);
+            font-size: 0.6rem;
+            margin-top: 0.4rem;
         }
         
         .task-text {
             font-size: 0.9rem;
         }
         
-        /* Week glance */
-        .week-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.25rem;
-            text-align: center;
-        }
-        
-        .day-col {
-            padding: 0.5rem 0;
-        }
-        
-        .day-name {
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+        .no-tasks {
+            font-size: 0.85rem;
             color: var(--mid-gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .day-num {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .day-num.today {
-            background: var(--black);
-            color: var(--warm-gray);
-            width: 28px;
-            height: 28px;
-            line-height: 28px;
-            border-radius: 50%;
-            margin: 0 auto 0.5rem;
-        }
-        
-        .day-dots {
-            display: flex;
-            justify-content: center;
-            gap: 3px;
-        }
-        
-        .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-        
-        .dot.call {
-            background: var(--black);
+            font-style: italic;
+            padding: 0.5rem 0;
         }
         
         /* Footer */
@@ -258,53 +247,14 @@
             <div class="weather">26° · Partly cloudy · Singapore</div>
         </header>
         
-        <section>
-            <div class="section-header">
-                <span class="section-number">01</span>
-                <span class="section-title">The Week</span>
-            </div>
-            <div class="week-grid">
-                <div class="day-col">
-                    <div class="day-name">Mon</div>
-                    <div class="day-num today">30</div>
-                    <div class="day-dots"><span class="dot"></span><span class="dot"></span></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Tue</div>
-                    <div class="day-num">31</div>
-                    <div class="day-dots"><span class="dot"></span></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Wed</div>
-                    <div class="day-num">1</div>
-                    <div class="day-dots"></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Thu</div>
-                    <div class="day-num">2</div>
-                    <div class="day-dots"><span class="dot"></span></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Fri</div>
-                    <div class="day-num">3</div>
-                    <div class="day-dots"></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Sat</div>
-                    <div class="day-num">4</div>
-                    <div class="day-dots"><span class="dot call"></span></div>
-                </div>
-                <div class="day-col">
-                    <div class="day-name">Sun</div>
-                    <div class="day-num">5</div>
-                    <div class="day-dots"><span class="dot call"></span></div>
-                </div>
-            </div>
-        </section>
+        <div class="on-call-banner">
+            <div class="label">On Call This Week</div>
+            <div class="days">Saturday & Sunday</div>
+        </div>
         
         <section>
             <div class="section-header">
-                <span class="section-number">02</span>
+                <span class="section-number">01</span>
                 <span class="section-title">Today</span>
             </div>
             <div class="event">
@@ -314,43 +264,68 @@
             <div class="event">
                 <span class="event-time">5:00 pm</span>
                 <span class="event-title">Zoe Swimming</span>
-                <span class="event-tag">5pm this week</span>
+            </div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <span class="section-title">This Week</span>
+            </div>
+            <div class="week-list">
+                <div class="week-day">
+                    <span class="week-day-name today">Mon</span>
+                    <span class="week-day-events">Kada, Swimming</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Tue</span>
+                    <span class="week-day-events">Kada</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Wed</span>
+                    <span class="week-day-events quiet">Clear</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Thu</span>
+                    <span class="week-day-events">Chinese Class</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Fri</span>
+                    <span class="week-day-events quiet">Clear</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Sat</span>
+                    <span class="week-day-events">On call · Matthew has Zoe</span>
+                </div>
+                <div class="week-day">
+                    <span class="week-day-name">Sun</span>
+                    <span class="week-day-events">On call</span>
+                </div>
             </div>
         </section>
         
         <section>
             <div class="section-header">
                 <span class="section-number">03</span>
-                <span class="section-title">Tomorrow</span>
-            </div>
-            <div class="event">
-                <span class="event-time">10:00 am</span>
-                <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
-            </div>
-        </section>
-        
-        <section>
-            <div class="section-header">
-                <span class="section-number">04</span>
                 <span class="section-title">Doodle Farms</span>
             </div>
             <div class="task">
-                <div class="task-check"></div>
+                <span class="task-bullet">◆</span>
                 <span class="task-text">Order organic eggs (2 dozen)</span>
             </div>
             <div class="task">
-                <div class="task-check"></div>
+                <span class="task-bullet">◆</span>
                 <span class="task-text">Sourdough loaf</span>
             </div>
             <div class="task">
-                <div class="task-check"></div>
+                <span class="task-bullet">◆</span>
                 <span class="task-text">Mixed greens box</span>
             </div>
         </section>
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 9:52 am</div>
+            <div class="update-time">Updated 10:35 am</div>
         </footer>
     </div>
 </body>
