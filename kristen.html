@@ -6,265 +6,59 @@
     <title>Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --black: #1a1a1a;
-            --warm-gray: #f7f6f3;
-            --mid-gray: #888;
-            --accent: #c4a77d;
-            --rule: #e0ded9;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--warm-gray);
-            color: var(--black);
-            line-height: 1.6;
-            font-weight: 300;
-            min-height: 100vh;
-            padding: 0;
-        }
-        
-        .container {
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 3rem 1.5rem;
-        }
-        
-        /* Header */
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--rule);
-        }
-        
-        .date {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--mid-gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .greeting {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 2rem;
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
-        }
-        
-        .weather {
-            font-size: 0.875rem;
-            color: var(--mid-gray);
-        }
-        
-        /* Sections */
-        section {
-            margin-bottom: 2.5rem;
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--rule);
-        }
-        
-        .section-number {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 0.75rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        
-        .section-title {
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--mid-gray);
-        }
-        
-        /* On-call banner */
-        .on-call-banner {
-            background: var(--black);
-            color: var(--warm-gray);
-            padding: 1rem 1.25rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .on-call-banner .label {
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.25rem;
-        }
-        
-        .on-call-banner .days {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1rem;
-        }
-        
-        /* Events */
-        .event {
-            display: flex;
-            gap: 1rem;
-            padding: 0.875rem 0;
-            border-bottom: 1px solid var(--rule);
-        }
-        
-        .event:last-child {
-            border-bottom: none;
-        }
-        
-        .event-time {
-            font-size: 0.8rem;
-            color: var(--mid-gray);
-            min-width: 5rem;
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .event-title {
-            font-size: 0.9rem;
-            flex: 1;
-        }
-        
-        .event-note {
-            font-size: 0.75rem;
-            color: var(--mid-gray);
-            font-style: italic;
-        }
-        
-        /* Week ahead - simple list */
-        .week-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-        
-        .week-day {
-            display: flex;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--rule);
-        }
-        
-        .week-day:last-child {
-            border-bottom: none;
-        }
-        
-        .week-day-name {
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--mid-gray);
-            min-width: 3rem;
-        }
-        
-        .week-day-name.today {
-            color: var(--black);
-            font-weight: 500;
-        }
-        
-        .week-day-events {
-            font-size: 0.85rem;
-            flex: 1;
-        }
-        
-        .week-day-events.quiet {
-            color: var(--mid-gray);
-            font-style: italic;
-        }
-        
-        /* Tasks - simple list with bullets */
-        .task {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid var(--rule);
-        }
-        
-        .task:last-child {
-            border-bottom: none;
-        }
-        
-        .task-bullet {
-            color: var(--accent);
-            font-size: 0.6rem;
-            margin-top: 0.4rem;
-        }
-        
-        .task-text {
-            font-size: 0.9rem;
-        }
-        
-        .no-tasks {
-            font-size: 0.85rem;
-            color: var(--mid-gray);
-            font-style: italic;
-            padding: 0.5rem 0;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--rule);
-            margin-top: 3rem;
-        }
-        
-        .footer-text {
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--mid-gray);
-        }
-        
-        .update-time {
-            font-size: 0.75rem;
-            color: var(--mid-gray);
-            margin-top: 0.5rem;
-        }
+        :root { --black: #1a1a1a; --warm-gray: #f7f6f3; --mid-gray: #888; --accent: #c4a77d; --rule: #e0ded9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--warm-gray); color: var(--black); line-height: 1.6; font-weight: 300; min-height: 100vh; }
+        .container { max-width: 540px; margin: 0 auto; padding: 3rem 1.5rem; }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+        .date { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .greeting { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+        .weather { font-size: 0.875rem; color: var(--mid-gray); }
+        section { margin-bottom: 2.5rem; }
+        .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+        .section-number { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+        .section-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid-gray); }
+        .on-call-banner { background: var(--black); color: var(--warm-gray); padding: 1rem 1.25rem; margin-bottom: 2rem; text-align: center; }
+        .on-call-banner .label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem; }
+        .on-call-banner .days { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; }
+        .event { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--rule); }
+        .event:last-child { border-bottom: none; }
+        .event-time { font-size: 0.8rem; color: var(--mid-gray); min-width: 7rem; font-variant-numeric: tabular-nums; }
+        .event-title { font-size: 0.9rem; flex: 1; }
+        .week-day { display: flex; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+        .week-day:last-child { border-bottom: none; }
+        .week-day-name { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); min-width: 3rem; }
+        .week-day-name.today { color: var(--black); font-weight: 500; }
+        .week-day-events { font-size: 0.85rem; flex: 1; }
+        .quiet { color: var(--mid-gray); font-style: italic; }
+        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+        .task:last-child { border-bottom: none; }
+        .task-bullet { color: var(--accent); font-size: 0.6rem; margin-top: 0.4rem; }
+        .task-text { font-size: 0.9rem; }
+        .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
+        footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
+        .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
+        .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="date">Monday, 30 March 2026</div>
-            <h1 class="greeting">Good morning, Kristen</h1>
-            <div class="weather">26° · Partly cloudy · Singapore</div>
+            <h1 class="greeting">Good afternoon, Kristen</h1>
+            <div class="weather">+32°C · Partly cloudy · Singapore</div>
         </header>
         
-        <div class="on-call-banner">
-            <div class="label">On Call This Week</div>
-            <div class="days">Saturday & Sunday</div>
-        </div>
+        <div class="on-call-banner"><div class="label">On Call This Week</div><div class="days">Friday,Monday</div></div>
         
         <section>
             <div class="section-header">
                 <span class="section-number">01</span>
                 <span class="section-title">Today</span>
             </div>
-            <div class="event">
-                <span class="event-time">10:00 am</span>
-                <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
-            </div>
-            <div class="event">
-                <span class="event-time">5:00 pm</span>
-                <span class="event-title">Zoe Swimming</span>
-            </div>
+            <div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div>
+<div class="event"><span class="event-time">5:00pm-6:00pm</span><span class="event-title">Zoe Swimming (5pm this week only)</span></div>
+<div class="event"><span class="event-time">All day</span><span class="event-title">Call</span></div>
         </section>
         
         <section>
@@ -273,34 +67,7 @@
                 <span class="section-title">This Week</span>
             </div>
             <div class="week-list">
-                <div class="week-day">
-                    <span class="week-day-name today">Mon</span>
-                    <span class="week-day-events">Kada, Swimming</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Tue</span>
-                    <span class="week-day-events">Kada</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Wed</span>
-                    <span class="week-day-events quiet">Clear</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Thu</span>
-                    <span class="week-day-events">Chinese Class</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Fri</span>
-                    <span class="week-day-events quiet">Clear</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Sat</span>
-                    <span class="week-day-events">On call · Matthew has Zoe</span>
-                </div>
-                <div class="week-day">
-                    <span class="week-day-name">Sun</span>
-                    <span class="week-day-events">On call</span>
-                </div>
+                <div class="week-day"><span class="week-day-name today">Mon</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Tue</span><span class="week-day-events">Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Kada, Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events"><span class="quiet">Clear</span></span></div>
             </div>
         </section>
         
@@ -309,23 +76,17 @@
                 <span class="section-number">03</span>
                 <span class="section-title">Doodle Farms</span>
             </div>
-            <div class="task">
-                <span class="task-bullet">◆</span>
-                <span class="task-text">Order organic eggs (2 dozen)</span>
-            </div>
-            <div class="task">
-                <span class="task-bullet">◆</span>
-                <span class="task-text">Sourdough loaf</span>
-            </div>
-            <div class="task">
-                <span class="task-bullet">◆</span>
-                <span class="task-text">Mixed greens box</span>
-            </div>
+            <div class="task"><span class="task-bullet">◆</span><span class="task-text">Cathay pw (!!! No period)</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">🔑 梳妝袋</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">🍎1366ttAM</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">App Store 136..ttxx</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">KAL bus login: matthewjlo@gmail.com. Dai</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Zoe swimming at 5pm (not 3:30pm)</span></div>
         </section>
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 10:35 am</div>
+            <div class="update-time">Updated 2:03 PM</div>
         </footer>
     </div>
 </body>
