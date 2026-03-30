@@ -2,404 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-        
-        :root {
-            --bg: #fef9f5;
-            --card: #ffffff;
-            --text: #4a4a4a;
-            --muted: #888;
-            --blush: #e8b4b8;
-            --blush-light: #fdf2f3;
-            --sage: #9cb99c;
-            --sage-light: #eef4ee;
-            --honey: #d4a96a;
-            --honey-light: #faf3e8;
-            --blue-light: #e8f4fa;
-            --lavender: #d4c4e8;
-            --lavender-light: #f5f0fa;
-            --border: #e8e2dc;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { -webkit-text-size-adjust: 100%; }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
-            padding-bottom: 20px;
-        }
-        
-        /* ===== HEADER ===== */
-        .header {
-            background: linear-gradient(160deg, #fdf2f3 0%, #f5f0fa 100%);
-            padding: 28px 20px;
-            text-align: center;
-        }
-        .date { 
-            font-size: 12px; 
-            letter-spacing: 0.15em; 
-            text-transform: uppercase; 
-            color: var(--muted);
-            margin-bottom: 6px;
-        }
-        .header h1 { 
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 26px; 
-            font-weight: 500; 
-            color: #3d3d3d;
-            margin-bottom: 8px;
-        }
-        .weather { 
-            font-size: 14px; 
-            color: var(--muted);
-        }
-        
-        /* ===== ON CALL BANNER ===== */
-        .on-call-banner {
-            background: linear-gradient(135deg, var(--blush) 0%, #d4a4a8 100%);
-            color: white;
-            padding: 16px 20px;
-            text-align: center;
-            margin: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(232, 180, 184, 0.3);
-        }
-        .on-call-banner .label {
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            opacity: 0.9;
-            margin-bottom: 4px;
-        }
-        .on-call-banner .days {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 18px;
-            font-weight: 500;
-        }
-        
-        /* ===== SECTIONS ===== */
-        .section {
-            background: var(--card);
-            margin: 0 20px 16px;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 18px 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        .section-number {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 13px;
-            color: var(--blush);
-            font-weight: 600;
-        }
-        .section-title {
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-        
-        .section-body { padding: 14px 18px; }
-        
-        /* ===== EVENTS ===== */
-        .event {
-            display: flex;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-            align-items: flex-start;
-        }
+        :root { --black: #1a1a1a; --warm-gray: #f7f6f3; --mid-gray: #888; --accent: #c4a77d; --rule: #e0ded9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--warm-gray); color: var(--black); line-height: 1.6; font-weight: 300; min-height: 100vh; }
+        .container { max-width: 540px; margin: 0 auto; padding: 3rem 1.5rem; }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+        .date { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .greeting { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+        .weather { font-size: 0.875rem; color: var(--mid-gray); }
+        section { margin-bottom: 2.5rem; }
+        .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+        .section-number { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+        .section-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid-gray); }
+        .on-call-banner { background: var(--black); color: var(--warm-gray); padding: 1rem 1.25rem; margin-bottom: 2rem; text-align: center; }
+        .on-call-banner .label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem; }
+        .on-call-banner .days { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; }
+        .event { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--rule); }
         .event:last-child { border-bottom: none; }
-        
-        .event-emoji {
-            font-size: 20px;
-            line-height: 1;
-        }
-        .event-time {
-            font-size: 13px;
-            color: var(--blush);
-            font-weight: 500;
-            min-width: 100px;
-        }
-        .event-title {
-            font-size: 15px;
-            flex: 1;
-        }
-        
-        /* ===== WEEK VIEW ===== */
-        .week-day {
-            display: flex;
-            gap: 14px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-        }
+        .event-time { font-size: 0.8rem; color: var(--mid-gray); min-width: 7rem; font-variant-numeric: tabular-nums; }
+        .event-title { font-size: 0.9rem; flex: 1; }
+        .week-day { display: flex; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
         .week-day:last-child { border-bottom: none; }
-        
-        .week-day-name {
-            font-size: 12px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            min-width: 40px;
-        }
-        .week-day-name.today {
-            color: var(--blush);
-            font-weight: 600;
-        }
-        .week-day-events {
-            font-size: 14px;
-            flex: 1;
-            line-height: 1.6;
-        }
-        .quiet {
-            color: var(--muted);
-            font-style: italic;
-        }
-        .tag-oncall {
-            display: inline-block;
-            background: var(--blush-light);
-            color: var(--blush);
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 500;
-        }
-        
-        /* ===== RECURRING ===== */
-        .recurring-item {
-            display: flex;
-            gap: 14px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
-        }
-        .recurring-item:last-child { border-bottom: none; }
-        
-        .recurring-emoji {
-            font-size: 18px;
-        }
-        .recurring-time {
-            font-size: 13px;
-            color: var(--sage);
-            font-weight: 500;
-            min-width: 90px;
-        }
-        .recurring-title {
-            font-size: 14px;
-            flex: 1;
-        }
-        
-        /* ===== HELPER SCHEDULE ===== */
-        .helper-row {
-            display: flex;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
-        }
-        .helper-row:last-child { border-bottom: none; }
-        
-        .helper-date {
-            font-size: 13px;
-            color: var(--muted);
-            min-width: 90px;
-        }
-        .helper-name {
-            font-size: 14px;
-            flex: 1;
-            font-weight: 500;
-        }
-        .helper-note {
-            font-size: 12px;
-            color: var(--honey);
-            font-style: italic;
-        }
-        
-        /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--muted);
-        }
-        .footer-logo {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        .footer-time {
-            font-size: 11px;
-        }
+        .week-day-name { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); min-width: 3rem; }
+        .week-day-name.today { color: var(--black); font-weight: 500; }
+        .week-day-events { font-size: 0.85rem; flex: 1; }
+        .quiet { color: var(--mid-gray); font-style: italic; }
+        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+        .task:last-child { border-bottom: none; }
+        .task-bullet { color: var(--accent); font-size: 0.6rem; margin-top: 0.4rem; }
+        .task-text { font-size: 0.9rem; }
+        .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
+        footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
+        .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
+        .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="date">Monday, 30 March 2026</div>
-        <h1>Good evening, Kristen</h1>
-        <div class="weather">☀️ 32°C · Partly cloudy</div>
-    </div>
-    
-    <div class="on-call-banner">
-        <div class="label">🏥 On Call This Week</div>
-        <div class="days">Friday 3 Apr (Good Friday)</div>
-    </div>
-    
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">01</span>
-            <span class="section-title">Today</span>
-        </div>
-        <div class="section-body">
-            <div class="event">
-                <span class="event-emoji">🎨</span>
-                <span class="event-time">10:00am – 12:30pm</span>
-                <span class="event-title">Zoe + Leia — Open Studio @ Kada</span>
+    <div class="container">
+        <header>
+            <div class="date">Tuesday, 31 March 2026</div>
+            <h1 class="greeting">Good morning, Kristen</h1>
+            <div class="weather">+27°C · Partly cloudy · Singapore</div>
+        </header>
+        
+        <div class="on-call-banner"><div class="label">On Call This Week</div><div class="days">Friday</div></div>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <span class="section-title">Today</span>
             </div>
-            <div class="event">
-                <span class="event-emoji">🏊‍♀️</span>
-                <span class="event-time">5:00pm – 6:00pm</span>
-                <span class="event-title">Zoe Swimming (5pm this week only)</span>
+            <div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <span class="section-title">This Week</span>
             </div>
-        </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">02</span>
-            <span class="section-title">This Week</span>
-        </div>
-        <div class="section-body">
-            <div class="week-day">
-                <span class="week-day-name today">Mon</span>
-                <span class="week-day-events">🎨 Kada · 🏊‍♀️ Zoe Swimming 5pm</span>
+            <div class="week-list">
+                <div class="week-day"><span class="week-day-name today">Tue</span><span class="week-day-events">Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Kada, Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Mon</span><span class="week-day-events"><span class="quiet">Clear</span></span></div>
             </div>
-            <div class="week-day">
-                <span class="week-day-name">Tue</span>
-                <span class="week-day-events">🎨 Kada</span>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <span class="section-title">Doodle Farms</span>
             </div>
-            <div class="week-day">
-                <span class="week-day-name">Wed</span>
-                <span class="week-day-events">🎨 Kada · 🚗 Clean car</span>
-            </div>
-            <div class="week-day">
-                <span class="week-day-name">Thu</span>
-                <span class="week-day-events">🎭 Play date — Pottery painting (Zoe + Yuna)</span>
-            </div>
-            <div class="week-day">
-                <span class="week-day-name">Fri</span>
-                <span class="week-day-events">✝️ Good Friday · ⛪ House Church 8pm <span class="tag-oncall">🏥 On call</span></span>
-            </div>
-            <div class="week-day">
-                <span class="week-day-name">Sat</span>
-                <span class="week-day-events">🎨 Art @ Kada 10:30am · 📚 Chinese 3pm · 👩‍👧 <em>Gladys</em></span>
-            </div>
-            <div class="week-day">
-                <span class="week-day-name">Sun</span>
-                <span class="week-day-events">⛪ Solomon's Porch 10am · 🐣 Easter · 👩‍👧 <em>Marie</em></span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">03</span>
-            <span class="section-title">Weekly Recurring</span>
-        </div>
-        <div class="section-body">
-            <div class="recurring-item">
-                <span class="recurring-emoji">🎨</span>
-                <span class="recurring-time">Sat 10:30am</span>
-                <span class="recurring-title">Art at Kada (Zoe)</span>
-            </div>
-            <div class="recurring-item">
-                <span class="recurring-emoji">📚</span>
-                <span class="recurring-time">Sat 3:00pm</span>
-                <span class="recurring-title">Chinese Class (Zoe)</span>
-            </div>
-            <div class="recurring-item">
-                <span class="recurring-emoji">⛪</span>
-                <span class="recurring-time">Sun 10:00am</span>
-                <span class="recurring-title">Solomon's Porch</span>
-            </div>
-            <div class="recurring-item">
-                <span class="recurring-emoji">🏠</span>
-                <span class="recurring-time">Fri 8:00pm</span>
-                <span class="recurring-title">House Church</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="section">
-        <div class="section-header">
-            <span class="section-number">04</span>
-            <span class="section-title">👩‍👧 Helper Schedule · April</span>
-        </div>
-        <div class="section-body">
-            <div class="helper-row">
-                <span class="helper-date">Fri 3 Apr</span>
-                <span class="helper-name">Gladys</span>
-                <span class="helper-note">✝️ Good Friday</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sat 4 Apr</span>
-                <span class="helper-name">Gladys</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sun 5 Apr</span>
-                <span class="helper-name">Marie</span>
-                <span class="helper-note">🐣 Easter</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sat 11 Apr</span>
-                <span class="helper-name">Marie</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sun 12 Apr</span>
-                <span class="helper-name">Gladys</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sat 18 Apr</span>
-                <span class="helper-name">Gladys</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sun 19 Apr</span>
-                <span class="helper-name">Marie</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sat 25 Apr</span>
-                <span class="helper-name">Marie</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Sun 26 Apr</span>
-                <span class="helper-name">Gladys</span>
-            </div>
-            <div class="helper-row">
-                <span class="helper-date">Apr 28 – May 4</span>
-                <span class="helper-name">Marie away ✈️</span>
-                <span class="helper-note">Returns May 5, 9am</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-logo">🏠 Lo Home</div>
-        <div class="footer-time">Updated 8:00 PM</div>
+            <div class="task"><span class="task-bullet">◆</span><span class="task-text">KAL bus login: matthewjlo@gmail.com. Dai</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Zoe swimming at 5pm (not 3:30pm)</span></div>
+<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Place Talula Farm order (Tuesday </span></div>
+        </section>
+        
+        <footer>
+            <div class="footer-text">TARS</div>
+            <div class="update-time">Updated 5:00 AM</div>
+        </footer>
     </div>
 </body>
 </html>
