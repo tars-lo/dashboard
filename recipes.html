@@ -2,485 +2,484 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Lo Family Recipes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Family Recipes</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
         :root {
-            --black: #1a1a1a;
-            --warm-gray: #f7f6f3;
-            --mid-gray: #888;
-            --accent: #c4a77d;
-            --rule: #e0ded9;
-            --tag-bg: #f0ebe3;
+            --bg: #fef9f5;
+            --card: #ffffff;
+            --text: #4a4a4a;
+            --muted: #888;
+            --blush: #e8b4b8;
+            --blush-light: #fdf2f3;
+            --sage: #9cb99c;
+            --sage-light: #eef4ee;
+            --honey: #d4a96a;
+            --honey-light: #faf3e8;
+            --blue-light: #e8f4fa;
+            --lavender: #d4c4e8;
+            --lavender-light: #f5f0fa;
+            --border: #e8e2dc;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--warm-gray);
-            color: var(--black);
-            line-height: 1.6;
-            font-weight: 300;
-            min-height: 100vh;
-        }
-        .container { max-width: 600px; margin: 0 auto; padding: 2rem 1.5rem; }
-        header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
-        .title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
-        .subtitle { font-size: 0.85rem; color: var(--mid-gray); }
         
-        .filters { margin-bottom: 1.5rem; }
-        .filter-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
-        .filter-btn {
-            padding: 0.4rem 0.75rem;
-            font-size: 0.75rem;
-            border: 1px solid var(--rule);
-            background: white;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { -webkit-text-size-adjust: 100%; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(160deg, #faf3e8 0%, #f5f0fa 100%);
+            padding: 28px 20px;
+            text-align: center;
+        }
+        .header h1 { 
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 26px; 
+            font-weight: 600; 
+            color: #3d3d3d;
+            margin-bottom: 4px;
+        }
+        .header p { 
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px; 
+            color: #777;
+            font-style: italic;
+        }
+        
+        /* ===== FILTERS ===== */
+        .filters {
+            background: var(--card);
+            padding: 20px;
+        }
+        
+        .section { margin-bottom: 20px; }
+        .section:last-child { margin-bottom: 0; }
+        
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        
+        /* Search */
+        .search-box {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            font-size: 16px;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
+            background-size: 20px;
+            -webkit-appearance: none;
+        }
+        .search-box:focus { outline: none; border-color: var(--honey); }
+        
+        /* Buttons */
+        .btn-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        
+        .btn {
+            padding: 10px 16px;
+            border: 2px solid var(--border);
             border-radius: 20px;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.15s;
         }
-        .filter-btn:hover { border-color: var(--accent); }
-        .filter-btn.active { background: var(--black); color: white; border-color: var(--black); }
+        .btn.active { 
+            background: var(--honey-light); 
+            border-color: var(--honey); 
+            color: var(--text); 
+        }
+        .btn.cuisine-active { 
+            background: var(--lavender-light); 
+            border-color: var(--lavender); 
+            color: var(--text); 
+        }
         
-        .recipe-list { display: flex; flex-direction: column; gap: 1rem; }
+        .count {
+            text-align: center;
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid var(--border);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--muted);
+        }
+        
+        /* ===== CARDS ===== */
+        .recipe-list {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
         .recipe-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.25rem;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             cursor: pointer;
             transition: box-shadow 0.2s;
-            border: 1px solid var(--rule);
         }
-        .recipe-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .recipe-card:active { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
         .recipe-card.hidden { display: none; }
+        
         .recipe-name {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.1rem;
+            font-size: 17px;
             font-weight: 500;
-            margin-bottom: 0.25rem;
+            margin-bottom: 6px;
+            line-height: 1.35;
         }
-        .recipe-meta { font-size: 0.8rem; color: var(--mid-gray); margin-bottom: 0.5rem; }
-        .recipe-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .recipe-meta {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        .recipe-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
         .tag {
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            background: var(--tag-bg);
-            border-radius: 10px;
-            color: var(--mid-gray);
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: var(--sage-light);
+            color: var(--sage);
+            font-weight: 500;
         }
+        .tag.cuisine { background: var(--lavender-light); color: #9b8bb8; }
         
-        .modal-overlay {
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
+            color: var(--muted);
+        }
+        .empty.hidden { display: none; }
+        
+        /* ===== MODAL ===== */
+        .overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 100;
-            overflow-y: auto;
-            padding: 1rem;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+            align-items: flex-end;
+            justify-content: center;
         }
-        .modal-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+        .overlay.open { display: flex; }
+        
         .modal {
-            background: white;
-            border-radius: 12px;
-            max-width: 560px;
+            background: var(--card);
             width: 100%;
-            margin: 2rem auto;
-            max-height: calc(100vh - 4rem);
-            overflow-y: auto;
+            max-width: 500px;
+            max-height: 90vh;
+            border-radius: 24px 24px 0 0;
+            overflow: hidden;
+            animation: rise 0.25s ease;
         }
+        @keyframes rise {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
         .modal-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: white;
-            border-radius: 12px 12px 0 0;
-        }
-        .modal-close {
-            float: right;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--mid-gray);
-            line-height: 1;
+            background: var(--card);
         }
         .modal-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 1.4rem;
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-            padding-right: 2rem;
+            font-size: 20px;
+            font-weight: 600;
+            flex: 1;
+            padding-right: 12px;
         }
-        .modal-meta { font-size: 0.85rem; color: var(--mid-gray); }
-        .modal-body { padding: 1.5rem; }
-        .modal-section { margin-bottom: 1.5rem; }
-        .modal-section:last-child { margin-bottom: 0; }
-        .modal-section-title {
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-        .modal-section ul { padding-left: 1.25rem; }
-        .modal-section li { margin-bottom: 0.35rem; font-size: 0.9rem; }
-        .modal-section ol { padding-left: 1.25rem; }
-        .modal-section ol li { margin-bottom: 0.6rem; font-size: 0.9rem; }
-        
-        footer {
+        .modal-x {
+            width: 36px;
+            height: 36px;
+            background: var(--bg);
+            border: none;
+            border-radius: 50%;
+            font-size: 22px;
+            line-height: 36px;
             text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--rule);
-            margin-top: 2rem;
+            cursor: pointer;
+            color: var(--muted);
         }
-        .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
+        
+        .modal-body {
+            padding: 20px;
+            max-height: calc(90vh - 80px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .modal-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 16px;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 16px;
+            padding: 14px 16px;
+            background: var(--honey-light);
+            border-radius: 14px;
+        }
+        .modal-meta span { display: flex; align-items: center; gap: 5px; }
+        
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .modal-tag {
+            background: var(--sage-light);
+            padding: 6px 12px;
+            border-radius: 14px;
+            font-size: 12px;
+            color: var(--sage);
+            font-weight: 500;
+        }
+        .modal-tag.cuisine { background: var(--lavender-light); color: #9b8bb8; }
+        
+        .modal-section { margin-bottom: 20px; }
+        .modal-section:last-child { margin-bottom: 0; }
+        .modal-section h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        .modal-section ul, .modal-section ol {
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .modal-section li { margin: 5px 0; }
+        
+        .modal-box {
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .modal-box.tip { background: var(--honey-light); }
+        .modal-box.source { background: var(--blue-light); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 class="title">Lo Family Recipes</h1>
-            <p class="subtitle">22 recipes • Built with love by TARS</p>
-        </header>
+    <div class="header">
+        <h1>🍳 Family Recipes</h1>
+        <p>Lo Family favorites</p>
+    </div>
+    
+    <div class="filters">
+        <div class="section">
+            <input type="text" class="search-box" placeholder="Search recipes..." id="search">
+        </div>
         
-        <div class="filters">
-            <div class="filter-row" id="protein-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="chicken">🍗 Chicken</button>
-                <button class="filter-btn" data-filter="pork">🥩 Pork</button>
-                <button class="filter-btn" data-filter="beef">🥩 Beef</button>
-                <button class="filter-btn" data-filter="tofu">🧈 Tofu</button>
-                <button class="filter-btn" data-filter="seafood">🦐 Seafood</button>
-                <button class="filter-btn" data-filter="vegetarian">🥗 Vegetarian</button>
-            </div>
-            <div class="filter-row" id="cuisine-filters">
-                <button class="filter-btn" data-filter="chinese">Chinese</button>
-                <button class="filter-btn" data-filter="western">Western</button>
-                <button class="filter-btn" data-filter="indian">Indian</button>
-                <button class="filter-btn" data-filter="soup">Soup</button>
-                <button class="filter-btn" data-filter="salad">Salad</button>
-                <button class="filter-btn" data-filter="breakfast">Breakfast</button>
+        <div class="section">
+            <div class="section-title">🥩 Protein</div>
+            <div class="btn-grid" id="proteinBtns">
+                <button class="btn active" data-protein="all">All</button>
+                <button class="btn" data-protein="chicken">🍗 Chicken</button>
+                <button class="btn" data-protein="pork">🥓 Pork</button>
+                <button class="btn" data-protein="beef">🥩 Beef</button>
+                <button class="btn" data-protein="seafood">🦐 Seafood</button>
+                <button class="btn" data-protein="tofu">🧈 Tofu</button>
+                <button class="btn" data-protein="vegetarian">🥬 Veg</button>
             </div>
         </div>
         
-        <div class="recipe-list" id="recipe-list"></div>
+        <div class="section">
+            <div class="section-title">🌍 Cuisine</div>
+            <div class="btn-grid" id="cuisineBtns">
+                <button class="btn active" data-cuisine="all">All</button>
+                <button class="btn" data-cuisine="chinese">🥢 Chinese</button>
+                <button class="btn" data-cuisine="western">🍝 Western</button>
+                <button class="btn" data-cuisine="indian">🍛 Indian</button>
+            </div>
+        </div>
         
-        <footer>
-            <div class="footer-text">TARS • Lo Family Kitchen</div>
-        </footer>
+        <div class="section">
+            <div class="section-title">🏷️ Type</div>
+            <div class="btn-grid" id="typeBtns">
+                <button class="btn active" data-type="all">All</button>
+                <button class="btn" data-type="main">Main</button>
+                <button class="btn" data-type="soup">Soup</button>
+                <button class="btn" data-type="salad">Salad</button>
+                <button class="btn" data-type="breakfast">Breakfast</button>
+                <button class="btn" data-type="side">Side</button>
+            </div>
+        </div>
+        
+        <div class="count" id="count">🍴 Showing 22 recipes</div>
     </div>
     
-    <div class="modal-overlay" id="modal-overlay">
+    <div class="recipe-list" id="list"></div>
+    <div class="empty hidden" id="empty">No recipes match your filters</div>
+    
+    <div class="overlay" id="overlay">
         <div class="modal">
             <div class="modal-header">
-                <button class="modal-close" onclick="closeModal()">×</button>
-                <h2 class="modal-title" id="modal-title"></h2>
-                <div class="modal-meta" id="modal-meta"></div>
+                <div class="modal-title" id="modalTitle"></div>
+                <button class="modal-x" id="modalX">×</button>
             </div>
-            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
-    
-    <script>
-    const recipes = [
-        {
-            id: 1,
-            name: "One-Pot Chicken & Rice with Caramelized Lemon",
-            time: "45 min",
-            servings: "4",
-            rating: "5/5 (12,214)",
-            tags: ["chicken", "western", "one-pot"],
-            ingredients: ["4 bone-in, skin-on chicken thighs (~1½ lbs)","2 cups long-grain white rice","4 cups chicken broth","2 lemons","1 cup Castelvetrano/kalamata olives","6 garlic cloves","1 shallot","2 tsp dried oregano","Fresh parsley","Salt, pepper, crushed red pepper","2 tbsp olive oil"],
-            method: ["Season chicken with salt, pepper, oregano, and red pepper.","Heat oil in Dutch oven over medium-high. Sear chicken skin-side down 5 min until golden. Remove.","Cut 1 lemon into slices, caramelize in pot 2 min. Remove.","Sauté olives, garlic, shallot with oregano 2-3 min.","Add rice and broth, stir, bring to boil covered ~5 min.","Place chicken on rice skin-side up, top with lemon slices.","Cover and bake at 400°F for 25-30 min.","Serve topped with parsley and lemon juice."]
-        },
-        {
-            id: 2,
-            name: "Apple Crumble",
-            time: "60 min",
-            servings: "8-10",
-            rating: "5/5 (6,971)",
-            tags: ["vegetarian", "western", "dessert"],
-            ingredients: ["3½ lbs mixed apples (~8 medium) — Granny Smith, Macintosh, Pink Lady","12 tbsp unsalted butter, melted","1½ cups all-purpose flour","1½ cups packed dark brown sugar","1 cup old-fashioned rolled oats","1 cup pecans, chopped","1 tbsp ground cinnamon","2 tbsp fresh lemon juice","1 tsp kosher salt"],
-            method: ["Heat oven to 350°F. Butter a 13x9 inch baking dish.","Combine flour, 1 cup brown sugar, oats, pecans, and salt. Add melted butter, stir until crumbs form.","Peel and slice apples into ½-inch wedges.","Toss apples with remaining ½ cup brown sugar, cinnamon, and lemon juice.","Spread apples in baking dish.","Press crumb mixture together to form clumps, sprinkle over apples.","Bake 50-60 min until apples are tender and topping is golden brown.","Serve warm or at room temperature."]
-        },
-        {
-            id: 3,
-            name: "Roast Chicken with Maple Butter & Rosemary",
-            time: "70 min",
-            servings: "4",
-            rating: "5/5 (5,235)",
-            tags: ["chicken", "western", "roast"],
-            ingredients: ["1 whole chicken (3½ lbs)","4 tbsp unsalted butter","2 tbsp maple syrup","2-3 rosemary sprigs","2½ tsp fresh rosemary, chopped","Kosher salt and black pepper"],
-            method: ["Heat oven to 375°F.","Pat chicken dry, season well with salt and pepper inside and out.","Place chicken breast-side up in cast-iron skillet, stuff rosemary sprigs in cavity.","Melt butter over medium-low, add chopped rosemary and maple syrup, cook 1-2 min.","Spoon maple butter over chicken evenly.","Roast 55-60 min, basting every 15-20 min, until thigh reaches 165°F.","Rest 10 min before carving.","Whisk pan juices and pass at table."]
-        },
-        {
-            id: 4,
-            name: "Pork Schnitzel with Quick Pickles",
-            time: "45 min",
-            servings: "4",
-            rating: "5/5 (1,869)",
-            tags: ["pork", "western"],
-            ingredients: ["1¼ lbs boneless pork cutlets, pounded ⅛-inch thin","½ cup flour","⅛ tsp cayenne","⅛ tsp nutmeg","2 eggs, beaten","1½ cups panko breadcrumbs","Oil for frying","Scallions, lingonberry jam (optional)","--- Quick Pickles ---","2 limes (zest + juice)","3 Kirby cucumbers, thinly sliced","⅓ cup fennel, thinly sliced","1 shallot, thinly sliced","1 tbsp brown sugar","½ tsp salt"],
-            method: ["Make pickles: combine lime zest/juice, cucumbers, fennel, shallot, sugar, salt. Let sit 30+ min.","Mix flour with cayenne and nutmeg.","Set up breading station: flour → eggs → panko.","Season pork with salt and pepper.","Heat ⅛ inch oil in skillet over medium-high.","Dredge cutlets: flour, shake off excess → eggs → panko.","Fry 3-4 min per side until golden, swirling pan.","Drain on paper towels, sprinkle with salt.","Serve with pickles and pickle juice drizzle."]
-        },
-        {
-            id: 5,
-            name: "Chicken Milanese with Tomato Mozzarella Salad",
-            time: "40 min",
-            servings: "4-6",
-            rating: "5/5 (1,743)",
-            tags: ["chicken", "western", "italian"],
-            ingredients: ["1½ lbs chicken cutlets, pounded ¼-inch thick","⅔ cup + ¼ cup olive oil","⅔ cup fresh basil leaves","1 garlic clove","1 lb cherry tomatoes, halved","8 oz fresh mozzarella, cubed","½ cup all-purpose flour","2 eggs, beaten","1¼ cups panko + ¼ cup parmesan","2 tbsp butter","Lemon wedges"],
-            method: ["Season chicken with salt and pepper.","Make basil oil: blend ⅔ cup oil, basil, garlic, and salt.","Toss tomatoes and mozzarella with half the basil oil.","Set up breading station: flour → eggs → panko/parmesan.","Melt butter with ¼ cup oil over medium heat.","Dredge cutlets and fry 2 at a time, 3 min per side until golden.","Transfer to paper towel-lined plate, sprinkle with salt.","Serve topped with lemon squeeze, basil oil drizzle, and tomato-mozzarella salad."]
-        },
-        {
-            id: 6,
-            name: "Butter Chicken",
-            time: "1 hr + marinating",
-            servings: "6",
-            rating: "5/5 (11,238)",
-            tags: ["chicken", "indian"],
-            ingredients: ["3 lbs chicken thighs (bone-in)","--- Marinade ---","1½ cups Greek yogurt","2 tbsp lemon juice","1½ tbsp turmeric","2 tbsp cumin","1 tbsp garam masala","--- Sauce ---","¼ lb butter + 4 tsp oil","2 onions, diced","4 garlic cloves + 3 tbsp ginger","1 tbsp cumin seeds","1 cinnamon stick","2 tomatoes + 2 red chiles","⅔ cup chicken stock","1½ cups cream + 1½ tsp tomato paste","3 tbsp ground almonds (optional)","Cilantro for garnish"],
-            method: ["Whisk marinade ingredients, coat chicken, refrigerate overnight.","Melt butter in oil, cook onions until translucent.","Add garlic, ginger, cumin seeds until onions brown.","Add cinnamon, tomatoes, chiles, salt. Cook 10 min.","Add chicken + marinade, cook 5 min.","Add stock, bring to boil, simmer uncovered 30 min.","Stir in cream and tomato paste, simmer 10-15 min until cooked through.","Add almonds if using, cook 5 min more.","Garnish with cilantro."]
-        },
-        {
-            id: 7,
-            name: "Spaghetti & Drop Meatballs",
-            time: "45 min",
-            servings: "4",
-            rating: "5/5 (4,723)",
-            tags: ["beef", "western", "pasta"],
-            ingredients: ["--- Meatballs ---","12 oz ground beef","1 cup parmesan, grated (reserve ½ cup for topping)","½ cup parsley, chopped","¼ cup breadcrumbs","1 egg","Salt & pepper","--- Sauce & Pasta ---","2 tbsp olive oil","1 large onion, chopped","3 garlic cloves, minced","6 cups crushed tomatoes","3 bay leaves","1 lb spaghetti"],
-            method: ["Bring large pot of salted water to boil. Heat oil in skillet.","Mix beef, 1 cup parmesan, parsley (reserve 2 tbsp), breadcrumbs, egg, salt, pepper.","Drop spoonfuls of meatball mixture into hot skillet. Brown undisturbed 5-6 min.","Add onion around meatballs, add garlic on top.","When meatballs browned and aromatics soft, add tomatoes, bay leaves, salt, pepper.","Cover, simmer 8 min. Uncover, thicken 5-10 min while pasta cooks.","Cook pasta until al dente, drain (reserve some water).","Discard bay leaves, toss pasta with half the sauce.","Serve pasta topped with meatballs, remaining sauce, parmesan, and parsley."]
-        },
-        {
-            id: 8,
-            name: "Yin Yang Fried Rice 鴛鴦炒飯",
-            time: "50 min",
-            servings: "4",
-            rating: "Hong Kong Classic",
-            tags: ["chicken", "seafood", "chinese"],
-            ingredients: ["--- Fried Rice ---","5 cups cooked rice","3 eggs","1 tsp salt","3 tbsp oil","--- Red Sauce ---","250g chicken, sliced","Marinade: 1 tsp soy, ½ tsp sugar, 1 tsp cornstarch","½ onion (wedges) + 1 tomato (wedges)","3 tbsp tomato paste + 3 tbsp ketchup","1 tbsp vinegar + 1 tbsp soy + 2 tsp sugar","250ml chicken broth + cornstarch slurry","--- White Sauce ---","250g shrimp","½ onion (diced) + 50g frozen peas","250ml chicken broth","¼ tsp white pepper, ½ tsp salt","50ml heavy cream","Cornstarch slurry"],
-            method: ["Red sauce: marinate chicken, sauté until browned, add aromatics and tomato mixture, simmer with broth.","Fried rice: beat eggs, heat wok, add oil, pour eggs, add rice immediately, stir-fry with salt.","White sauce: season shrimp with white pepper, sauté, add onion/peas, broth, cream.","Assemble: place rice on plate, use foil divider in 'S' shape.","Ladle white sauce on one half, red sauce on other.","Remove foil to reveal yin-yang pattern.","Serve immediately."]
-        },
-        {
-            id: 9,
-            name: "Steamed Spare Ribs in Black Bean Sauce 豉汁蒸排骨",
-            time: "30 min + soaking/marinating",
-            servings: "4",
-            rating: "Dim Sum Classic",
-            tags: ["pork", "chinese", "dim-sum"],
-            ingredients: ["Baby back ribs, cut crosswise into 2\" pieces","2 tbsp fermented black beans (douchi)","3 cloves garlic, minced","1 tbsp ginger, minced","2 tbsp oil (for blooming)","1 tbsp Shaoxing wine","1 tbsp oyster sauce","1 tbsp light soy sauce","1 tsp sugar","Salt to taste","1 tbsp cornstarch","Sliced green onions (garnish)"],
-            method: ["Soak ribs in cold water 1 hour to draw out impurities. Drain and pat dry.","Make black bean sauce: pour hot oil over black beans + garlic + ginger.","Add wine, oyster sauce, soy sauce, sugar, salt to the mixture.","Toss ribs in sauce with cornstarch. Marinate 30+ min (or overnight).","Spread ribs on plate with minimal overlap.","Steam 15-20 min until juices run clear.","Garnish with green onions.","Tip: Don't skip blooming the black beans in hot oil — that's the secret!"]
-        },
-        {
-            id: 10,
-            name: "Salt & Pepper Tofu 椒鹽豆腐",
-            time: "30 min + brining",
-            servings: "4",
-            rating: "Cantonese Classic",
-            tags: ["tofu", "vegetarian", "chinese"],
-            ingredients: ["1 block firm tofu, cut into ½\" rectangles","--- Brine ---","Garlic powder, onion powder, salt, sugar, warm water","Sesame oil + Shaoxing wine (after draining)","--- Salt & Pepper Seasoning ---","Salt","Ground white pepper","Sichuan peppercorn powder","Sand ginger powder (or five-spice)","--- Coating & Aromatics ---","All-purpose flour + cornstarch","4 tbsp oil","4 cloves garlic (for crispy garlic)","Long hot green peppers, sliced","Shallots, sliced","Scallions + cilantro (garnish)"],
-            method: ["Brine tofu 1-2 hours. Drain, toss with sesame oil and wine.","Make crispy garlic: shallow-fry over low heat until golden. Set aside.","Mix half the seasoning with flour and cornstarch.","Dredge tofu in the flour mixture.","Pan-fry tofu until golden on both sides.","Stir-fry peppers and shallots 15-30 sec.","Add tofu, toss 30-60 sec.","Add scallions, cilantro, crispy garlic, remaining seasoning.","Toss and serve immediately."]
-        },
-        {
-            id: 11,
-            name: "Pan-Fried Pork Chops 煎豬扒",
-            time: "40 min",
-            servings: "4",
-            rating: "Made with Lau",
-            tags: ["pork", "chinese"],
-            ingredients: ["1 lb pork chops","½ white onion + ½ red onion, sliced","½ oz ginger, minced","3 cloves garlic, minced","3 tbsp cornstarch (for coating)","3 tbsp cooking oil","1 tsp garlic salt","1 tsp Shaoxing wine","--- Marinade ---","2 tbsp oyster sauce","1 tbsp soy sauce","1 tbsp Shaoxing wine","2 tsp sugar","½ tsp black pepper","1 tbsp cornstarch"],
-            method: ["Tenderize pork with back of knife in cross-hatch pattern.","Mix marinade ingredients, coat pork, marinate 20 min.","Coat pork lightly in cornstarch, dust off excess.","Heat oil over high, add pork, reduce to medium.","Pan-fry 4-5 min per side until golden.","Push pork aside, add garlic/ginger/onions in center.","Cook aromatics 2-3 min.","Sprinkle garlic salt, add wine, cover with lid, turn heat off.","Steam covered 2-3 min.","Serve pork on bed of caramelized onions."]
-        },
-        {
-            id: 12,
-            name: "Soy Sauce Chicken Drumsticks 豉油雞髀",
-            time: "35 min",
-            servings: "4-6",
-            rating: "Made with Lau",
-            tags: ["chicken", "chinese"],
-            ingredients: ["30 oz chicken drumsticks (~6 pieces)","1 oz ginger, sliced","3 cloves garlic, sliced","¼ oz dried mandarin peel","6 cups water (for blanching)","½ cup water (for braising)","1 tbsp oil","--- Sauce ---","2 tbsp oyster sauce","3 tbsp light soy sauce","3 tbsp dark soy sauce","2 tbsp Shaoxing wine","¼ tsp white pepper","2 tbsp dark brown sugar","½ tsp salt","½ cup water"],
-            method: ["Pierce thickest part of drumsticks with knife (not through skin).","Blanch drumsticks in boiling water 1.5-2 min. Drain.","Mix all sauce ingredients together.","Stir-fry ginger and garlic in oil 1 min.","Add mandarin peel, stir-fry 20-30 sec.","Add ½ cup water, simmer covered 1.5-2 min.","Add half the sauce, then drumsticks, spoon remaining sauce over top.","Braise covered on low 10 min.","Flip drumsticks, cover 2 min more.","Uncover, high heat, reduce sauce 5-6 min, basting, until 165°F.","Serve with sauce on the side."]
-        },
-        {
-            id: 13,
-            name: "Couscous with Herbs & Raisins",
-            time: "15 min",
-            servings: "4",
-            rating: "Family Recipe",
-            tags: ["vegetarian", "western", "salad"],
-            ingredients: ["2 cups pearl couscous","½ cup raisins","½ cup finely diced celery","⅓-½ cup chopped dill","½ cup chopped scallions","½ cup chopped mint leaves","--- Dressing ---","2 tbsp lemon juice","Zest of 1 lemon","3 tbsp olive oil","3 cloves garlic, very finely minced","Salt & pepper"],
-            method: ["Cook couscous in boiling water 6-8 min until fork tender.","Drain well.","Whisk dressing ingredients together.","Toss warm couscous with dressing.","Add herbs, celery, and raisins.","Toss to combine.","Serve warm or at room temperature."]
-        },
-        {
-            id: 14,
-            name: "Little Gem Salad with Crispy Halloumi",
-            time: "15 min",
-            servings: "4",
-            rating: "5/5 (563)",
-            tags: ["vegetarian", "western", "salad"],
-            ingredients: ["8-9 oz halloumi cheese, coarsely grated","4 heads Little Gem lettuce (or 2 romaine hearts)","¼ cup roasted salted pistachios, chopped","1 tbsp fennel/cumin/coriander seeds (or mix)","1 shallot, thinly sliced","1 lemon (zest + juice)","4½ tbsp olive oil","Salt & pepper"],
-            method: ["Heat 2½ tbsp oil in nonstick skillet over medium.","Add halloumi, pistachios, seeds — spread evenly.","Cook 4-6 min, stirring occasionally, until golden-brown.","Spread on plate to cool, season with pepper.","Toss lettuce + shallot with salt, pepper, lemon zest/juice, remaining 2 tbsp oil.","Arrange leaves cup-side up.","Top with halloumi crumbs.","Serve immediately."]
-        },
-        {
-            id: 15,
-            name: "Puréed Tomato & Red Pepper Soup",
-            time: "50 min",
-            servings: "6",
-            rating: "5/5 (1,155)",
-            tags: ["vegetarian", "western", "soup"],
-            ingredients: ["2 red bell peppers, roasted","2 tbsp olive oil","1 medium onion, chopped","½ cup diced carrot","½ cup diced celery","4 garlic cloves, minced","1 (28-oz) can chopped tomatoes","¼ cup tomato paste","2 sprigs fresh basil","Pinch of cinnamon","½ tsp sugar (optional)","1½ quarts vegetable stock","¼ cup rice (arborio works well)","Salt & pepper","Garnish: garlic croutons, parmesan, slivered basil"],
-            method: ["Roast peppers, cool, peel, seed, and dice.","Sauté onion 3 min, add carrot/celery 5 min, then garlic 30 sec.","Add tomatoes, tomato paste, basil, cinnamon, sugar — cook 10 min.","Add roasted peppers, stock, rice — simmer covered 30 min.","Remove basil, purée with immersion blender.","Serve with croutons, parmesan, fresh basil."]
-        },
-        {
-            id: 16,
-            name: "Lemon Ricotta Pancakes",
-            time: "20 min",
-            servings: "8-10 pancakes",
-            rating: "5/5 (7,285)",
-            tags: ["vegetarian", "western", "breakfast"],
-            ingredients: ["¾ cup flour","1½ tsp baking powder","¾ tsp fine salt","¼ cup sugar","1 lemon (zest)","1½ tsp vanilla extract","3 large eggs","¾ cup whole-milk ricotta","¼ cup buttermilk","2 tbsp butter, melted (+ more for cooking)","Blueberry syrup or toppings (optional)"],
-            method: ["Whisk flour, baking powder, salt in small bowl.","In large bowl, rub lemon zest into sugar with fingers.","Add vanilla, whisk, then add eggs — whisk until foamy.","Add ricotta, buttermilk, melted butter — whisk until blended.","Gently fold in flour mixture until just combined.","Heat griddle over medium-low, butter generously.","Drop scant ¼ cup batter, cook 2-3 min until bubbling.","Flip, cook 2 min more until golden.","Serve with butter and syrup."]
-        },
-        {
-            id: 17,
-            name: "Chopped Salad with Chickpeas, Feta & Avocado",
-            time: "20 min",
-            servings: "4-6",
-            rating: "5/5 (8,982)",
-            tags: ["vegetarian", "western", "salad"],
-            ingredients: ["2 cups stale bread, diced ½\" (for croutons)","6 tbsp olive oil + more for croutons","1 romaine heart, chopped ½\"","1 (15-oz) can chickpeas, rinsed","1 English cucumber, seeded and diced","½ cup Castelvetrano olives, chopped","⅓ cup scallions, thinly sliced","1 avocado, diced","¾ cup feta, diced or crumbled","¼ cup fresh herbs (dill, basil, mint, parsley)","--- Dressing ---","2 tbsp red wine vinegar","1 tbsp capers, chopped","1 tbsp shallots, minced","¼ tsp Dijon mustard","Salt & pepper"],
-            method: ["Toast bread cubes at 350°F for 10-12 min with oil, salt, pepper.","Combine romaine, chickpeas, cucumber, olives, scallions in large bowl.","Whisk dressing ingredients with 6 tbsp olive oil.","Toss salad with dressing.","Gently fold in avocado, feta, herbs.","Top with croutons and more herbs."]
-        },
-        {
-            id: 18,
-            name: "Pasta with Spicy Sausage, Broccoli Rabe & Chickpeas",
-            time: "30 min",
-            servings: "4-6",
-            rating: "5/5 (5,092)",
-            tags: ["pork", "western", "pasta"],
-            ingredients: ["1 lb shaped pasta (campanelle or orecchiette)","1½ lbs broccoli rabe, chopped (or broccolini/kale)","1 lb hot Italian sausage, casings removed","1 (15-oz) can chickpeas, drained","3 garlic cloves, minced","½ cup dry white wine (or chicken stock)","2 tbsp olive oil","2 tbsp butter","½ cup parmesan, grated","1 lemon (zest + juice)","Salt & pepper"],
-            method: ["Boil salted water, cook broccoli rabe 3 min, remove and drain.","Cook pasta in same water, reserve 1 cup pasta water, drain.","Brown sausage in oil 3-5 min, breaking up with spoon.","Add garlic 30 sec, then wine — reduce by half.","Add broccoli rabe, chickpeas, salt, pepper — cook 3 min.","Add pasta + ½ cup pasta water, toss over low heat 1-2 min.","Remove from heat, add butter, parmesan, lemon zest + juice.","Serve with extra cheese."]
-        },
-        {
-            id: 19,
-            name: "Classic Tomato Soup",
-            time: "1 hr",
-            servings: "8",
-            rating: "5/5 (9,084)",
-            tags: ["vegetarian", "western", "soup"],
-            ingredients: ["½ lb butter","1 lb onions (~3 medium), diced ¼\"","½ cup all-purpose flour","4 (28-oz) cans diced tomatoes","1¼ cups chicken broth","¼ cup sugar","1 tbsp kosher salt","1 tsp celery salt","¾ tsp pepper","¾ cup half-and-half","2 tbsp honey"],
-            method: ["Melt butter over medium-low, cook onions until soft and translucent ~20 min.","Add flour, stir until slightly thickened and pale gold ~3 min (don't brown).","Add tomatoes + juices, broth, sugar, salt, celery salt, pepper.","Bring to bubble, reduce heat, simmer 30 min (scrape bottom frequently).","Stir in half-and-half and honey.","Purée with immersion blender (or in batches).","Heat through and serve hot."]
-        },
-        {
-            id: 20,
-            name: "Spicy & Saucy Cherry Tomato Pasta",
-            time: "25 min",
-            servings: "4",
-            rating: "5/5 (4,397)",
-            tags: ["vegetarian", "western", "pasta"],
-            ingredients: ["16 oz orecchiette (or other shaped pasta)","1½ lbs cherry tomatoes, halved","3 tbsp tomato paste","3 tbsp capers, drained","3 garlic cloves, thinly sliced","1-2 tsp red pepper flakes (optional)","4 tbsp olive oil","½ cup fresh basil, thinly sliced + whole leaves for garnish","Ricotta, ricotta salata, pecorino or parmesan (optional)","Salt & pepper"],
-            method: ["Boil salted water for pasta.","Crisp capers in 2 tbsp oil over medium-high 3-4 min → remove to plate.","Add tomato paste, cook until darkened ~2 min.","Reduce heat, add remaining 2 tbsp oil, garlic, red pepper flakes ~2 min.","Cook pasta al dente meanwhile.","Add cherry tomatoes to skillet, season, cook 5 min.","Add ⅔ cup pasta water, cook until tomatoes break down and saucy ~10 min.","Toss pasta with sauce, stir in half the basil.","Serve topped with crispy capers, remaining basil, cheese."]
-        },
-        {
-            id: 21,
-            name: "Spicy Corn & Shishito Salad",
-            time: "15 min",
-            servings: "4",
-            rating: "5/5 (3,571)",
-            tags: ["vegetarian", "western", "salad"],
-            ingredients: ["3 cups fresh corn kernels (4-6 ears)","6 oz shishito peppers, sliced ¼\" (or green bell pepper)","1 large jalapeño, seeded and diced","⅓ cup red onion, diced","1 garlic clove, minced","3½ tbsp olive oil","2 tbsp fresh lime juice","¼ tsp ground cumin","¼ cup Cotija or feta, crumbled (optional)","¼ cup fresh cilantro, chopped","Kosher salt"],
-            method: ["Whisk 2 tbsp oil with lime juice, cumin, ¾ tsp salt.","Stir in red onion and garlic — set aside to mellow.","Place raw corn in large bowl.","Sauté shishitos + jalapeño in remaining 1½ tbsp oil until tender and browning ~4-6 min.","Add peppers and dressing to corn, toss well.","Add cheese if using, garnish with cilantro."]
-        },
-        {
-            id: 22,
-            name: "Carrot-Parsnip Soup with Parsnip Chips",
-            time: "1 hr",
-            servings: "6",
-            rating: "5/5 (1,311)",
-            tags: ["vegetarian", "western", "soup"],
-            ingredients: ["2½ cups yellow onion, chopped","3 cups parsnip (~1 lb), coarsely chopped","2½ cups carrot (~1 lb), coarsely chopped","2 (14-oz) cans vegetable broth","3 cups water","2 tbsp olive oil, divided","¼ tsp salt","¼ tsp black pepper","½ cup parsnip, sliced ⅛\" thin (for chips)","1 tbsp fresh chives, chopped"],
-            method: ["Heat 1 tsp oil in Dutch oven, cook onion 10 min until tender.","Add chopped parsnip, water, carrot, broth — bring to boil.","Reduce heat, simmer 50 min (or ~20 min) until tender.","Let stand 5 min, then blend in batches until smooth.","Stir in salt and pepper.","Fry parsnip slices in remaining 5 tsp oil until lightly browned ~5 min.","Drain chips on paper towels.","Serve soup topped with parsnip chips and chives."]
-        }
+
+<script>
+(function(){
+    var data = [
+        {id:1,name:"One-Pot Chicken & Rice with Caramelized Lemon",time:"45 min",servings:"4",protein:"chicken",cuisine:"western",type:"main",rating:"5/5 (12,214)",ingredients:["4 bone-in, skin-on chicken thighs (~1½ lbs)","2 cups long-grain white rice","4 cups chicken broth","2 lemons","1 cup Castelvetrano/kalamata olives","6 garlic cloves","1 shallot","2 tsp dried oregano","Fresh parsley"],method:["Sear chicken until golden","Caramelize lemon slices in rendered fat","Sauté olives, garlic, shallot","Add rice and broth","Nestle chicken on top","Bake 400°F for 25-30 min"],source:"NYT Cooking"},
+        {id:2,name:"Apple Crumble",time:"60 min",servings:"8-10",protein:"vegetarian",cuisine:"western",type:"side",rating:"5/5 (6,971)",ingredients:["3½ lbs mixed apples (~8 medium)","12 tbsp unsalted butter, melted","1½ cups flour","1½ cups dark brown sugar","1 cup rolled oats","1 cup pecans, chopped","1 tbsp cinnamon","2 tbsp lemon juice"],method:["Mix crumble topping: flour, sugar, oats, pecans, butter","Toss apples with sugar, cinnamon, lemon juice","Top with crumble","Bake 350°F for 50-60 min until golden"],source:"NYT Cooking"},
+        {id:3,name:"Roast Chicken with Maple Butter & Rosemary",time:"70 min",servings:"4",protein:"chicken",cuisine:"western",type:"main",rating:"5/5 (5,235)",ingredients:["1 whole chicken (3½ lbs)","4 tbsp unsalted butter","2 tbsp maple syrup","2-3 rosemary sprigs + 2½ tsp chopped","Salt & pepper"],method:["Season chicken inside and out","Stuff with rosemary sprigs","Make maple-rosemary butter","Coat chicken generously","Roast 375°F for 55-60 min, basting every 15-20 min","Rest 10 min before serving"],source:"NYT Cooking",tip:"Try with lemon + garlic instead of rosemary"},
+        {id:4,name:"Pork Schnitzel with Quick Pickles",time:"45 min",servings:"4",protein:"pork",cuisine:"western",type:"main",rating:"5/5 (1,869)",ingredients:["1¼ lbs pork cutlets, pounded ⅛\" thin","½ cup flour + cayenne + nutmeg","2 eggs, beaten","1½ cups panko","Oil for frying","Pickles: 2 limes, 3 Kirby cucumbers, fennel, shallot, brown sugar, salt"],method:["Make pickles: toss cucumbers with lime, fennel, shallot, sugar, salt (30+ min)","Dredge pork: flour → egg → panko","Shallow fry 3-4 min per side until golden","Serve with pickles and lingonberry jam"],source:"NYT Cooking"},
+        {id:5,name:"Chicken Milanese with Tomato Mozzarella Salad",time:"40 min",servings:"4-6",protein:"chicken",cuisine:"western",type:"main",rating:"5/5 (1,743)",ingredients:["1½ lbs chicken cutlets, pounded ¼\" thick","⅔ cup + ¼ cup olive oil","⅔ cup basil leaves","1 garlic clove","1 lb cherry tomatoes, halved","8 oz fresh mozzarella, cubed","½ cup flour","2 eggs, beaten","1¼ cups panko + ¼ cup parmesan","2 tbsp butter"],method:["Make basil oil: blend basil + garlic + oil","Toss tomatoes & mozzarella with half the basil oil","Dredge chicken: flour → egg → panko/parm","Fry 3 min per side until golden","Top with tomato-mozz salad, drizzle remaining basil oil"],source:"NYT Cooking"},
+        {id:6,name:"Butter Chicken",time:"60 min + marinating",servings:"6",protein:"chicken",cuisine:"indian",type:"main",rating:"5/5 (11,238)",ingredients:["3 lbs chicken thighs (bone-in)","Marinade: 1½ cups Greek yogurt, 2 tbsp lemon juice, turmeric, cumin, garam masala","Sauce: ¼ lb butter, 2 onions, garlic, ginger, cumin seeds, cinnamon, tomatoes, chiles, cream, tomato paste"],method:["Marinate chicken overnight in yogurt-spice mixture","Sauté onions, garlic, ginger, spices in butter","Add tomatoes and chiles","Add chicken and stock, simmer 30 min","Stir in cream and tomato paste, simmer 10-15 min","Garnish with cilantro"],source:"NYT Cooking"},
+        {id:7,name:"Spaghetti & Drop Meatballs",time:"45 min",servings:"4",protein:"beef",cuisine:"western",type:"main",rating:"5/5 (4,723)",ingredients:["1 lb spaghetti","12 oz ground beef","1 cup parmesan, grated","½ cup parsley, chopped","¼ cup breadcrumbs","1 egg","6 cups crushed tomatoes","3 bay leaves","Onion, garlic"],method:["Mix meatball ingredients","Drop spoonfuls into hot skillet, brown 5-6 min","Add onion, garlic","Add tomatoes + bay leaves, simmer covered 8 min","Uncover, thicken 5-10 min","Toss with cooked pasta","Top with parmesan"],source:"NYT Cooking"},
+        {id:8,name:"Yin Yang Fried Rice",time:"50 min",servings:"4",protein:"chicken",cuisine:"chinese",type:"main",rating:"",ingredients:["5 cups cooked rice","3 eggs","Red sauce: chicken, tomato paste, ketchup, chicken broth","White sauce: shrimp, peas, cream, chicken broth"],method:["Make red sauce: marinate chicken, sauté, add tomato sauce","Make fried rice: scramble eggs, add rice","Make white sauce: cook shrimp, add onion/peas, broth, cream","Assemble: rice in dish, use foil divider","Pour sauces on each half in yin-yang pattern"],source:"Made with Lau"},
+        {id:9,name:"Steamed Spare Ribs in Black Bean Sauce",time:"30 min + soak/marinate",servings:"4",protein:"pork",cuisine:"chinese",type:"main",rating:"",ingredients:["Baby back ribs, cut 2\" pieces","2 tbsp fermented black beans (douchi)","3 cloves garlic, minced","1 tbsp ginger, minced","2 tbsp oil","Shaoxing wine, oyster sauce, soy sauce, sugar, cornstarch"],method:["Soak ribs 1 hr in cold water, drain and pat dry","Make black bean sauce: pour hot oil over beans + garlic + ginger","Add wine, oyster sauce, soy sauce, sugar, salt","Marinate ribs 30+ min (or overnight)","Spread on plate, steam 15-20 min","Garnish with green onions"],source:"Made with Lau",tip:"Don't skip blooming the black beans in hot oil — that's the secret!"},
+        {id:10,name:"Salt & Pepper Tofu",time:"30 min + brine",servings:"4",protein:"tofu",cuisine:"chinese",type:"main",rating:"",ingredients:["1 block firm tofu","Brine: garlic powder, onion powder, salt, sugar","Coating: flour, cornstarch, salt, white pepper, Sichuan peppercorn, sand ginger","Aromatics: garlic, long hot peppers, shallots, scallions, cilantro"],method:["Brine tofu 1-2 hrs, drain, toss with sesame oil & wine","Make crispy garlic: shallow-fry over low heat until golden","Dredge tofu in flour/cornstarch/spice mix","Pan-fry until golden on both sides","Stir-fry peppers + shallots","Add tofu, toss with scallions, cilantro, crispy garlic"],source:"Made with Lau"},
+        {id:11,name:"Pan-Fried Pork Chops",time:"40 min",servings:"4",protein:"pork",cuisine:"chinese",type:"main",rating:"James Beard Award",ingredients:["1 lb pork chops","½ white + ½ red onion, sliced","Ginger, garlic, minced","Marinade: oyster sauce, soy sauce, Shaoxing wine, sugar, pepper, cornstarch"],method:["Tenderize pork with back of knife (cross-hatch)","Marinate 20 min in oyster sauce mixture","Coat lightly in cornstarch","Pan-fry 4-5 min per side until golden","Push aside, add garlic/ginger/onions in center","Splash wine, cover and steam 2-3 min","Serve on bed of caramelized onions"],source:"Made with Lau"},
+        {id:12,name:"Soy Sauce Chicken Drumsticks",time:"35 min",servings:"4",protein:"chicken",cuisine:"chinese",type:"main",rating:"James Beard Award",ingredients:["6 chicken drumsticks (~30 oz)","Ginger, garlic, dried mandarin peel","Sauce: oyster sauce, light soy, dark soy, Shaoxing wine, white pepper, brown sugar, salt"],method:["Pierce thickest part of drumsticks (not skin)","Blanch in boiling water 1.5-2 min, drain","Stir-fry ginger + garlic, add mandarin peel","Add water, simmer covered 1.5-2 min","Add sauce + drumsticks, braise covered 10 min","Flip, cover 2 min more","Uncover, high heat, reduce sauce 5-6 min, basting until 165°F"],source:"Made with Lau"},
+        {id:13,name:"Couscous with Herbs & Raisins",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",type:"side",rating:"",ingredients:["2 cups pearl couscous","½ cup raisins","½ cup finely diced celery","⅓-½ cup chopped dill","½ cup chopped scallions","½ cup chopped mint","Dressing: 2 tbsp lemon juice, lemon zest, 3 tbsp olive oil, 3 cloves garlic (minced), salt, pepper"],method:["Cook couscous in boiling water 6-8 min until fork tender","Drain","Toss with dressing, herbs, celery, and raisins","Serve warm or at room temperature"],source:"Family recipe"},
+        {id:14,name:"Little Gem Salad with Crispy Halloumi",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",type:"salad",rating:"5/5 (563)",ingredients:["8-9 oz halloumi, coarsely grated","4 heads Little Gem lettuce (or 2 romaine hearts)","¼ cup roasted pistachios, chopped","1 tbsp fennel/cumin/coriander seeds","1 shallot, thinly sliced","1 lemon (zest + juice)","4½ tbsp olive oil"],method:["Heat 2½ tbsp oil, add halloumi + pistachios + seeds","Cook 4-6 min until golden-brown, spread to cool","Toss lettuce + shallot with lemon, remaining oil","Arrange leaves cup-side up","Top with halloumi crumbs"],source:"NYT Cooking"},
+        {id:15,name:"Puréed Tomato & Red Pepper Soup",time:"50 min",servings:"6",protein:"vegetarian",cuisine:"western",type:"soup",rating:"5/5 (1,155)",ingredients:["2 red bell peppers, roasted","2 tbsp olive oil","1 onion, carrot, celery, garlic","1 (28-oz) can chopped tomatoes","¼ cup tomato paste","Basil, cinnamon, vegetable stock","¼ cup rice (arborio works)"],method:["Roast peppers, peel and dice","Sauté onion, carrot, celery, garlic","Add tomatoes, tomato paste, basil, cinnamon","Add roasted peppers, stock, rice","Simmer covered 30 min","Purée with immersion blender"],source:"NYT Cooking"},
+        {id:16,name:"Lemon Ricotta Pancakes",time:"20 min",servings:"8-10 pancakes",protein:"vegetarian",cuisine:"western",type:"breakfast",rating:"5/5 (7,285)",ingredients:["¾ cup flour","1½ tsp baking powder","¾ tsp salt","¼ cup sugar","1 lemon (zest)","1½ tsp vanilla","3 eggs","¾ cup whole-milk ricotta","¼ cup buttermilk","2 tbsp melted butter"],method:["Whisk dry ingredients","Rub lemon zest into sugar","Add vanilla, eggs, whisk until foamy","Add ricotta, buttermilk, melted butter","Fold in flour mixture","Cook on buttered griddle 2-3 min per side"],source:"NYT Cooking"},
+        {id:17,name:"Chopped Salad with Chickpeas, Feta & Avocado",time:"20 min",servings:"4-6",protein:"vegetarian",cuisine:"western",type:"salad",rating:"5/5 (8,982)",ingredients:["1 romaine heart, chopped","1 can chickpeas","1 English cucumber, diced","½ cup olives, chopped","Scallions, avocado, feta, fresh herbs","Dressing: red wine vinegar, capers, shallots, Dijon, olive oil","Croutons"],method:["Toast bread cubes at 350°F for 10-12 min","Combine romaine, chickpeas, cucumber, olives, scallions","Whisk dressing","Toss salad with dressing","Fold in avocado, feta, herbs","Top with croutons"],source:"NYT Cooking"},
+        {id:18,name:"Pasta with Spicy Sausage, Broccoli Rabe & Chickpeas",time:"30 min",servings:"4-6",protein:"pork",cuisine:"western",type:"main",rating:"5/5 (5,092)",ingredients:["1 lb shaped pasta","1½ lbs broccoli rabe, chopped","1 lb hot Italian sausage","1 can chickpeas","Garlic, white wine, butter, parmesan, lemon"],method:["Boil broccoli rabe 3 min, remove","Cook pasta in same water","Brown sausage, add garlic, wine","Add broccoli rabe, chickpeas","Toss with pasta and pasta water","Finish with butter, parmesan, lemon"],source:"NYT Cooking"},
+        {id:19,name:"Classic Tomato Soup",time:"60 min",servings:"8",protein:"vegetarian",cuisine:"western",type:"soup",rating:"5/5 (9,084)",ingredients:["½ lb butter","1 lb onions, diced","½ cup flour","4 (28-oz) cans diced tomatoes","1¼ cups chicken broth","Sugar, kosher salt, celery salt, pepper","½ cup half-and-half","2 tbsp honey"],method:["Cook onions in butter 20 min until soft","Add flour, stir 3 min","Add tomatoes, broth, seasonings","Simmer 30 min","Stir in half-and-half and honey","Purée until smooth"],source:"NYT Cooking",tip:"Add diced carrots with onions to reduce need for sugar"},
+        {id:20,name:"Spicy & Saucy Cherry Tomato Pasta",time:"25 min",servings:"4",protein:"vegetarian",cuisine:"western",type:"main",rating:"5/5 (4,397)",ingredients:["16 oz orecchiette","1½ lbs cherry tomatoes, halved","3 tbsp tomato paste","3 tbsp capers","Garlic, red pepper flakes","Basil, ricotta or parmesan"],method:["Crisp capers in oil 3-4 min, remove","Add tomato paste, cook until darkened","Add garlic, red pepper flakes","Add cherry tomatoes, cook 5 min","Add pasta water, cook until saucy 10 min","Toss with pasta and basil","Top with crispy capers"],source:"NYT Cooking"},
+        {id:21,name:"Spicy Corn & Shishito Salad",time:"15 min",servings:"4",protein:"vegetarian",cuisine:"western",type:"salad",rating:"5/5 (3,571)",ingredients:["3 cups fresh corn kernels","6 oz shishito peppers, sliced","1 jalapeño, seeded and diced","Red onion, garlic","Lime juice, cumin, olive oil","Cotija or feta, cilantro"],method:["Whisk dressing: oil, lime juice, cumin, salt","Stir in red onion and garlic to mellow","Place raw corn in large bowl","Sauté shishitos + jalapeño until browning","Add peppers and dressing to corn","Toss with cheese and cilantro"],source:"NYT Cooking"},
+        {id:22,name:"Carrot-Parsnip Soup with Parsnip Chips",time:"60 min",servings:"6",protein:"vegetarian",cuisine:"western",type:"soup",rating:"5/5 (1,311)",ingredients:["2½ cups onion, chopped","3 cups parsnip, coarsely chopped","2½ cups carrot, coarsely chopped","2 cans vegetable broth","3 cups water","Olive oil, salt, pepper","Parsnip slices for chips, chives"],method:["Cook onion in oil 10 min","Add parsnip, water, carrot, broth","Simmer 50 min until tender","Blend until smooth, season","Fry thin parsnip slices until browned","Serve topped with chips and chives"],source:"NYT Cooking",tip:"Add an apple or pear for subtle sweetness"}
     ];
-
-    let activeFilters = new Set(['all']);
-
-    function renderRecipes() {
-        const list = document.getElementById('recipe-list');
-        list.innerHTML = recipes.map(r => {
-            const show = activeFilters.has('all') || r.tags.some(t => activeFilters.has(t));
-            return `
-                <div class="recipe-card ${show ? '' : 'hidden'}" onclick="openRecipe(${r.id})">
-                    <div class="recipe-name">${r.name}</div>
-                    <div class="recipe-meta">⏱️ ${r.time} · 👥 ${r.servings} · ⭐ ${r.rating}</div>
-                    <div class="recipe-tags">
-                        ${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-        }).join('');
+    
+    var list=document.getElementById('list'),search=document.getElementById('search'),count=document.getElementById('count'),empty=document.getElementById('empty'),overlay=document.getElementById('overlay'),modalTitle=document.getElementById('modalTitle'),modalBody=document.getElementById('modalBody'),modalX=document.getElementById('modalX');
+    var protein='all',cuisine='all',type='all';
+    
+    function render(){
+        var h='';
+        for(var i=0;i<data.length;i++){
+            var r=data[i];
+            var tags='<span class="tag">'+r.protein+'</span>';
+            tags+='<span class="tag cuisine">'+r.cuisine+'</span>';
+            if(r.type!='main')tags+='<span class="tag">'+r.type+'</span>';
+            h+='<div class="recipe-card" data-id="'+r.id+'" data-protein="'+r.protein+'" data-cuisine="'+r.cuisine+'" data-type="'+r.type+'" data-s="'+(r.name+' '+r.ingredients.join(' ')).toLowerCase()+'">';
+            h+='<div class="recipe-name">'+r.name+'</div>';
+            h+='<div class="recipe-meta">⏱️ '+r.time+' · 👥 '+r.servings+(r.rating?' · ⭐ '+r.rating:'')+'</div>';
+            h+='<div class="recipe-tags">'+tags+'</div>';
+            h+='</div>';
+        }
+        list.innerHTML=h;
+        var cards=list.querySelectorAll('.recipe-card');
+        for(var j=0;j<cards.length;j++){
+            (function(c){c.onclick=function(){show(+c.getAttribute('data-id'));};})(cards[j]);
+        }
     }
-
-    function openRecipe(id) {
-        const r = recipes.find(x => x.id === id);
-        document.getElementById('modal-title').textContent = r.name;
-        document.getElementById('modal-meta').textContent = `⏱️ ${r.time} · 👥 ${r.servings} · ⭐ ${r.rating}`;
-        document.getElementById('modal-body').innerHTML = `
-            <div class="modal-section">
-                <div class="modal-section-title">Ingredients</div>
-                <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
-            </div>
-            <div class="modal-section">
-                <div class="modal-section-title">Method</div>
-                <ol>${r.method.map(m => `<li>${m}</li>`).join('')}</ol>
-            </div>
-        `;
-        document.getElementById('modal-overlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
+    
+    function filter(){
+        var q=search.value.toLowerCase(),n=0;
+        var cards=list.querySelectorAll('.recipe-card');
+        for(var i=0;i<cards.length;i++){
+            var c=cards[i],p=c.getAttribute('data-protein'),cu=c.getAttribute('data-cuisine'),t=c.getAttribute('data-type'),s=c.getAttribute('data-s'),ok=true;
+            if(protein!='all'&&p!=protein)ok=false;
+            if(cuisine!='all'&&cu!=cuisine)ok=false;
+            if(type!='all'&&t!=type)ok=false;
+            if(q&&s.indexOf(q)<0)ok=false;
+            c.className=ok?'recipe-card':'recipe-card hidden';
+            if(ok)n++;
+        }
+        count.textContent='🍴 Showing '+n+' recipe'+(n!=1?'s':'');
+        empty.className=n==0?'empty':'empty hidden';
     }
-
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('active');
-        document.body.style.overflow = '';
+    
+    function show(id){
+        var r;for(var i=0;i<data.length;i++){if(data[i].id==id)r=data[i];}
+        if(!r)return;
+        modalTitle.textContent=r.name;
+        
+        var thtml='<span class="modal-tag">'+r.protein+'</span>';
+        thtml+='<span class="modal-tag cuisine">'+r.cuisine+'</span>';
+        if(r.type!='main')thtml+='<span class="modal-tag">'+r.type+'</span>';
+        
+        var ihtml='';for(var j=0;j<r.ingredients.length;j++){ihtml+='<li>'+r.ingredients[j]+'</li>';}
+        var mhtml='';for(var k=0;k<r.method.length;k++){mhtml+='<li>'+r.method[k]+'</li>';}
+        
+        var h='<div class="modal-meta">';
+        h+='<span>⏱️ '+r.time+'</span>';
+        h+='<span>👥 '+r.servings+'</span>';
+        if(r.rating)h+='<span>⭐ '+r.rating+'</span>';
+        h+='</div>';
+        h+='<div class="modal-tags">'+thtml+'</div>';
+        h+='<div class="modal-section"><h3>🥗 Ingredients</h3><ul>'+ihtml+'</ul></div>';
+        h+='<div class="modal-section"><h3>👩‍🍳 Method</h3><ol>'+mhtml+'</ol></div>';
+        if(r.tip)h+='<div class="modal-section"><div class="modal-box tip">💡 '+r.tip+'</div></div>';
+        if(r.source)h+='<div class="modal-section"><div class="modal-box source">📖 Source: '+r.source+'</div></div>';
+        
+        modalBody.innerHTML=h;
+        overlay.className='overlay open';
+        document.body.style.overflow='hidden';
     }
-
-    document.getElementById('modal-overlay').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filter = this.dataset.filter;
-            if (filter === 'all') {
-                activeFilters.clear();
-                activeFilters.add('all');
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            } else {
-                activeFilters.delete('all');
-                document.querySelector('[data-filter="all"]').classList.remove('active');
-                if (activeFilters.has(filter)) {
-                    activeFilters.delete(filter);
-                    this.classList.remove('active');
-                    if (activeFilters.size === 0) {
-                        activeFilters.add('all');
-                        document.querySelector('[data-filter="all"]').classList.add('active');
-                    }
-                } else {
-                    activeFilters.add(filter);
-                    this.classList.add('active');
-                }
-            }
-            renderRecipes();
-        });
-    });
-
-    renderRecipes();
-    </script>
+    
+    function hide(){overlay.className='overlay';document.body.style.overflow='';}
+    
+    function setupBtns(containerId,filterKey){
+        var btns=document.getElementById(containerId).querySelectorAll('.btn');
+        for(var i=0;i<btns.length;i++){
+            (function(b){b.onclick=function(){
+                for(var x=0;x<btns.length;x++)btns[x].className='btn';
+                b.className='btn active';
+                if(filterKey=='protein')protein=b.getAttribute('data-protein');
+                if(filterKey=='cuisine')cuisine=b.getAttribute('data-cuisine');
+                if(filterKey=='type')type=b.getAttribute('data-type');
+                filter();
+            };})(btns[i]);
+        }
+    }
+    
+    setupBtns('proteinBtns','protein');
+    setupBtns('cuisineBtns','cuisine');
+    setupBtns('typeBtns','type');
+    search.oninput=filter;
+    modalX.onclick=hide;
+    overlay.onclick=function(e){if(e.target==overlay)hide();};
+    
+    render();
+    filter();
+})();
+</script>
 </body>
 </html>
