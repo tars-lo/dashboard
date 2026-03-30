@@ -148,6 +148,24 @@
     
     .footer { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); text-align: center; margin-top: 16px; padding-top: 12px; border-top: 2px solid var(--border); }
     .empty { color: var(--text-dim); font-style: italic; font-size: 0.8rem; padding: 6px 0; }
+    
+    /* Habits */
+    .habit-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--border); }
+    .habit-row:last-child { border-bottom: none; }
+    .habit-label { font-size: 0.8rem; font-weight: 500; width: 90px; flex-shrink: 0; }
+    .habit-target { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); }
+    .habit-grid { display: flex; gap: 3px; flex: 1; justify-content: flex-end; }
+    .habit-block { width: 20px; height: 20px; border-radius: 3px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.5rem; }
+    .habit-block.done { background: var(--success); border-color: var(--success); }
+    .habit-block.missed { background: transparent; border-color: var(--border); }
+    .habit-block.danger { background: var(--q1); border-color: var(--q1); }
+    .habit-block.today { border: 2px solid var(--accent); }
+    .habit-week-label { font-family: 'Space Mono', monospace; font-size: 0.5rem; color: var(--text-dim); text-align: center; width: 20px; }
+    .habit-week-header { display: flex; gap: 3px; justify-content: flex-end; margin-bottom: 6px; padding-right: 0; margin-left: 100px; }
+    .habit-score { font-family: 'Space Mono', monospace; font-size: 0.65rem; margin-left: 8px; width: 30px; text-align: right; }
+    .habit-score.good { color: var(--success); }
+    .habit-score.warn { color: var(--warm); }
+    .habit-score.bad { color: var(--q1); }
   </style>
 </head>
 <body>
@@ -217,6 +235,11 @@
       <div class="card-body" id="reading">Loading...</div>
     </div>
     
+    <div class="card">
+      <div class="card-header"><span>🔄 Habits</span><span class="card-badge" id="habitStreak">--</span></div>
+      <div class="card-body" id="habits">Loading...</div>
+    </div>
+    
     <div class="footer">↻ <span id="lastUpdated">--</span> · TARS × TE</div>
   </div>
 
@@ -268,9 +291,56 @@
         const rd = document.getElementById('reading');
         if (!d.reading?.length) rd.innerHTML = '<div class="empty">Nothing tracked</div>';
         else rd.innerHTML = d.reading.map(r => `<div class="reading-item"><div class="reading-progress" style="--pct:${r.progress}%"><div class="reading-progress-inner">${r.progress}%</div></div><div class="reading-info"><div class="reading-title">${r.title}</div><div class="reading-author">${r.author}</div></div><span class="reading-tag">${r.type}</span></div>`).join('');
+        
+        // Habits
+        const hb = document.getElementById('habits');
+        hb.innerHTML = renderHabits(d.habits);
+        if (d.habits?.length) {
+          const totalDone = d.habits.reduce((a,h) => a + h.week.filter(x=>x).length, 0);
+          const totalTarget = d.habits.reduce((a,h) => a + h.target, 0);
+          document.getElementById('habitStreak').textContent = `${totalDone}/${totalTarget} this wk`;
+        }
       } catch(e) { console.error(e); }
     }
     load(); setInterval(load, 300000);
+    
+    function renderHabits(habits) {
+      if (!habits?.length) return '<div class="empty">No habits tracked</div>';
+      const days = ['M','T','W','T','F','S','S'];
+      const today = new Date().getDay();
+      const todayIdx = today === 0 ? 6 : today - 1;
+      
+      let html = '<div class="habit-week-header">';
+      days.forEach((d,i) => html += `<div class="habit-week-label">${d}</div>`);
+      html += '<div style="width:38px"></div></div>';
+      
+      habits.forEach(h => {
+        const done = h.week.filter(x => x).length;
+        const scoreClass = done >= h.target ? 'good' : (done >= h.target - 1 ? 'warn' : 'bad');
+        
+        // Check for 3+ day streak of misses ending today
+        let dangerStreak = 0;
+        for (let i = todayIdx; i >= 0; i--) {
+          if (!h.week[i]) dangerStreak++;
+          else break;
+        }
+        
+        html += `<div class="habit-row">`;
+        html += `<div class="habit-label">${h.icon} ${h.name}<br><span class="habit-target">${h.target}x/wk</span></div>`;
+        html += `<div class="habit-grid">`;
+        h.week.forEach((v, i) => {
+          let cls = v ? 'done' : 'missed';
+          if (!v && dangerStreak >= 3 && i >= todayIdx - dangerStreak + 1 && i <= todayIdx) cls = 'danger';
+          if (i === todayIdx) cls += ' today';
+          html += `<div class="habit-block ${cls}">${v ? '✓' : ''}</div>`;
+        });
+        html += `</div>`;
+        html += `<div class="habit-score ${scoreClass}">${done}/${h.target}</div>`;
+        html += `</div>`;
+      });
+      
+      return html;
+    }
   </script>
 </body>
 </html>
