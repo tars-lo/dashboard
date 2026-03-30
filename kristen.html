@@ -31,11 +31,11 @@
         .week-day-name.today { color: var(--black); font-weight: 500; }
         .week-day-events { font-size: 0.85rem; flex: 1; }
         .quiet { color: var(--mid-gray); font-style: italic; }
-        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
-        .task:last-child { border-bottom: none; }
-        .task-bullet { color: var(--accent); font-size: 0.6rem; margin-top: 0.4rem; }
-        .task-text { font-size: 0.9rem; }
-        .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
+        .helper-row { display: flex; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+        .helper-row:last-child { border-bottom: none; }
+        .helper-date { font-size: 0.8rem; color: var(--mid-gray); min-width: 6rem; }
+        .helper-name { font-size: 0.9rem; flex: 1; }
+        .helper-note { font-size: 0.75rem; color: var(--mid-gray); font-style: italic; }
         footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
         .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
         .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
@@ -49,7 +49,7 @@
             <div class="weather">+32°C · Partly cloudy · Singapore</div>
         </header>
         
-        <div class="on-call-banner"><div class="label">On Call This Week</div><div class="days">Friday,Monday</div></div>
+        <div class="on-call-banner"><div class="label">On Call This Week</div><div class="days">Friday 3 Apr (Good Friday)</div></div>
         
         <section>
             <div class="section-header">
@@ -57,8 +57,7 @@
                 <span class="section-title">Today</span>
             </div>
             <div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div>
-<div class="event"><span class="event-time">5:00pm-6:00pm</span><span class="event-title">Zoe Swimming (5pm this week only)</span></div>
-<div class="event"><span class="event-time">All day</span><span class="event-title">Call</span></div>
+            <div class="event"><span class="event-time">5:00pm-6:00pm</span><span class="event-title">Zoe Swimming (5pm this week only)</span></div>
         </section>
         
         <section>
@@ -67,26 +66,47 @@
                 <span class="section-title">This Week</span>
             </div>
             <div class="week-list">
-                <div class="week-day"><span class="week-day-name today">Mon</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Tue</span><span class="week-day-events">Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Kada, Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">On call</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events"><span class="quiet">Clear</span></span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events"><span class="quiet">Clear</span></span></div>
+                <div class="week-day"><span class="week-day-name today">Mon</span><span class="week-day-events">Kada, Zoe Swimming 5pm</span></div>
+                <div class="week-day"><span class="week-day-name">Tue</span><span class="week-day-events">Kada</span></div>
+                <div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Kada, Clean car</span></div>
+                <div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date — Pottery painting (Zoe + Yuna)</span></div>
+                <div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">Good Friday 🔴 On call, House Church 8pm</span></div>
+                <div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events">Art @ Kada 10:30am, Chinese 3pm · Gladys</span></div>
+                <div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events">Solomon's Porch 10am · Marie (Easter)</span></div>
             </div>
         </section>
         
         <section>
             <div class="section-header">
                 <span class="section-number">03</span>
-                <span class="section-title">Doodle Farms</span>
+                <span class="section-title">Weekly Recurring</span>
             </div>
-            <div class="task"><span class="task-bullet">◆</span><span class="task-text">Cathay pw (!!! No period)</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">🔑 梳妝袋</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">🍎1366ttAM</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">App Store 136..ttxx</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">KAL bus login: matthewjlo@gmail.com. Dai</span></div>
-<div class="task"><span class="task-bullet">◆</span><span class="task-text">[TARS] Zoe swimming at 5pm (not 3:30pm)</span></div>
+            <div class="event"><span class="event-time">Sat 10:30am</span><span class="event-title">Art at Kada (Zoe)</span></div>
+            <div class="event"><span class="event-time">Sat 3:00pm</span><span class="event-title">Chinese Class (Zoe)</span></div>
+            <div class="event"><span class="event-time">Sun 10:00am</span><span class="event-title">Solomon's Porch</span></div>
+            <div class="event"><span class="event-time">Fri 8:00pm</span><span class="event-title">House Church</span></div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <span class="section-title">Helper Schedule · April</span>
+            </div>
+            <div class="helper-row"><span class="helper-date">Fri 3 Apr</span><span class="helper-name">Gladys</span><span class="helper-note">Good Friday</span></div>
+            <div class="helper-row"><span class="helper-date">Sat 4 Apr</span><span class="helper-name">Gladys</span></div>
+            <div class="helper-row"><span class="helper-date">Sun 5 Apr</span><span class="helper-name">Marie</span><span class="helper-note">Easter</span></div>
+            <div class="helper-row"><span class="helper-date">Sat 11 Apr</span><span class="helper-name">Marie</span></div>
+            <div class="helper-row"><span class="helper-date">Sun 12 Apr</span><span class="helper-name">Gladys</span></div>
+            <div class="helper-row"><span class="helper-date">Sat 18 Apr</span><span class="helper-name">Gladys</span></div>
+            <div class="helper-row"><span class="helper-date">Sun 19 Apr</span><span class="helper-name">Marie</span></div>
+            <div class="helper-row"><span class="helper-date">Sat 25 Apr</span><span class="helper-name">Marie</span></div>
+            <div class="helper-row"><span class="helper-date">Sun 26 Apr</span><span class="helper-name">Gladys</span></div>
+            <div class="helper-row"><span class="helper-date">Apr 28–May 4</span><span class="helper-name">Marie away</span><span class="helper-note">Returns May 5, 9am</span></div>
         </section>
         
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 2:03 PM</div>
+            <div class="update-time">Updated 2:35 PM</div>
         </footer>
     </div>
 </body>
