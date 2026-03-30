@@ -45,6 +45,16 @@
         .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
         .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
         .grocery-count { font-size: 0.7rem; color: var(--mid-gray); margin-left: auto; }
+        .helper-grid { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+        .helper-row { display: grid; grid-template-columns: 70px repeat(7, 1fr); text-align: center; font-size: 0.75rem; border-bottom: 1px solid var(--rule); }
+        .helper-row:last-child { border-bottom: none; }
+        .helper-row.header { background: var(--rule); font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mid-gray); padding: 0.5rem 0; }
+        .helper-row.header .weekend { color: var(--accent); }
+        .helper-row span { padding: 0.6rem 0; }
+        .helper-row .helper-name { text-align: left; padding-left: 0.75rem; font-weight: 500; }
+        .helper-row .on { color: var(--sage); }
+        .helper-row .off { color: var(--rule); }
+        .helper-note { font-size: 0.7rem; color: var(--mid-gray); text-align: center; margin-top: 0.75rem; font-style: italic; }
         footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
         .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
         .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
@@ -58,18 +68,7 @@
             <div class="weather" id="weatherDisplay">+27°C · Partly cloudy · Singapore</div>
         </header>
         
-        <div class="helper-schedule">
-            <div class="helper-card" id="gladysCard">
-                <div class="helper-name">Gladys</div>
-                <div class="helper-focus">Lily</div>
-                <div class="helper-status" id="gladysStatus">Off</div>
-            </div>
-            <div class="helper-card" id="marieCard">
-                <div class="helper-name">Marie</div>
-                <div class="helper-focus">Household + Zoe</div>
-                <div class="helper-status" id="marieStatus">Off</div>
-            </div>
-        </div>
+
         
         <div class="on-call-banner" id="onCallBanner" style="display:block;">
             <div class="label">On Call This Week</div>
@@ -101,9 +100,34 @@
             <div class="grocery-grid"><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mushrooms</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Raspberry Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Vanilla Bean Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Passion Fruit Yoghurt Jar</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Plain Greek Yoghurt (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Chicken Leg Whole</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Chicken Breast Boneless (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Firm Tofu - Tau Kwa</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Silken Tofu (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mini Watermelon</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Native Mandarins</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Passion Fruit (Yellow)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Achigold Musk Melon</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Papaya</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Mango - Best of Season</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Apples</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Avocado Large (x2)</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Lemons</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Organic Acai Superfruit Packs</span></div><div class="task"><span class="task-bullet">◆</span><span class="task-text">Broccoli</span></div></div>
         </section>
         
+        <section>
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <span class="section-title">Helper Schedule</span>
+            </div>
+            <div class="helper-grid">
+                <div class="helper-row header">
+                    <span></span>
+                    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+                    <span class="weekend">Sat</span><span class="weekend">Sun</span>
+                </div>
+                <div class="helper-row">
+                    <span class="helper-name">Gladys</span>
+                    <span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span><span class="on">✓</span>
+                    <span class="off">—</span><span class="off">—</span>
+                </div>
+                <div class="helper-row">
+                    <span class="helper-name">Marie</span>
+                    <span class="off">—</span><span class="off">—</span><span class="off">—</span><span class="off">—</span><span class="off">—</span>
+                    <span class="on">✓</span><span class="on">✓</span>
+                </div>
+            </div>
+            <div class="helper-note">Gladys → Lily · Marie → Household + Zoe</div>
+        </section>
+        
         <footer>
             <div class="footer-text">TARS</div>
-            <div class="update-time">Updated 6:04 AM</div>
+            <div class="update-time">Updated 6:17 AM</div>
         </footer>
     </div>
     
@@ -118,16 +142,7 @@
         var greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
         document.getElementById('greetingDisplay').textContent = greet + ', Kristen';
         
-        // Helper schedule: Gladys weekdays, Marie weekends
-        var dow = now.getDay();
-        var isWeekend = (dow === 0 || dow === 6);
-        if (isWeekend) {
-            document.getElementById('marieCard').classList.add('on-duty');
-            document.getElementById('marieStatus').textContent = 'On Duty';
-        } else {
-            document.getElementById('gladysCard').classList.add('on-duty');
-            document.getElementById('gladysStatus').textContent = 'On Duty';
-        }
+
     })();
     </script>
 </body>
