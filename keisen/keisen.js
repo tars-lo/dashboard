@@ -1141,10 +1141,19 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
     // ========== 1. HEADER (date placeholders - Japanese) ==========
-    // Embed a font that supports Japanese characters
-    const fontBytes = await fetch('https://cdn.jsdelivr.net/npm/@aspect-build/aspect-fonts@0.0.1/fonts/NotoSansJP-Regular.otf').then(r => r.arrayBuffer());
-    const japaneseFont = await page.doc.embedFont(fontBytes);
-    const font = japaneseFont;
+    // Embed Noto Sans JP for Japanese characters
+    const fontUrl = 'https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf';
+    let font;
+    try {
+        const fontBytes = await fetch(fontUrl).then(r => {
+            if (!r.ok) throw new Error('Font fetch failed');
+            return r.arrayBuffer();
+        });
+        font = await page.doc.embedFont(fontBytes);
+    } catch (e) {
+        // Fallback to Helvetica if font fails
+        font = await page.doc.embedFont(StandardFonts.Helvetica);
+    }
     const dateFontSize = 4 * mmToPt;
     
     // Japanese style: ＿＿月 ＿＿日 （　）
