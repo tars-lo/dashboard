@@ -500,8 +500,8 @@ function drawHobonichi(margin, headerOffset = 0) {
     const scheduleHeight = Math.min(scheduleRows * cellSize, actualGridHeight - cellSize * 4); // Leave room for notes
     const actualScheduleRows = Math.floor(scheduleHeight / cellSize);
     
-    // Notes section starts after schedule (below the 24 line)
-    const notesStartY = offsetY + scheduleHeight;
+    // Notes section starts BELOW the 24 row (after the last schedule cell)
+    const notesStartY = offsetY + scheduleHeight + cellSize; // +cellSize to go below the 24 row
     const notesHeight = actualGridHeight - scheduleHeight;
     
     // ========== 1. HEADER AREA (no grid, just date) ==========
@@ -599,7 +599,7 @@ function drawHobonichi(margin, headerOffset = 0) {
     
     // ========== 6. BOLD LINE BELOW 24 (notes separator) ==========
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.4, 2);
+    ctx.lineWidth = mmToPixels(0.3, 2); // Same thickness as other borders
     ctx.globalAlpha = 0.7;
     ctx.beginPath();
     ctx.moveTo(offsetX, notesStartY);
@@ -652,13 +652,13 @@ function drawHobonichi(margin, headerOffset = 0) {
     
     ctx.globalAlpha = 1;
     
-    // ========== 9. WATERMARK ==========
+    // ========== 9. WATERMARK (below grid) ==========
     const wmFontSize = mmToPixels(2, 2);
     ctx.font = `300 ${wmFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
     ctx.globalAlpha = 0.2;
     ctx.textAlign = 'right';
-    ctx.fillText('MADE BY TARS', offsetX + actualGridWidth - mmToPixels(2, 2), notesStartY + notesRows * cellSize - mmToPixels(2, 2));
+    ctx.fillText('MADE BY TARS', offsetX + actualGridWidth, notesStartY + notesRows * cellSize + mmToPixels(4, 2));
     ctx.textAlign = 'left';
     ctx.globalAlpha = 1;
 }
@@ -1120,27 +1120,37 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     
     const scheduleTopY = gridEndY;
     const scheduleBottomY = gridEndY - scheduleHeight;
-    const notesTopY = scheduleBottomY;
-    const notesHeight = scheduleBottomY - startY;
+    // Notes starts BELOW the 24 row
+    const notesTopY = scheduleBottomY - cellSize;
+    const notesHeight = notesTopY - startY;
     const notesRows = Math.floor(notesHeight / cellSize);
-    const notesBottomY = scheduleBottomY - (notesRows * cellSize);
+    const notesBottomY = notesTopY - (notesRows * cellSize);
     
     const fineLineWidth = 0.1 * mmToPt;
     
-    // ========== 1. HEADER (date placeholders) ==========
+    // ========== 1. HEADER (date placeholders - Japanese) ==========
     const font = await page.doc.embedFont(StandardFonts.Helvetica);
     const dateFontSize = 3.5 * mmToPt;
     
-    page.drawText('M', {
-        x: offsetX + cellSize * 1.5,
+    // Using basic characters that render in Helvetica - actual Japanese would need embedded font
+    page.drawText('___', {
+        x: offsetX + cellSize * 1,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
         opacity: 0.3
     });
-    page.drawText('D', {
-        x: offsetX + cellSize * 4,
+    page.drawText('/', {
+        x: offsetX + cellSize * 3,
+        y: endY - headerHeight / 2 - dateFontSize / 3,
+        size: dateFontSize,
+        font,
+        color,
+        opacity: 0.3
+    });
+    page.drawText('___', {
+        x: offsetX + cellSize * 3.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
@@ -1238,7 +1248,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX, y: notesTopY },
         end: { x: offsetX + actualGridWidth, y: notesTopY },
-        thickness: 0.4 * mmToPt,
+        thickness: 0.3 * mmToPt, // Same as other borders
         color
     });
     
@@ -1281,11 +1291,11 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         color
     });
     
-    // ========== 10. WATERMARK ==========
+    // ========== 10. WATERMARK (below grid) ==========
     const wmFontSize = 2 * mmToPt;
     page.drawText('MADE BY TARS', {
         x: offsetX + actualGridWidth - 25 * mmToPt,
-        y: notesBottomY + 2 * mmToPt,
+        y: notesBottomY - 4 * mmToPt,
         size: wmFontSize,
         font,
         color,
