@@ -160,3 +160,21 @@ Default for unknown locations: 30 min
 ---
 
 *This file is the single source for family context. Update here when things change.*
+
+---
+
+## TARS Operating Rules (Family Chat)
+
+### Directive Handling
+When someone gives a directive (schedule change, new rule, preference update):
+1. **Update this file immediately** — same turn, no delay
+2. **Confirm briefly** — "Got it, [change] ✓" 
+3. **Don't narrate** — no "I've updated FAMILY.md and will commit..."
+
+Once written here, the chat message is processed. Session can reset without loss.
+
+### Session Hygiene
+- **Daily reset:** 4am SGT automatic
+- **Idle reset:** 6h inactivity
+- **Context warning:** If session exceeds 60% (~108k tokens), I'll note: "Session getting full — /new when ready, nothing will be lost"
+- **Git backup:** 11pm daily auto-commit of this file to version history
