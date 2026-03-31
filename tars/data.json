@@ -1,15 +1,16 @@
 {
   "date": "Tue, 31 Mar",
-  "updated": "8:00 AM",
+  "updated": "8:12 AM",
   "weather": {
     "icon": "☀️",
     "temp": "weather data source not available"
   },
-  "vibe": "<strong>3 events tomorrow.</strong> 3 stale leads need attention. 2 urgent tasks.",
+  "vibe": "<strong>3 events tomorrow.</strong> 3 stale leads need attention. 3 urgent tasks.",
   "alerts": [],
   "today": [{"time":"10:00am-10:30am","title":"Matt & Anisha Synch Up","tag":"W"},{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"}],
   "tomorrow": [{"time":"10:00am-12:30pm","title":"Zoe + Leia — Open Studio @ Kada","tag":"F"},{"time":"3:00pm-3:30pm","title":"Contract Discussion – Quyen (with Dat & Matt)","tag":"W"},{"time":"All day","title":"Clean inside of car and vacuum","tag":"F"}],
   "pipeline": {"stale": [{"name": "Marine Poirel", "company": "Le Mas des Herbes Blanche", "days": 19, "action": "Requested CLAIR presentation deck from"}, {"name": "Thierry Naidu", "company": "Ch\u00e8vre d'Or (Phoenix HMC)", "days": 20, "action": "Partnership follow-up overdue (propose"}, {"name": "Claire Oiknine", "company": "Ch\u00eaneaudi\u00e8re (R&amp;C)", "days": 20, "action": "Follow-up DUE APR 3 \u2014 THIS THURSDAY. T"}], "hot": [{"name": "G. Torre", "company": "Grand Hotel Parker's", "days": 11, "action": "Mar 26 window passed \u2014 slot was never "}, {"name": "Arine Karaoghlanian", "company": "Relais &amp; Ch\u00e2teaux", "days": 10, "action": "CLAIR setup issues for Ahama + Elounda"}, {"name": "Oliver Gillow", "company": "Ahama", "days": 11, "action": "Submitted new comp set of 7 properties"}], "warm": []},
-  "tasks": [{"title": "ASK CELEENE RE TIME+TIDES LOST WIRE TRAN", "priority": "q1"}, {"title": "FILE SINGAPOREAN INCOME TAXES", "priority": "q2"}, {"title": "CREDIT CARD \u2014 CHANGE ADDRESS + PAY LATE ", "priority": "q1"}, {"title": "This Week", "priority": "q2"}, {"title": "[P] PICKUP GLUE FOR ZOE'S DESK CHAIR", "priority": "q3"}, {"title": "[T] SETUP ZOE CURRICULUM TRACKING SKILL", "priority": "q2"}, {"title": "ASK ALICE + CELEENE RE ADVANT FY24 TAX F", "priority": "q2"}],
-  "reading": [{"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"}, {"title": "The Creative Act \u2b50", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}]
+  "tasks": [{"title": "ASK CELEENE RE TIME+TIDES LOST WIRE TRAN", "priority": "q1"}, {"title": "FILE SINGAPOREAN INCOME TAXES", "priority": "q2"}, {"title": "CREDIT CARD \u2014 CHANGE ADDRESS + PAY LATE ", "priority": "q1"}, {"title": "This Week", "priority": "q2"}, {"title": "This Week", "priority": "q1"}, {"title": "[P] PICKUP GLUE FOR ZOE'S DESK CHAIR", "priority": "q3"}, {"title": "[T] SETUP ZOE CURRICULUM TRACKING SKILL", "priority": "q2"}, {"title": "ASK ALICE + CELEENE RE ADVANT FY24 TAX F", "priority": "q2"}],
+  "reading": [{"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"}, {"title": "The Creative Act \u2b50", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}],
+  "habits": [{"icon": "\ud83d\ude4f", "name": "Devotional", "target": 7, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udcd6", "name": "Reading", "target": 4, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udeb6", "name": "Walk", "target": 5, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udcaa", "name": "Workout", "target": 4, "days": [false, false, false, false, false, false, false]}]
 }
