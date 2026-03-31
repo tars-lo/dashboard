@@ -19,11 +19,13 @@ const DEVICES = {
 const COLORS = {
     gray: { r: 180, g: 180, b: 180, hex: '#b4b4b4' },       // Neutral gray
     blue: { r: 168, g: 197, b: 226, hex: '#a8c5e2' },       // Classic blue
+    red: { r: 210, g: 160, b: 160, hex: '#d2a0a0' },        // Warm red
     tomoe: { r: 160, g: 180, b: 200, hex: '#a0b4c8' }       // Tomoe River blue-gray
 };
 
 const PAPERS = {
     white: { r: 255, g: 255, b: 255, hex: '#ffffff' },
+    cream: { r: 252, g: 250, b: 245, hex: '#fcfaf5' },      // Warm cream
     tomoe: { r: 255, g: 254, b: 250, hex: '#fffefa' }       // Tomoe River cream-white
 };
 

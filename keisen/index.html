@@ -237,6 +237,7 @@
 
         .color-btn.gray { background: #b4b4b4; }
         .color-btn.blue { background: #a8c5e2; }
+        .color-btn.red { background: #d2a0a0; }
         .color-btn.tomoe { background: #a0b4c8; }
 
         .paper-options {
@@ -266,6 +267,7 @@
         }
 
         .paper-btn.white::before { background: #ffffff; border: 1px solid var(--border); }
+        .paper-btn.cream::before { background: #fcfaf5; border: 1px solid #e8e4d9; }
         .paper-btn.tomoe-paper::before { background: #fffefa; border: 1px solid #e8e6e0; }
 
         .paper-btn:hover {
@@ -614,6 +616,7 @@
                 <div class="color-options">
                     <button class="color-btn gray active" data-color="gray" title="Gray"></button>
                     <button class="color-btn blue" data-color="blue" title="Blue"></button>
+                    <button class="color-btn red" data-color="red" title="Red"></button>
                     <button class="color-btn tomoe" data-color="tomoe" title="Tomoe"></button>
                 </div>
             </div>
@@ -622,6 +625,7 @@
                 <div class="section-title">Paper</div>
                 <div class="paper-options">
                     <button class="paper-btn white active" data-paper="white">White</button>
+                    <button class="paper-btn cream" data-paper="cream">Cream</button>
                     <button class="paper-btn tomoe-paper" data-paper="tomoe">Tomoe</button>
                 </div>
             </div>
@@ -656,6 +660,6 @@
         </main>
     </div>
 
-    <script src="keisen.js"></script>
+    <script src="keisen.js?v=2"></script>
 </body>
 </html>
