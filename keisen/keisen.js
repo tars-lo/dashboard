@@ -742,11 +742,11 @@ function drawGenkoyoshi(margin, headerOffset = 0) {
     ctx.globalAlpha = 1;
 }
 
-async function drawHeaderPDF(page, width, height, margin, lineWidth, color) {
+async function drawHeaderPDF(pdfDoc, page, width, height, margin, lineWidth, color) {
     const { StandardFonts } = PDFLib;
     const mmToPt = 2.835;
     
-    const font = await page.doc.embedFont(StandardFonts.Helvetica);
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const fontSize = 3 * mmToPt * 2.5;
     const textColor = PDFLib.rgb(0.33, 0.33, 0.33);
     
@@ -845,7 +845,7 @@ async function exportPDF() {
     
     // Draw header if enabled
     if (state.showHeader) {
-        drawHeaderPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor);
+        await drawHeaderPDF(pdfDoc, page, widthPt, heightPt, marginPt, lineWidth, gridColor);
     }
     
     // Draw template to PDF
@@ -866,7 +866,7 @@ async function exportPDF() {
             drawCalligraphyCNPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'hobonichi':
-            await drawHobonichiPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor, headerOffsetPt);
+            await drawHobonichiPDF(pdfDoc, page, widthPt, heightPt, marginPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'genkoyoshi':
             drawGenkoyoshiPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor, headerOffsetPt);
@@ -1093,7 +1093,7 @@ function drawCalligraphyCNPDF(page, width, height, margin, lineWidth, color, hea
     }
 }
 
-async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
+async function drawHobonichiPDF(pdfDoc, page, width, height, margin, lineWidth, color, headerOffset = 0) {
     const { StandardFonts } = PDFLib;
     const mmToPt = 2.835;
     const cellSize = 6 * mmToPt; // Larger grid for e-ink writing
@@ -1141,7 +1141,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
     // ========== 1. HEADER (date placeholders) ==========
-    const font = await page.doc.embedFont(StandardFonts.Helvetica);
+    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const dateFontSize = 4 * mmToPt;
     
     // Simple placeholder lines - user will write the date by hand
