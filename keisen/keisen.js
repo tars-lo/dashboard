@@ -36,7 +36,8 @@ let state = {
     paper: 'white',
     cellSize: 5,      // mm
     lineWeight: 0.3,  // mm
-    margin: 10        // mm
+    margin: 10,       // mm
+    showHeader: false // Date/Subject header
 };
 
 // DOM Elements
@@ -106,6 +107,15 @@ function setupEventListeners() {
         render();
     });
 
+    // Header toggle
+    const headerToggle = document.getElementById('showHeader');
+    if (headerToggle) {
+        headerToggle.addEventListener('change', (e) => {
+            state.showHeader = e.target.checked;
+            render();
+        });
+    }
+
     // Export button
     document.getElementById('exportBtn').addEventListener('click', exportPDF);
 }
@@ -113,6 +123,58 @@ function setupEventListeners() {
 function mmToPixels(mm, scale = 3) {
     // 1mm = 3.78 pixels at 96 DPI, scale up for preview quality
     return mm * 3.78 * scale;
+}
+
+function getHeaderHeight(scale) {
+    // Header takes about 8mm for text + underlines + spacing
+    return state.showHeader ? mmToPixels(12, scale) : 0;
+}
+
+function drawHeader(margin, scale) {
+    if (!state.showHeader) return 0;
+    
+    const headerHeight = getHeaderHeight(scale);
+    const startX = margin;
+    const startY = margin;
+    const endX = canvas.width - margin;
+    
+    const color = COLORS[state.color];
+    const textColor = '#555555'; // Slightly darker for text
+    
+    // Font size based on scale
+    const fontSize = mmToPixels(3, scale);
+    ctx.font = `${fontSize}px Inter, -apple-system, sans-serif`;
+    ctx.fillStyle = textColor;
+    
+    // Date label and line
+    const dateLabel = 'Date:';
+    ctx.fillText(dateLabel, startX, startY + fontSize);
+    
+    const dateLabelWidth = ctx.measureText(dateLabel).width;
+    const dateLineStart = startX + dateLabelWidth + mmToPixels(2, scale);
+    const dateLineEnd = startX + (endX - startX) * 0.35;
+    
+    ctx.strokeStyle = color.hex;
+    ctx.lineWidth = mmToPixels(state.lineWeight, scale);
+    ctx.beginPath();
+    ctx.moveTo(dateLineStart, startY + fontSize + mmToPixels(1, scale));
+    ctx.lineTo(dateLineEnd, startY + fontSize + mmToPixels(1, scale));
+    ctx.stroke();
+    
+    // Subject label and line
+    const subjectLabel = 'Subject:';
+    const subjectStart = dateLineEnd + mmToPixels(8, scale);
+    ctx.fillText(subjectLabel, subjectStart, startY + fontSize);
+    
+    const subjectLabelWidth = ctx.measureText(subjectLabel).width;
+    const subjectLineStart = subjectStart + subjectLabelWidth + mmToPixels(2, scale);
+    
+    ctx.beginPath();
+    ctx.moveTo(subjectLineStart, startY + fontSize + mmToPixels(1, scale));
+    ctx.lineTo(endX, startY + fontSize + mmToPixels(1, scale));
+    ctx.stroke();
+    
+    return headerHeight;
 }
 
 function render() {
@@ -140,21 +202,24 @@ function render() {
     const marginPx = mmToPixels(state.margin, scale);
     const cellPx = mmToPixels(state.cellSize, scale);
     
+    // Draw header if enabled
+    const headerOffset = drawHeader(marginPx, scale);
+    
     switch (state.template) {
         case 'grid':
-            drawGrid(marginPx, cellPx);
+            drawGrid(marginPx, cellPx, headerOffset);
             break;
         case 'dot':
-            drawDotGrid(marginPx, cellPx);
+            drawDotGrid(marginPx, cellPx, headerOffset);
             break;
         case 'lined':
-            drawLined(marginPx, cellPx);
+            drawLined(marginPx, cellPx, headerOffset);
             break;
         case 'cornell':
-            drawCornell(marginPx, cellPx);
+            drawCornell(marginPx, cellPx, headerOffset);
             break;
         case 'calligraphy-cn':
-            drawCalligraphyCN(marginPx);
+            drawCalligraphyCN(marginPx, headerOffset);
             break;
         case 'blank':
             // Just margins, no lines
@@ -162,59 +227,87 @@ function render() {
     }
 }
 
-function drawGrid(margin, cell) {
+function drawGrid(margin, cell, headerOffset = 0) {
     const startX = margin;
-    const startY = margin;
+    const startY = margin + headerOffset;
     const endX = canvas.width - margin;
     const endY = canvas.height - margin;
     
+    // Calculate grid dimensions that fit evenly
+    const availWidth = endX - startX;
+    const availHeight = endY - startY;
+    const cols = Math.floor(availWidth / cell);
+    const rows = Math.floor(availHeight / cell);
+    const gridWidth = cols * cell;
+    const gridHeight = rows * cell;
+    
+    // Center the grid horizontally, keep top-aligned
+    const offsetX = startX + (availWidth - gridWidth) / 2;
+    const offsetY = startY;
+    
     ctx.beginPath();
     
-    // Vertical lines
-    for (let x = startX; x <= endX; x += cell) {
-        ctx.moveTo(x, startY);
-        ctx.lineTo(x, endY);
+    // Vertical lines (cols + 1 to close the right edge)
+    for (let i = 0; i <= cols; i++) {
+        const x = offsetX + i * cell;
+        ctx.moveTo(x, offsetY);
+        ctx.lineTo(x, offsetY + gridHeight);
     }
     
-    // Horizontal lines
-    for (let y = startY; y <= endY; y += cell) {
-        ctx.moveTo(startX, y);
-        ctx.lineTo(endX, y);
+    // Horizontal lines (rows + 1 to close the bottom edge)
+    for (let i = 0; i <= rows; i++) {
+        const y = offsetY + i * cell;
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + gridWidth, y);
     }
     
     ctx.stroke();
 }
 
-function drawDotGrid(margin, cell) {
+function drawDotGrid(margin, cell, headerOffset = 0) {
     const startX = margin;
-    const startY = margin;
+    const startY = margin + headerOffset;
     const endX = canvas.width - margin;
     const endY = canvas.height - margin;
+    
+    // Calculate grid that fits evenly
+    const availWidth = endX - startX;
+    const availHeight = endY - startY;
+    const cols = Math.floor(availWidth / cell);
+    const rows = Math.floor(availHeight / cell);
+    const gridWidth = cols * cell;
+    
+    const offsetX = startX + (availWidth - gridWidth) / 2;
     
     const color = COLORS[state.color];
     ctx.fillStyle = color.hex;
     
     const dotRadius = mmToPixels(state.lineWeight * 1.5, 2);
     
-    for (let x = startX; x <= endX; x += cell) {
-        for (let y = startY; y <= endY; y += cell) {
+    for (let i = 0; i <= cols; i++) {
+        for (let j = 0; j <= rows; j++) {
             ctx.beginPath();
-            ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
+            ctx.arc(offsetX + i * cell, startY + j * cell, dotRadius, 0, Math.PI * 2);
             ctx.fill();
         }
     }
 }
 
-function drawLined(margin, cell) {
+function drawLined(margin, cell, headerOffset = 0) {
     const startX = margin;
-    const startY = margin;
+    const startY = margin + headerOffset;
     const endX = canvas.width - margin;
     const endY = canvas.height - margin;
     
+    // Calculate rows that fit evenly
+    const availHeight = endY - startY;
+    const rows = Math.floor(availHeight / cell);
+    
     ctx.beginPath();
     
-    // Only horizontal lines
-    for (let y = startY; y <= endY; y += cell) {
+    // Horizontal lines (rows + 1 for top and bottom bounds)
+    for (let i = 0; i <= rows; i++) {
+        const y = startY + i * cell;
         ctx.moveTo(startX, y);
         ctx.lineTo(endX, y);
     }
@@ -222,9 +315,9 @@ function drawLined(margin, cell) {
     ctx.stroke();
 }
 
-function drawCornell(margin, cell) {
+function drawCornell(margin, cell, headerOffset = 0) {
     const startX = margin;
-    const startY = margin;
+    const startY = margin + headerOffset;
     const endX = canvas.width - margin;
     const endY = canvas.height - margin;
     
@@ -258,10 +351,10 @@ function drawCornell(margin, cell) {
     ctx.stroke();
 }
 
-function drawCalligraphyCN(margin) {
+function drawCalligraphyCN(margin, headerOffset = 0) {
     // 米字格 (Rice character grid) - traditional Chinese calligraphy paper
     const startX = margin;
-    const startY = margin;
+    const startY = margin + headerOffset;
     const endX = canvas.width - margin;
     const endY = canvas.height - margin;
     
@@ -330,6 +423,61 @@ function drawCalligraphyCN(margin) {
     ctx.globalAlpha = 1;
 }
 
+async function drawHeaderPDF(page, width, height, margin, lineWidth, color) {
+    const { StandardFonts } = PDFLib;
+    const mmToPt = 2.835;
+    
+    const font = await page.doc.embedFont(StandardFonts.Helvetica);
+    const fontSize = 3 * mmToPt * 2.5; // Slightly larger for readability
+    const textColor = PDFLib.rgb(0.33, 0.33, 0.33);
+    
+    const startX = margin;
+    const topY = height - margin; // PDF Y is from bottom
+    const endX = width - margin;
+    
+    // Date label
+    const dateLabel = 'Date:';
+    page.drawText(dateLabel, {
+        x: startX,
+        y: topY - fontSize,
+        size: fontSize,
+        font,
+        color: textColor
+    });
+    
+    const dateLabelWidth = font.widthOfTextAtSize(dateLabel, fontSize);
+    const dateLineStart = startX + dateLabelWidth + 2 * mmToPt;
+    const dateLineEnd = startX + (endX - startX) * 0.35;
+    
+    page.drawLine({
+        start: { x: dateLineStart, y: topY - fontSize - 1 * mmToPt },
+        end: { x: dateLineEnd, y: topY - fontSize - 1 * mmToPt },
+        thickness: lineWidth,
+        color
+    });
+    
+    // Subject label
+    const subjectLabel = 'Subject:';
+    const subjectStart = dateLineEnd + 8 * mmToPt;
+    page.drawText(subjectLabel, {
+        x: subjectStart,
+        y: topY - fontSize,
+        size: fontSize,
+        font,
+        color: textColor
+    });
+    
+    const subjectLabelWidth = font.widthOfTextAtSize(subjectLabel, fontSize);
+    const subjectLineStart = subjectStart + subjectLabelWidth + 2 * mmToPt;
+    
+    page.drawLine({
+        start: { x: subjectLineStart, y: topY - fontSize - 1 * mmToPt },
+        end: { x: endX, y: topY - fontSize - 1 * mmToPt },
+        thickness: lineWidth,
+        color
+    });
+}
+
 async function exportPDF() {
     const { PDFDocument, rgb } = PDFLib;
     const device = DEVICES[state.device];
@@ -358,22 +506,30 @@ async function exportPDF() {
     const lineWidth = state.lineWeight * mmToPt;
     const gridColor = rgb(color.r / 255, color.g / 255, color.b / 255);
     
+    // Calculate header offset for PDF (if enabled)
+    const headerOffsetPt = state.showHeader ? 12 * mmToPt : 0;
+    
+    // Draw header if enabled
+    if (state.showHeader) {
+        drawHeaderPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor);
+    }
+    
     // Draw template to PDF
     switch (state.template) {
         case 'grid':
-            drawGridPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor);
+            drawGridPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'dot':
-            drawDotGridPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor);
+            drawDotGridPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'lined':
-            drawLinedPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor);
+            drawLinedPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'cornell':
-            drawCornellPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor);
+            drawCornellPDF(page, widthPt, heightPt, marginPt, cellPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'calligraphy-cn':
-            drawCalligraphyCNPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor);
+            drawCalligraphyCNPDF(page, widthPt, heightPt, marginPt, lineWidth, gridColor, headerOffsetPt);
             break;
         case 'blank':
             // Just the background
@@ -393,46 +549,66 @@ async function exportPDF() {
     URL.revokeObjectURL(url);
 }
 
-function drawGridPDF(page, width, height, margin, cell, lineWidth, color) {
+function drawGridPDF(page, width, height, margin, cell, lineWidth, color, headerOffset = 0) {
     const startX = margin;
-    const startY = margin;
+    const startY = margin;  // PDF Y is from bottom
     const endX = width - margin;
-    const endY = height - margin;
+    const endY = height - margin - headerOffset;
+    
+    // Calculate grid that fits evenly
+    const availWidth = endX - startX;
+    const availHeight = endY - startY;
+    const cols = Math.floor(availWidth / cell);
+    const rows = Math.floor(availHeight / cell);
+    const gridWidth = cols * cell;
+    const gridHeight = rows * cell;
+    
+    const offsetX = startX + (availWidth - gridWidth) / 2;
+    const offsetY = startY;
     
     // Vertical lines
-    for (let x = startX; x <= endX; x += cell) {
+    for (let i = 0; i <= cols; i++) {
+        const x = offsetX + i * cell;
         page.drawLine({
-            start: { x, y: startY },
-            end: { x, y: endY },
+            start: { x, y: offsetY },
+            end: { x, y: offsetY + gridHeight },
             thickness: lineWidth,
             color
         });
     }
     
     // Horizontal lines
-    for (let y = startY; y <= endY; y += cell) {
+    for (let i = 0; i <= rows; i++) {
+        const y = offsetY + i * cell;
         page.drawLine({
-            start: { x: startX, y },
-            end: { x: endX, y },
+            start: { x: offsetX, y },
+            end: { x: offsetX + gridWidth, y },
             thickness: lineWidth,
             color
         });
     }
 }
 
-function drawDotGridPDF(page, width, height, margin, cell, lineWidth, color) {
+function drawDotGridPDF(page, width, height, margin, cell, lineWidth, color, headerOffset = 0) {
     const startX = margin;
     const startY = margin;
     const endX = width - margin;
-    const endY = height - margin;
+    const endY = height - margin - headerOffset;
     
+    const availWidth = endX - startX;
+    const availHeight = endY - startY;
+    const cols = Math.floor(availWidth / cell);
+    const rows = Math.floor(availHeight / cell);
+    const gridWidth = cols * cell;
+    
+    const offsetX = startX + (availWidth - gridWidth) / 2;
     const dotRadius = lineWidth * 1.5;
     
-    for (let x = startX; x <= endX; x += cell) {
-        for (let y = startY; y <= endY; y += cell) {
+    for (let i = 0; i <= cols; i++) {
+        for (let j = 0; j <= rows; j++) {
             page.drawCircle({
-                x,
-                y,
+                x: offsetX + i * cell,
+                y: startY + j * cell,
                 size: dotRadius,
                 color
             });
@@ -440,13 +616,17 @@ function drawDotGridPDF(page, width, height, margin, cell, lineWidth, color) {
     }
 }
 
-function drawLinedPDF(page, width, height, margin, cell, lineWidth, color) {
+function drawLinedPDF(page, width, height, margin, cell, lineWidth, color, headerOffset = 0) {
     const startX = margin;
     const startY = margin;
     const endX = width - margin;
-    const endY = height - margin;
+    const endY = height - margin - headerOffset;
     
-    for (let y = startY; y <= endY; y += cell) {
+    const availHeight = endY - startY;
+    const rows = Math.floor(availHeight / cell);
+    
+    for (let i = 0; i <= rows; i++) {
+        const y = startY + i * cell;
         page.drawLine({
             start: { x: startX, y },
             end: { x: endX, y },
@@ -456,11 +636,11 @@ function drawLinedPDF(page, width, height, margin, cell, lineWidth, color) {
     }
 }
 
-function drawCornellPDF(page, width, height, margin, cell, lineWidth, color) {
+function drawCornellPDF(page, width, height, margin, cell, lineWidth, color, headerOffset = 0) {
     const startX = margin;
     const startY = margin;
     const endX = width - margin;
-    const endY = height - margin;
+    const endY = height - margin - headerOffset;
     
     const cueWidth = (endX - startX) * 0.3;
     const summaryHeight = (endY - startY) * 0.15;
@@ -491,12 +671,12 @@ function drawCornellPDF(page, width, height, margin, cell, lineWidth, color) {
     }
 }
 
-function drawCalligraphyCNPDF(page, width, height, margin, lineWidth, color) {
+function drawCalligraphyCNPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
     const mmToPt = 2.835;
     const startX = margin;
     const startY = margin;
     const endX = width - margin;
-    const endY = height - margin;
+    const endY = height - margin - headerOffset;
     
     const cellSize = state.cellSize * 3 * mmToPt;
     const availWidth = endX - startX;
