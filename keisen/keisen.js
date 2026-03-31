@@ -502,16 +502,18 @@ function drawHobonichi(margin, headerOffset = 0) {
     
     // Notes section starts BELOW the 24 row (after the last schedule cell)
     const notesStartY = offsetY + scheduleHeight + cellSize; // +cellSize to go below the 24 row
-    const notesHeight = actualGridHeight - scheduleHeight;
+    // Calculate notes height to fit within page bounds
+    const maxNotesHeight = endY - notesStartY;
+    const notesHeight = Math.max(0, maxNotesHeight);
     
-    // ========== 1. HEADER AREA (no grid, just date) ==========
+    // ========== 1. HEADER AREA (no grid, just date - Japanese) ==========
     ctx.fillStyle = color.hex;
     const dateFontSize = mmToPixels(4, 2);
     ctx.font = `400 ${dateFontSize}px Inter, sans-serif`;
-    ctx.globalAlpha = 0.6; // More visible header
-    ctx.fillText('月', startX + timeColWidth + cellSize * 1, startY + headerHeight / 2 + dateFontSize / 3);
-    ctx.fillText('日', startX + timeColWidth + cellSize * 3, startY + headerHeight / 2 + dateFontSize / 3);
-    ctx.fillText('（　　）', startX + timeColWidth + cellSize * 4.5, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.globalAlpha = 0.6;
+    ctx.fillText('＿＿月', startX + timeColWidth + cellSize * 0.5, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('＿＿日', startX + timeColWidth + cellSize * 3, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('（　　）', startX + timeColWidth + cellSize * 5, startY + headerHeight / 2 + dateFontSize / 3);
     ctx.globalAlpha = 1;
     
     // Header bottom line
@@ -613,7 +615,9 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.lineWidth = mmToPixels(0.2, 2);
     ctx.globalAlpha = 0.7;
     
-    const notesRows = Math.floor(notesHeight / cellSize);
+    // Calculate notes rows that fit within page
+    const notesRows = Math.max(0, Math.floor(notesHeight / cellSize));
+    if (notesRows === 0) return; // No space for notes section
     ctx.beginPath();
     
     // Vertical lines in notes area
@@ -1136,37 +1140,22 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const fineLineWidth = 0.2 * mmToPt; // Thicker grid lines for visibility
     const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
-    // ========== 1. HEADER (date placeholders) ==========
+    // ========== 1. HEADER (date placeholders - Japanese style) ==========
     const font = await page.doc.embedFont(StandardFonts.Helvetica);
     const dateFontSize = 4 * mmToPt;
     
-    // Date format: Month ___ / Day ___ (Day of week)
-    page.drawText('Month', {
-        x: offsetX + cellSize * 0.3,
-        y: endY - headerHeight / 2 - dateFontSize / 3,
-        size: dateFontSize * 0.7,
-        font,
-        color,
-        opacity: 0.5
-    });
-    page.drawText('________', {
-        x: offsetX + cellSize * 1.8,
+    // Japanese style: ___月 ___日 （　）
+    // Using underscores + M/D as approximation (Helvetica can't render Japanese)
+    page.drawText('____M', {
+        x: offsetX + cellSize * 0.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
         opacity: 0.5
     });
-    page.drawText('Day', {
-        x: offsetX + cellSize * 4,
-        y: endY - headerHeight / 2 - dateFontSize / 3,
-        size: dateFontSize * 0.7,
-        font,
-        color,
-        opacity: 0.5
-    });
-    page.drawText('________', {
-        x: offsetX + cellSize * 5,
+    page.drawText('____D', {
+        x: offsetX + cellSize * 3,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
@@ -1174,7 +1163,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         opacity: 0.5
     });
     page.drawText('(        )', {
-        x: offsetX + cellSize * 7.5,
+        x: offsetX + cellSize * 5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
