@@ -2,237 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Lo Home">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
-    <title>Lo Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap');
-        
-        :root {
-            --bg: #fef9f5;
-            --card: #ffffff;
-            --text: #4a4a4a;
-            --muted: #888;
-            --blush: #e8b4b8;
-            --blush-light: #fdf2f3;
-            --sage: #9cb99c;
-            --sage-light: #eef4ee;
-            --honey: #d4a96a;
-            --honey-light: #faf3e8;
-            --lavender: #d4c4e8;
-            --lavender-light: #f5f0fa;
-            --border: #e8e2dc;
-        }
-        
+        :root { --black: #1a1a1a; --warm-gray: #f7f6f3; --mid-gray: #888; --accent: #c4a77d; --rule: #e0ded9; --sage: #7a9a7a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { 
-            height: 100%; 
-            overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg);
-        }
-        
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* ===== CONTENT AREA ===== */
-        .content {
-            flex: 1;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .tab-pane {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            display: none;
-            background: var(--bg);
-        }
-        
-        .tab-pane.active {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .tab-pane iframe {
-            flex: 1;
-            width: 100%;
-            border: none;
-        }
-        
-        /* Loading state */
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: var(--muted);
-        }
-        
-        .loading-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-            animation: float 2s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        
-        .loading-text {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 14px;
-            font-style: italic;
-        }
-        
-        /* ===== TAB BAR ===== */
-        .tab-bar {
-            display: flex;
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            padding: 6px 0 max(6px, env(safe-area-inset-bottom));
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
-        }
-        
-        .tab {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 8px 0;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-            position: relative;
-        }
-        
-        .tab-icon {
-            font-size: 24px;
-            margin-bottom: 3px;
-            transition: transform 0.2s;
-        }
-        
-        .tab.active .tab-icon {
-            transform: scale(1.15);
-        }
-        
-        .tab-label {
-            font-size: 10px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            color: var(--muted);
-            transition: color 0.2s;
-        }
-        
-        /* Active states with color accents */
-        .tab[data-tab="dashboard"].active .tab-label { color: var(--blush); }
-        .tab[data-tab="lily"].active .tab-label { color: var(--sage); }
-        .tab[data-tab="family"].active .tab-label { color: var(--honey); }
-        
-        /* Active indicator dot */
-        .tab::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-        
-        .tab[data-tab="dashboard"].active::after { background: var(--blush); transform: translateX(-50%) scale(1); }
-        .tab[data-tab="lily"].active::after { background: var(--sage); transform: translateX(-50%) scale(1); }
-        .tab[data-tab="family"].active::after { background: var(--honey); transform: translateX(-50%) scale(1); }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--warm-gray); color: var(--black); line-height: 1.6; font-weight: 300; min-height: 100vh; }
+        .container { max-width: 540px; margin: 0 auto; padding: 3rem 1.5rem; }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+        .date { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .greeting { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+        .weather { font-size: 0.875rem; color: var(--mid-gray); }
+        .verse { font-family: 'Playfair Display', Georgia, serif; font-size: 0.85rem; font-style: italic; color: var(--mid-gray); margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--rule); line-height: 1.5; }
+        .verse-ref { font-style: normal; font-size: 0.7rem; color: var(--accent); display: block; margin-top: 0.4rem; }
+        section { margin-bottom: 2.5rem; }
+        .section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+        .section-number { font-family: 'Playfair Display', Georgia, serif; font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+        .section-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid-gray); }
+        .on-call-banner { background: var(--black); color: var(--warm-gray); padding: 1rem 1.25rem; margin-bottom: 2rem; text-align: center; }
+        .on-call-banner .label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem; }
+        .on-call-banner .days { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; }
+        .helper-schedule { display: flex; gap: 1rem; margin-bottom: 2rem; }
+        .helper-card { flex: 1; background: white; border: 1px solid var(--rule); padding: 1rem; text-align: center; }
+        .helper-card.on-duty { border-color: var(--sage); background: rgba(122, 154, 122, 0.08); }
+        .helper-name { font-family: 'Playfair Display', Georgia, serif; font-size: 1rem; margin-bottom: 0.25rem; }
+        .helper-focus { font-size: 0.7rem; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .helper-status { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.5rem; background: var(--rule); color: var(--mid-gray); display: inline-block; }
+        .helper-card.on-duty .helper-status { background: var(--sage); color: white; }
+        .event { display: flex; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--rule); }
+        .event:last-child { border-bottom: none; }
+        .event-time { font-size: 0.8rem; color: var(--mid-gray); min-width: 7rem; font-variant-numeric: tabular-nums; }
+        .event-title { font-size: 0.9rem; flex: 1; }
+        .week-day { display: flex; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+        .week-day:last-child { border-bottom: none; }
+        .week-day-name { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); min-width: 3rem; }
+        .week-day-name.today { color: var(--black); font-weight: 500; }
+        .week-day-events { font-size: 0.85rem; flex: 1; }
+        .quiet { color: var(--mid-gray); font-style: italic; }
+        .task { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.4rem 0; border-bottom: 1px solid var(--rule); }
+        .task:last-child { border-bottom: none; }
+        .task-bullet { color: var(--accent); font-size: 0.5rem; margin-top: 0.3rem; }
+        .task-text { font-size: 0.8rem; }
+        .no-tasks { font-size: 0.85rem; color: var(--mid-gray); font-style: italic; padding: 0.5rem 0; }
+        .grocery-sections { }
+        .grocery-section { margin-bottom: 1rem; }
+        .grocery-section:last-child { margin-bottom: 0; }
+        .grocery-section-title { font-size: 0.7rem; font-weight: 500; color: var(--mid-gray); margin-bottom: 0.4rem; }
+        .grocery-section-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1rem; }
+        .grocery-item { font-size: 0.8rem; padding: 0.3rem 0; border-bottom: 1px solid var(--rule); }
+        .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+        .grocery-count { font-size: 0.7rem; color: var(--mid-gray); margin-left: auto; }
+        .helper-info { font-size: 0.8rem; margin-bottom: 1rem; padding: 0.75rem; background: rgba(122, 154, 122, 0.08); border-radius: 4px; }
+        .helper-weekday { color: var(--mid-gray); }
+        .helper-weekday strong { color: var(--black); }
+        .helper-weekend-title { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 0.5rem; }
+        .helper-weekend-list { }
+        .helper-day { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--rule); font-size: 0.85rem; }
+        .helper-day:last-child { border-bottom: none; }
+        .helper-day .date { color: var(--mid-gray); }
+        .helper-day .name { font-weight: 500; }
+        .helper-day .name.gladys { color: var(--sage); }
+        .helper-day .name.marie { color: var(--accent); }
+        .helper-day .note { font-size: 0.7rem; color: var(--mid-gray); margin-left: 0.5rem; }
+        footer { text-align: center; padding-top: 2rem; border-top: 1px solid var(--rule); margin-top: 3rem; }
+        .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); }
+        .update-time { font-size: 0.75rem; color: var(--mid-gray); margin-top: 0.5rem; }
     </style>
 </head>
 <body>
-    <!-- Content Area -->
-    <div class="content">
-        <div class="tab-pane active" data-pane="dashboard">
-            <div class="loading">
-                <div class="loading-icon">📋</div>
-                <div class="loading-text">Loading dashboard...</div>
-            </div>
-            <iframe src="kristen.html" onload="this.previousElementSibling.style.display='none'"></iframe>
+    <div class="container">
+        <header>
+            <div class="date" id="dateDisplay">—</div>
+            <h1 class="greeting" id="greetingDisplay">Good morning, Lo Family</h1>
+            <div class="weather" id="weatherDisplay">+2°C · Partly cloudy · Singapore</div>
+            <div class="verse">"I can do all things through him who strengthens me."<span class="verse-ref">— Philippians 4:13</span></div>
+        </header>
+        
+
+        
+        <div class="on-call-banner" id="onCallBanner" style="display:block;">
+            <div class="label">Kristen On Call</div>
+            <div class="days">Fri Apr 3</div>
         </div>
         
-        <div class="tab-pane" data-pane="lily">
-            <div class="loading">
-                <div class="loading-icon">🍼</div>
-                <div class="loading-text">Loading Lily's Kitchen...</div>
+        <section>
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <span class="section-title">Today</span>
             </div>
-            <iframe data-src="https://tars-lo.github.io/lily-recipes/"></iframe>
-        </div>
+            <div id="todayEvents"><div class="event"><span class="event-time">10:00am-12:30pm</span><span class="event-title">Zoe + Leia — Open Studio @ Kada</span></div></div>
+        </section>
         
-        <div class="tab-pane" data-pane="family">
-            <div class="loading">
-                <div class="loading-icon">🍳</div>
-                <div class="loading-text">Loading family recipes...</div>
+        <section>
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <span class="section-title">This Week</span>
             </div>
-            <iframe data-src="recipes.html"></iframe>
-        </div>
+            <div class="week-list"><div class="week-day"><span class="week-day-name today">Tue</span><span class="week-day-events">Zoe + Leia — Open Studio @ Kada</span></div><div class="week-day"><span class="week-day-name">Wed</span><span class="week-day-events">Zoe + Leia — Open Studio @ Kada,Clean inside of car and vacuum</span></div><div class="week-day"><span class="week-day-name">Thu</span><span class="week-day-events">Play date Pottery painting with Zoe and Yuna</span></div><div class="week-day"><span class="week-day-name">Fri</span><span class="week-day-events">Duck feeding at school,House Church Call [F],Gladys on duty (Good Friday)</span></div><div class="week-day"><span class="week-day-name">Sat</span><span class="week-day-events">Zoe's Chinese Class,Gladys on duty</span></div><div class="week-day"><span class="week-day-name">Sun</span><span class="week-day-events">Solomon's Porch,Marie on duty (Easter)</span></div><div class="week-day"><span class="week-day-name">Mon</span><span class="week-day-events"><span class="quiet">Clear</span></span></div></div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <span class="section-title">Shopping List</span>
+                <span class="grocery-count">21 items</span>
+            </div>
+            <div class="grocery-sections"><div class="grocery-section"><div class="grocery-section-title">🥬 Produce</div><div class="grocery-section-items"><div class="grocery-item">Tomato paste</div><div class="grocery-item">Cornstarch</div><div class="grocery-item">White pepper</div><div class="grocery-item">Garlic</div><div class="grocery-item">Onions (yellow + red)</div></div></div><div class="grocery-section"><div class="grocery-section-title">🥛 Dairy</div><div class="grocery-section-items"><div class="grocery-item">Feta cheese</div><div class="grocery-item">Heavy cream</div></div></div><div class="grocery-section"><div class="grocery-section-title">📦 Other</div><div class="grocery-section-items"><div class="grocery-item">Fresh mozzarella</div><div class="grocery-item">Chickpeas (1 can)</div><div class="grocery-item">Castelvetrano olives</div><div class="grocery-item">Capers</div><div class="grocery-item">Orecchiette pasta</div><div class="grocery-item">Panko breadcrumbs</div><div class="grocery-item">Garam masala</div><div class="grocery-item">Turmeric</div><div class="grocery-item">Cumin (ground + seeds)</div><div class="grocery-item">Ginger</div><div class="grocery-item">Fresh basil</div><div class="grocery-item">Fresh cilantro</div><div class="grocery-item">Shallots</div><div class="grocery-item">Scallions</div></div></div></div>
+        </section>
+        
+        <section>
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <span class="section-title">Helper Schedule</span>
+            </div>
+            <div class="helper-info">
+                <div class="helper-weekday">Weekdays: <strong>Both on duty</strong> — Gladys (Lily) · Marie (Household + Zoe)</div>
+            </div>
+            <div class="helper-weekend-title">Upcoming Weekends & Holidays</div>
+            <div class="helper-weekend-list"><div class="no-tasks">No upcoming dates</div></div>
+        </section>
+        
+        <footer>
+            <div class="footer-text">TARS</div>
+            <div class="update-time">Updated 11:10 AM</div>
+        </footer>
     </div>
     
-    <!-- Tab Bar -->
-    <nav class="tab-bar">
-        <div class="tab active" data-tab="dashboard">
-            <span class="tab-icon">📋</span>
-            <span class="tab-label">Dashboard</span>
-        </div>
-        <div class="tab" data-tab="lily">
-            <span class="tab-icon">🍼</span>
-            <span class="tab-label">Lily</span>
-        </div>
-        <div class="tab" data-tab="family">
-            <span class="tab-icon">🍳</span>
-            <span class="tab-label">Family</span>
-        </div>
-    </nav>
-    
     <script>
-        (function() {
-            var tabs = document.querySelectorAll('.tab');
-            var panes = document.querySelectorAll('.tab-pane');
-            
-            function loadPane(paneName) {
-                var pane = document.querySelector('[data-pane="' + paneName + '"]');
-                var iframe = pane.querySelector('iframe');
-                if (iframe.dataset.src && !iframe.src) {
-                    iframe.src = iframe.dataset.src;
-                    iframe.onload = function() {
-                        var loading = pane.querySelector('.loading');
-                        if (loading) loading.style.display = 'none';
-                    };
-                }
-            }
-            
-            tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    var targetTab = this.dataset.tab;
-                    
-                    tabs.forEach(function(t) { t.classList.remove('active'); });
-                    this.classList.add('active');
-                    
-                    panes.forEach(function(p) { p.classList.remove('active'); });
-                    var targetPane = document.querySelector('[data-pane="' + targetTab + '"]');
-                    targetPane.classList.add('active');
-                    
-                    loadPane(targetTab);
-                });
-            });
-        })();
+    (function() {
+        var now = new Date();
+        var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        document.getElementById('dateDisplay').textContent = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+        
+        var h = now.getHours();
+        var greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+        document.getElementById('greetingDisplay').textContent = greet + ', Lo Family';
+        
+
+    })();
     </script>
 </body>
 </html>
