@@ -235,12 +235,9 @@
             border-color: var(--text);
         }
 
-        .color-btn.blue { background: var(--grid-blue); }
-        .color-btn.red { background: var(--grid-red); }
-        .color-btn.gray { background: var(--grid-gray); }
-        .color-btn.tomoe { background: #b4c8dc; }
-        .color-btn.kokuyo { background: #a5bed2; }
-        .color-btn.hobonichi-color { background: #c8b4aa; }
+        .color-btn.gray { background: #b4b4b4; }
+        .color-btn.blue { background: #a8c5e2; }
+        .color-btn.tomoe { background: #a0b4c8; }
 
         .paper-options {
             display: flex;
@@ -268,10 +265,8 @@
             margin-bottom: 0.5rem;
         }
 
-        .paper-btn.white::before { background: var(--paper-white); border: 1px solid var(--border); }
-        .paper-btn.cream::before { background: var(--paper-cream); border: 1px solid #e8e4d9; }
+        .paper-btn.white::before { background: #ffffff; border: 1px solid var(--border); }
         .paper-btn.tomoe-paper::before { background: #fffefa; border: 1px solid #e8e6e0; }
-        .paper-btn.midori::before { background: #fdfbf4; border: 1px solid #e6e4dc; }
 
         .paper-btn:hover {
             border-color: var(--accent);
@@ -615,14 +610,11 @@
             </div>
 
             <div class="section">
-                <div class="section-title">Grid Color</div>
+                <div class="section-title">Ink</div>
                 <div class="color-options">
-                    <button class="color-btn blue active" data-color="blue" title="Blue"></button>
-                    <button class="color-btn red" data-color="red" title="Red"></button>
-                    <button class="color-btn gray" data-color="gray" title="Gray"></button>
-                    <button class="color-btn tomoe" data-color="tomoe" title="Tomoe River"></button>
-                    <button class="color-btn kokuyo" data-color="kokuyo" title="Kokuyo"></button>
-                    <button class="color-btn hobonichi-color" data-color="hobonichi" title="Hobonichi"></button>
+                    <button class="color-btn gray active" data-color="gray" title="Gray"></button>
+                    <button class="color-btn blue" data-color="blue" title="Blue"></button>
+                    <button class="color-btn tomoe" data-color="tomoe" title="Tomoe"></button>
                 </div>
             </div>
 
@@ -630,9 +622,7 @@
                 <div class="section-title">Paper</div>
                 <div class="paper-options">
                     <button class="paper-btn white active" data-paper="white">White</button>
-                    <button class="paper-btn cream" data-paper="cream">Cream</button>
                     <button class="paper-btn tomoe-paper" data-paper="tomoe">Tomoe</button>
-                    <button class="paper-btn midori" data-paper="midori">Midori</button>
                 </div>
             </div>
 

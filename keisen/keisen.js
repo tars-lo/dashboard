@@ -17,30 +17,21 @@ const DEVICES = {
 };
 
 const COLORS = {
-    blue: { r: 168, g: 197, b: 226, hex: '#a8c5e2' },
-    red: { r: 226, g: 168, b: 168, hex: '#e2a8a8' },
-    gray: { r: 192, g: 192, b: 192, hex: '#c0c0c0' },
-    // Authentic Japanese notebook colors
-    tomoe: { r: 180, g: 200, b: 220, hex: '#b4c8dc' },      // Tomoe River blue-gray
-    kokuyo: { r: 165, g: 190, b: 210, hex: '#a5bed2' },     // Kokuyo Campus blue
-    hobonichi: { r: 200, g: 180, b: 170, hex: '#c8b4aa' }   // Hobonichi warm brown
+    gray: { r: 180, g: 180, b: 180, hex: '#b4b4b4' },       // Neutral gray
+    blue: { r: 168, g: 197, b: 226, hex: '#a8c5e2' },       // Classic blue
+    tomoe: { r: 160, g: 180, b: 200, hex: '#a0b4c8' }       // Tomoe River blue-gray
 };
 
 const PAPERS = {
     white: { r: 255, g: 255, b: 255, hex: '#ffffff' },
-    cream: { r: 250, g: 248, b: 243, hex: '#faf8f3' },
-    aged: { r: 240, g: 235, b: 224, hex: '#f0ebe0' },
-    // Authentic Japanese papers
-    tomoe: { r: 255, g: 254, b: 250, hex: '#fffefa' },      // Tomoe River cream-white
-    midori: { r: 253, g: 251, b: 244, hex: '#fdfbf4' },     // Midori MD cream
-    hobonichi: { r: 255, g: 253, b: 245, hex: '#fffdf5' }   // Hobonichi Tomoe River
+    tomoe: { r: 255, g: 254, b: 250, hex: '#fffefa' }       // Tomoe River cream-white
 };
 
 // State
 let state = {
     device: 'remarkable',
     template: 'grid',
-    color: 'blue',
+    color: 'gray',
     paper: 'white',
     cellSize: 5,      // mm
     lineWeight: 0.3,  // mm
@@ -463,12 +454,12 @@ function drawCalligraphyCN(margin, headerOffset = 0) {
 }
 
 function drawHobonichi(margin, headerOffset = 0) {
-    // Hobonichi Techo Day Page layout:
-    // - Date header area at top
-    // - Timeline on left (hours 0-24)
-    // - Todo checkboxes on right side
-    // - 3.7mm grid throughout
-    // - Quote space at bottom
+    // Refined Hobonichi-inspired day page:
+    // - Free space at top (1/8) for date/notes — no grid
+    // - Timeline column on left with bold border
+    // - 3.7mm grid for scheduling area
+    // - Subtle hour bands for visual rhythm
+    // - Margin strip on right for annotations
     
     const startX = margin;
     const startY = margin + headerOffset;
@@ -480,57 +471,103 @@ function drawHobonichi(margin, headerOffset = 0) {
     const cellSize = mmToPixels(3.7, 2);
     const color = COLORS[state.color];
     
-    // Layout proportions (based on actual Hobonichi)
-    const dateHeaderHeight = mmToPixels(12, 2);
+    // Layout: top 1/8 free, rest is schedule
+    const freeSpaceHeight = pageHeight / 8;
     const timelineWidth = mmToPixels(10, 2);
-    const todoWidth = mmToPixels(25, 2);
-    const quoteHeight = mmToPixels(8, 2);
+    const marginStripWidth = mmToPixels(6, 2); // Thin annotation strip on right
     
-    // Main areas
+    const scheduleStartY = startY + freeSpaceHeight;
     const gridStartX = startX + timelineWidth;
-    const gridEndX = endX - todoWidth;
-    const gridStartY = startY + dateHeaderHeight;
-    const gridEndY = endY - quoteHeight;
+    const gridEndX = endX - marginStripWidth;
     
     const gridWidth = gridEndX - gridStartX;
-    const gridHeight = gridEndY - gridStartY;
+    const gridHeight = endY - scheduleStartY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    // 1. Draw date header area
+    // ========== 1. FREE SPACE (top 1/8) ==========
+    // Bold separator line
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.3, 2);
-    
-    // Date header underline
+    ctx.lineWidth = mmToPixels(0.5, 2);
     ctx.beginPath();
-    ctx.moveTo(startX, gridStartY);
-    ctx.lineTo(endX, gridStartY);
+    ctx.moveTo(startX, scheduleStartY);
+    ctx.lineTo(endX, scheduleStartY);
     ctx.stroke();
     
-    // Date placeholder text
-    const headerFontSize = mmToPixels(4, 2);
-    ctx.font = `300 ${headerFontSize}px Inter, sans-serif`;
+    // ========== 2. TIMELINE COLUMN ==========
+    // Bold left border for schedule area
+    ctx.lineWidth = mmToPixels(0.5, 2);
+    ctx.beginPath();
+    ctx.moveTo(gridStartX, scheduleStartY);
+    ctx.lineTo(gridStartX, scheduleStartY + actualGridHeight);
+    ctx.stroke();
+    
+    // Hour labels
+    const timeFontSize = mmToPixels(2, 2);
+    ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.4;
-    ctx.fillText('月　　日（　）', startX + mmToPixels(2, 2), startY + headerFontSize + mmToPixels(2, 2));
+    
+    // Calculate hour spacing (show 6am-midnight typically, or fit 18 hours)
+    const hoursToShow = 18; // 6am to midnight
+    const startHour = 6;
+    const hourSpacing = actualGridHeight / hoursToShow;
+    
+    for (let i = 0; i <= hoursToShow; i++) {
+        const hour = startHour + i;
+        const y = scheduleStartY + (i * hourSpacing);
+        
+        // Hour labels (every hour, but emphasize key times)
+        const isKeyHour = (hour === 6 || hour === 9 || hour === 12 || hour === 18 || hour === 24);
+        ctx.globalAlpha = isKeyHour ? 0.8 : 0.4;
+        
+        const hourLabel = hour <= 12 ? hour.toString() : (hour - 12).toString();
+        const period = hour < 12 ? '' : (hour === 12 ? '' : '');
+        ctx.fillText(hourLabel, startX + mmToPixels(2, 2), y + timeFontSize / 3);
+        
+        // Subtle tick marks at key hours
+        if (isKeyHour) {
+            ctx.lineWidth = mmToPixels(0.3, 2);
+            ctx.beginPath();
+            ctx.moveTo(startX + timelineWidth - mmToPixels(3, 2), y);
+            ctx.lineTo(gridStartX, y);
+            ctx.stroke();
+        }
+    }
     ctx.globalAlpha = 1;
     
-    // 2. Draw main grid (very fine lines)
-    ctx.lineWidth = mmToPixels(0.12, 2);
-    ctx.globalAlpha = 0.5;
+    // ========== 3. HOUR BANDS (subtle alternating shading) ==========
+    const bandInterval = 3; // Every 3 hours
+    ctx.globalAlpha = 0.04;
+    ctx.fillStyle = color.hex;
+    
+    for (let i = 0; i < hoursToShow; i += bandInterval * 2) {
+        const y = scheduleStartY + ((i + bandInterval) * hourSpacing);
+        const bandHeight = bandInterval * hourSpacing;
+        if (y < scheduleStartY + actualGridHeight) {
+            ctx.fillRect(gridStartX, y, actualGridWidth, Math.min(bandHeight, scheduleStartY + actualGridHeight - y));
+        }
+    }
+    ctx.globalAlpha = 1;
+    
+    // ========== 4. MAIN GRID ==========
+    ctx.strokeStyle = color.hex;
+    ctx.lineWidth = mmToPixels(0.1, 2);
+    ctx.globalAlpha = 0.4;
     ctx.beginPath();
     
+    // Vertical lines
     for (let i = 0; i <= cols; i++) {
         const x = gridStartX + i * cellSize;
-        ctx.moveTo(x, gridStartY);
-        ctx.lineTo(x, gridStartY + actualGridHeight);
+        ctx.moveTo(x, scheduleStartY);
+        ctx.lineTo(x, scheduleStartY + actualGridHeight);
     }
     
+    // Horizontal lines
     for (let i = 0; i <= rows; i++) {
-        const y = gridStartY + i * cellSize;
+        const y = scheduleStartY + i * cellSize;
         ctx.moveTo(gridStartX, y);
         ctx.lineTo(gridStartX + actualGridWidth, y);
     }
@@ -538,63 +575,30 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // 3. Draw timeline (hours)
-    const timeFontSize = mmToPixels(2.2, 2);
-    ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
-    ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.7;
-    
-    // Show hours 0-24, spacing based on available height
-    const hourSpacing = actualGridHeight / 24;
-    for (let h = 0; h <= 24; h += 3) { // Every 3 hours
-        const y = gridStartY + (h * hourSpacing) + timeFontSize / 3;
-        ctx.fillText(h.toString(), startX + mmToPixels(1, 2), y);
-    }
-    
-    // Timeline vertical line
+    // ========== 5. MARGIN STRIP (right) ==========
+    // Subtle vertical separator
     ctx.globalAlpha = 0.3;
     ctx.lineWidth = mmToPixels(0.2, 2);
     ctx.beginPath();
-    ctx.moveTo(gridStartX - mmToPixels(2, 2), gridStartY);
-    ctx.lineTo(gridStartX - mmToPixels(2, 2), gridStartY + actualGridHeight);
+    ctx.moveTo(gridEndX + mmToPixels(1, 2), scheduleStartY);
+    ctx.lineTo(gridEndX + mmToPixels(1, 2), scheduleStartY + actualGridHeight);
     ctx.stroke();
     ctx.globalAlpha = 1;
     
-    // 4. Draw todo section on right
-    const todoStartX = gridEndX + mmToPixels(3, 2);
-    const checkboxSize = mmToPixels(3, 2);
-    const checkboxSpacing = mmToPixels(5, 2);
-    
-    ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.25, 2);
-    
-    // "TODO" label
-    const todoFontSize = mmToPixels(2, 2);
-    ctx.font = `500 ${todoFontSize}px Inter, sans-serif`;
+    // ========== 6. ANCHOR DOTS at key hours ==========
+    const anchorHours = [9, 12, 18]; // 9am, noon, 6pm
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.5;
-    ctx.fillText('TODO', todoStartX, gridStartY + todoFontSize);
-    ctx.globalAlpha = 1;
+    ctx.globalAlpha = 0.6;
     
-    // Checkboxes (5 items like real Hobonichi)
-    for (let i = 0; i < 5; i++) {
-        const y = gridStartY + mmToPixels(8, 2) + i * checkboxSpacing;
-        ctx.strokeRect(todoStartX, y, checkboxSize, checkboxSize);
-        
-        // Line next to checkbox
-        ctx.beginPath();
-        ctx.moveTo(todoStartX + checkboxSize + mmToPixels(2, 2), y + checkboxSize / 2);
-        ctx.lineTo(endX - mmToPixels(2, 2), y + checkboxSize / 2);
-        ctx.stroke();
+    for (const hour of anchorHours) {
+        const i = hour - startHour;
+        if (i >= 0 && i <= hoursToShow) {
+            const y = scheduleStartY + (i * hourSpacing);
+            ctx.beginPath();
+            ctx.arc(gridStartX + mmToPixels(2, 2), y, mmToPixels(0.8, 2), 0, Math.PI * 2);
+            ctx.fill();
+        }
     }
-    
-    // 5. Quote area at bottom (just a subtle separator)
-    ctx.globalAlpha = 0.3;
-    ctx.lineWidth = mmToPixels(0.15, 2);
-    ctx.beginPath();
-    ctx.moveTo(startX, gridEndY + mmToPixels(2, 2));
-    ctx.lineTo(endX, gridEndY + mmToPixels(2, 2));
-    ctx.stroke();
     ctx.globalAlpha = 1;
 }
 
@@ -1023,52 +1027,59 @@ function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerO
     const startY = margin;
     const endX = width - margin;
     const endY = height - margin - headerOffset;
+    const pageWidth = endX - startX;
+    const pageHeight = endY - startY;
     
     const cellSize = 3.7 * mmToPt;
     
-    // Layout proportions
-    const dateHeaderHeight = 12 * mmToPt;
+    // Layout: top 1/8 free, rest is schedule (PDF Y from bottom)
+    const freeSpaceHeight = pageHeight / 8;
     const timelineWidth = 10 * mmToPt;
-    const todoWidth = 25 * mmToPt;
-    const quoteHeight = 8 * mmToPt;
+    const marginStripWidth = 6 * mmToPt;
     
-    // PDF Y is from bottom, so we work upward
+    const scheduleEndY = endY - freeSpaceHeight; // Top of schedule area (Y from bottom)
     const gridStartX = startX + timelineWidth;
-    const gridEndX = endX - todoWidth;
-    const gridStartY = startY + quoteHeight;
-    const gridEndY = endY - dateHeaderHeight;
+    const gridEndX = endX - marginStripWidth;
     
     const gridWidth = gridEndX - gridStartX;
-    const gridHeight = gridEndY - gridStartY;
+    const gridHeight = scheduleEndY - startY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    // Date header line
+    // 1. FREE SPACE separator (bold line)
     page.drawLine({
-        start: { x: startX, y: gridEndY },
-        end: { x: endX, y: gridEndY },
-        thickness: 0.3 * mmToPt,
+        start: { x: startX, y: scheduleEndY },
+        end: { x: endX, y: scheduleEndY },
+        thickness: 0.5 * mmToPt,
         color
     });
     
-    // Main grid (fine lines)
-    const fineLineWidth = 0.12 * mmToPt;
+    // 2. TIMELINE COLUMN - bold left border
+    page.drawLine({
+        start: { x: gridStartX, y: startY },
+        end: { x: gridStartX, y: scheduleEndY },
+        thickness: 0.5 * mmToPt,
+        color
+    });
+    
+    // 3. MAIN GRID (fine lines)
+    const fineLineWidth = 0.1 * mmToPt;
     
     for (let i = 0; i <= cols; i++) {
         const x = gridStartX + i * cellSize;
         page.drawLine({
-            start: { x, y: gridStartY },
-            end: { x, y: gridStartY + actualGridHeight },
+            start: { x, y: startY },
+            end: { x, y: startY + actualGridHeight },
             thickness: fineLineWidth,
             color
         });
     }
     
     for (let i = 0; i <= rows; i++) {
-        const y = gridStartY + i * cellSize;
+        const y = startY + i * cellSize;
         page.drawLine({
             start: { x: gridStartX, y },
             end: { x: gridStartX + actualGridWidth, y },
@@ -1077,43 +1088,11 @@ function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerO
         });
     }
     
-    // Timeline vertical
+    // 4. MARGIN STRIP separator
     page.drawLine({
-        start: { x: gridStartX - 2 * mmToPt, y: gridStartY },
-        end: { x: gridStartX - 2 * mmToPt, y: gridStartY + actualGridHeight },
+        start: { x: gridEndX + 1 * mmToPt, y: startY },
+        end: { x: gridEndX + 1 * mmToPt, y: scheduleEndY },
         thickness: 0.2 * mmToPt,
-        color
-    });
-    
-    // Todo checkboxes
-    const todoStartX = gridEndX + 3 * mmToPt;
-    const checkboxSize = 3 * mmToPt;
-    const checkboxSpacing = 5 * mmToPt;
-    
-    for (let i = 0; i < 5; i++) {
-        const y = gridEndY - 8 * mmToPt - i * checkboxSpacing - checkboxSize;
-        page.drawRectangle({
-            x: todoStartX,
-            y: y,
-            width: checkboxSize,
-            height: checkboxSize,
-            borderColor: color,
-            borderWidth: 0.25 * mmToPt
-        });
-        
-        page.drawLine({
-            start: { x: todoStartX + checkboxSize + 2 * mmToPt, y: y + checkboxSize / 2 },
-            end: { x: endX - 2 * mmToPt, y: y + checkboxSize / 2 },
-            thickness: 0.2 * mmToPt,
-            color
-        });
-    }
-    
-    // Quote separator
-    page.drawLine({
-        start: { x: startX, y: gridStartY - 2 * mmToPt },
-        end: { x: endX, y: gridStartY - 2 * mmToPt },
-        thickness: 0.15 * mmToPt,
         color
     });
 }
