@@ -1140,13 +1140,15 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const fineLineWidth = 0.2 * mmToPt; // Thicker grid lines for visibility
     const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
-    // ========== 1. HEADER (date placeholders - Japanese style) ==========
-    const font = await page.doc.embedFont(StandardFonts.Helvetica);
+    // ========== 1. HEADER (date placeholders - Japanese) ==========
+    // Embed a font that supports Japanese characters
+    const fontBytes = await fetch('https://cdn.jsdelivr.net/npm/@aspect-build/aspect-fonts@0.0.1/fonts/NotoSansJP-Regular.otf').then(r => r.arrayBuffer());
+    const japaneseFont = await page.doc.embedFont(fontBytes);
+    const font = japaneseFont;
     const dateFontSize = 4 * mmToPt;
     
-    // Japanese style: ___月 ___日 （　）
-    // Using underscores + M/D as approximation (Helvetica can't render Japanese)
-    page.drawText('____M', {
+    // Japanese style: ＿＿月 ＿＿日 （　）
+    page.drawText('＿＿月', {
         x: offsetX + cellSize * 0.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
@@ -1154,7 +1156,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         color,
         opacity: 0.5
     });
-    page.drawText('____D', {
+    page.drawText('＿＿日', {
         x: offsetX + cellSize * 3,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
@@ -1162,7 +1164,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         color,
         opacity: 0.5
     });
-    page.drawText('(        )', {
+    page.drawText('（　　）', {
         x: offsetX + cellSize * 5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
