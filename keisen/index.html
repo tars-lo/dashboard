@@ -302,6 +302,124 @@
 
         #preview {
             display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.25rem;
+            }
+
+            header h1 {
+                font-size: 1.2rem;
+            }
+
+            header h1 span {
+                display: block;
+                margin-left: 0;
+                margin-top: 0.25rem;
+                font-size: 0.85rem;
+            }
+
+            .container {
+                flex-direction: column;
+                overflow: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                padding: 1rem;
+                gap: 1rem;
+                max-height: none;
+                overflow: visible;
+            }
+
+            .device-buttons {
+                flex-direction: column;
+            }
+
+            .device-btn {
+                padding: 0.6rem 0.75rem;
+            }
+
+            .device-btn small {
+                display: inline;
+                margin-left: 0.5rem;
+                margin-top: 0;
+            }
+
+            .template-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 0.4rem;
+            }
+
+            .template-btn {
+                aspect-ratio: 1;
+                padding: 0.35rem;
+            }
+
+            .template-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .template-btn span {
+                font-size: 0.55rem;
+            }
+
+            .section-title {
+                font-size: 0.65rem;
+            }
+
+            .control-row {
+                font-size: 0.8rem;
+            }
+
+            .control-row input[type="number"] {
+                width: 60px;
+                padding: 0.35rem;
+            }
+
+            .preview-area {
+                padding: 1rem;
+                min-height: 300px;
+            }
+
+            .preview-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            #preview {
+                max-width: 100%;
+                height: auto !important;
+                width: auto !important;
+            }
+
+            .export-btn {
+                padding: 0.85rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .template-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .color-options, .paper-options {
+                flex-wrap: wrap;
+            }
+
+            .paper-btn {
+                flex: 1 1 30%;
+                font-size: 0.7rem;
+            }
         }
 
         /* Subtle paper texture overlay */
