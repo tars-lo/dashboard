@@ -1140,41 +1140,36 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const fineLineWidth = 0.2 * mmToPt; // Thicker grid lines for visibility
     const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
-    // ========== 1. HEADER (date placeholders - Japanese) ==========
-    // Embed Noto Sans JP for Japanese characters
-    const fontUrl = 'https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf';
-    let font;
-    try {
-        const fontBytes = await fetch(fontUrl).then(r => {
-            if (!r.ok) throw new Error('Font fetch failed');
-            return r.arrayBuffer();
-        });
-        font = await page.doc.embedFont(fontBytes);
-    } catch (e) {
-        // Fallback to Helvetica if font fails
-        font = await page.doc.embedFont(StandardFonts.Helvetica);
-    }
+    // ========== 1. HEADER (date placeholders) ==========
+    const font = await page.doc.embedFont(StandardFonts.Helvetica);
     const dateFontSize = 4 * mmToPt;
     
-    // Japanese style: ＿＿月 ＿＿日 （　）
-    page.drawText('＿＿月', {
-        x: offsetX + cellSize * 0.5,
-        y: endY - headerHeight / 2 - dateFontSize / 3,
-        size: dateFontSize,
-        font,
+    // Simple placeholder lines - user will write the date by hand
+    // Draw underlines for month
+    const headerY = endY - headerHeight / 2;
+    const underlineY = headerY - dateFontSize / 2;
+    
+    // Month underline
+    page.drawLine({
+        start: { x: offsetX + cellSize * 0.5, y: underlineY },
+        end: { x: offsetX + cellSize * 2, y: underlineY },
+        thickness: 0.3 * mmToPt,
         color,
         opacity: 0.5
     });
-    page.drawText('＿＿日', {
-        x: offsetX + cellSize * 3,
-        y: endY - headerHeight / 2 - dateFontSize / 3,
-        size: dateFontSize,
-        font,
+    
+    // Day underline
+    page.drawLine({
+        start: { x: offsetX + cellSize * 2.5, y: underlineY },
+        end: { x: offsetX + cellSize * 4, y: underlineY },
+        thickness: 0.3 * mmToPt,
         color,
         opacity: 0.5
     });
-    page.drawText('（　　）', {
-        x: offsetX + cellSize * 5,
+    
+    // Day of week parentheses
+    page.drawText('(          )', {
+        x: offsetX + cellSize * 4.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
