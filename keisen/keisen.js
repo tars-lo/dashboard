@@ -456,151 +456,146 @@ function drawCalligraphyCN(margin, headerOffset = 0) {
 }
 
 function drawHobonichi(margin, headerOffset = 0) {
-    // Refined Hobonichi-inspired day page:
-    // - Free space at top (1/8) for date/notes — no grid
-    // - Timeline column on left with bold border
-    // - 3.7mm grid for scheduling area
-    // - Subtle hour bands for visual rhythm
-    // - Margin strip on right for annotations
+    // Authentic Hobonichi Techo daily page:
+    // - Full page 3.7mm grid (dashed lines)
+    // - Date header row at top
+    // - Timeline on left (0-24)
+    // - Bold lines every few rows to suggest sections
+    // - Minimal margins, maximum writing space
     
-    const startX = margin;
-    const startY = margin + headerOffset;
-    const endX = canvas.width - margin;
-    const endY = canvas.height - margin;
-    const pageWidth = endX - startX;
-    const pageHeight = endY - startY;
-    
-    const cellSize = mmToPixels(3.7, 2);
     const color = COLORS[state.color];
+    const cellSize = mmToPixels(3.7, 2);
     
-    // Layout: top 1/8 free, rest is schedule
-    const freeSpaceHeight = pageHeight / 8;
-    const timelineWidth = mmToPixels(10, 2);
-    const marginStripWidth = mmToPixels(6, 2); // Thin annotation strip on right
+    // Minimal margins for maximum space
+    const smallMargin = mmToPixels(5, 2);
+    const startX = smallMargin;
+    const startY = smallMargin + headerOffset;
+    const endX = canvas.width - smallMargin;
+    const endY = canvas.height - smallMargin;
     
-    const scheduleStartY = startY + freeSpaceHeight;
-    const gridStartX = startX + timelineWidth;
-    const gridEndX = endX - marginStripWidth;
+    // Timeline column width (fits "24" + padding)
+    const timeColWidth = mmToPixels(7, 2);
+    const gridStartX = startX + timeColWidth;
     
-    const gridWidth = gridEndX - gridStartX;
-    const gridHeight = endY - scheduleStartY;
+    // Calculate grid dimensions
+    const gridWidth = endX - gridStartX;
+    const gridHeight = endY - startY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    // ========== 1. FREE SPACE (top 1/8) ==========
-    // Bold separator line
+    // Center grid in available space
+    const offsetX = gridStartX + (gridWidth - actualGridWidth) / 2;
+    const offsetY = startY + (gridHeight - actualGridHeight) / 2;
+    
+    // ========== 1. FULL PAGE GRID (dashed lines like real Hobonichi) ==========
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.5, 2);
-    ctx.beginPath();
-    ctx.moveTo(startX, scheduleStartY);
-    ctx.lineTo(endX, scheduleStartY);
-    ctx.stroke();
+    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]); // Dashed pattern
+    ctx.lineWidth = mmToPixels(0.08, 2);
+    ctx.globalAlpha = 0.5;
     
-    // ========== 2. TIMELINE COLUMN ==========
-    // Bold left border for schedule area
-    ctx.lineWidth = mmToPixels(0.5, 2);
-    ctx.beginPath();
-    ctx.moveTo(gridStartX, scheduleStartY);
-    ctx.lineTo(gridStartX, scheduleStartY + actualGridHeight);
-    ctx.stroke();
-    
-    // Hour labels
-    const timeFontSize = mmToPixels(2, 2);
-    ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
-    ctx.fillStyle = color.hex;
-    
-    // Calculate hour spacing (show 6am-midnight typically, or fit 18 hours)
-    const hoursToShow = 18; // 6am to midnight
-    const startHour = 6;
-    const hourSpacing = actualGridHeight / hoursToShow;
-    
-    for (let i = 0; i <= hoursToShow; i++) {
-        const hour = startHour + i;
-        const y = scheduleStartY + (i * hourSpacing);
-        
-        // Hour labels (every hour, but emphasize key times)
-        const isKeyHour = (hour === 6 || hour === 9 || hour === 12 || hour === 18 || hour === 24);
-        ctx.globalAlpha = isKeyHour ? 0.8 : 0.4;
-        
-        const hourLabel = hour <= 12 ? hour.toString() : (hour - 12).toString();
-        const period = hour < 12 ? '' : (hour === 12 ? '' : '');
-        ctx.fillText(hourLabel, startX + mmToPixels(2, 2), y + timeFontSize / 3);
-        
-        // Subtle tick marks at key hours
-        if (isKeyHour) {
-            ctx.lineWidth = mmToPixels(0.3, 2);
-            ctx.beginPath();
-            ctx.moveTo(startX + timelineWidth - mmToPixels(3, 2), y);
-            ctx.lineTo(gridStartX, y);
-            ctx.stroke();
-        }
-    }
-    ctx.globalAlpha = 1;
-    
-    // ========== 3. HOUR BANDS (subtle alternating shading) ==========
-    const bandInterval = 3; // Every 3 hours
-    ctx.globalAlpha = 0.04;
-    ctx.fillStyle = color.hex;
-    
-    for (let i = 0; i < hoursToShow; i += bandInterval * 2) {
-        const y = scheduleStartY + ((i + bandInterval) * hourSpacing);
-        const bandHeight = bandInterval * hourSpacing;
-        if (y < scheduleStartY + actualGridHeight) {
-            ctx.fillRect(gridStartX, y, actualGridWidth, Math.min(bandHeight, scheduleStartY + actualGridHeight - y));
-        }
-    }
-    ctx.globalAlpha = 1;
-    
-    // ========== 4. MAIN GRID ==========
-    ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.1, 2);
-    ctx.globalAlpha = 0.4;
     ctx.beginPath();
     
     // Vertical lines
     for (let i = 0; i <= cols; i++) {
-        const x = gridStartX + i * cellSize;
-        ctx.moveTo(x, scheduleStartY);
-        ctx.lineTo(x, scheduleStartY + actualGridHeight);
+        const x = offsetX + i * cellSize;
+        ctx.moveTo(x, offsetY);
+        ctx.lineTo(x, offsetY + actualGridHeight);
     }
     
     // Horizontal lines
     for (let i = 0; i <= rows; i++) {
-        const y = scheduleStartY + i * cellSize;
-        ctx.moveTo(gridStartX, y);
-        ctx.lineTo(gridStartX + actualGridWidth, y);
+        const y = offsetY + i * cellSize;
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + actualGridWidth, y);
     }
     
     ctx.stroke();
+    ctx.setLineDash([]);
     ctx.globalAlpha = 1;
     
-    // ========== 5. MARGIN STRIP (right) ==========
-    // Subtle vertical separator
-    ctx.globalAlpha = 0.3;
-    ctx.lineWidth = mmToPixels(0.2, 2);
+    // ========== 2. BOLD SECTION LINES (suggest structure) ==========
+    // Header separator (after ~2 rows for date)
+    const headerRows = 2;
+    const headerY = offsetY + headerRows * cellSize;
+    
+    ctx.lineWidth = mmToPixels(0.25, 2);
+    ctx.globalAlpha = 0.7;
     ctx.beginPath();
-    ctx.moveTo(gridEndX + mmToPixels(1, 2), scheduleStartY);
-    ctx.lineTo(gridEndX + mmToPixels(1, 2), scheduleStartY + actualGridHeight);
+    ctx.moveTo(startX, headerY);
+    ctx.lineTo(endX, headerY);
     ctx.stroke();
+    
+    // Timeline column separator
+    ctx.beginPath();
+    ctx.moveTo(offsetX, headerY);
+    ctx.lineTo(offsetX, offsetY + actualGridHeight);
+    ctx.stroke();
+    
+    // Bold lines every 4 rows (hourly sections in schedule area)
+    ctx.lineWidth = mmToPixels(0.15, 2);
+    ctx.globalAlpha = 0.4;
+    for (let i = headerRows + 4; i < rows; i += 4) {
+        const y = offsetY + i * cellSize;
+        ctx.beginPath();
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + actualGridWidth, y);
+        ctx.stroke();
+    }
     ctx.globalAlpha = 1;
     
-    // ========== 6. ANCHOR DOTS at key hours ==========
-    const anchorHours = [9, 12, 18]; // 9am, noon, 6pm
+    // ========== 3. TIMELINE (centered in cells, not on lines) ==========
+    const timeFontSize = mmToPixels(2.2, 2);
+    ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.6;
+    ctx.textAlign = 'center';
     
-    for (const hour of anchorHours) {
-        const i = hour - startHour;
-        if (i >= 0 && i <= hoursToShow) {
-            const y = scheduleStartY + (i * hourSpacing);
+    // Hours 0-24, one per 2 cells (30 min per cell)
+    const scheduleStartRow = headerRows;
+    const cellsPerHour = 2;
+    const hoursAvailable = Math.floor((rows - scheduleStartRow) / cellsPerHour);
+    
+    for (let h = 0; h <= Math.min(24, hoursAvailable); h++) {
+        const rowIndex = scheduleStartRow + (h * cellsPerHour);
+        // Center text in the cell (between lines)
+        const y = offsetY + rowIndex * cellSize + cellSize / 2 + timeFontSize / 3;
+        const x = startX + timeColWidth / 2;
+        
+        ctx.globalAlpha = (h % 6 === 0) ? 0.8 : 0.5; // Emphasize 0, 6, 12, 18, 24
+        ctx.fillText(h.toString(), x, y);
+    }
+    ctx.textAlign = 'left';
+    ctx.globalAlpha = 1;
+    
+    // ========== 4. ANCHOR DOTS at key hours ==========
+    const anchorHours = [6, 12, 18];
+    ctx.fillStyle = color.hex;
+    ctx.globalAlpha = 0.5;
+    
+    for (const h of anchorHours) {
+        if (h <= hoursAvailable) {
+            const rowIndex = scheduleStartRow + (h * cellsPerHour);
+            const y = offsetY + rowIndex * cellSize;
+            const x = offsetX + mmToPixels(1.5, 2);
+            
             ctx.beginPath();
-            ctx.arc(gridStartX + mmToPixels(2, 2), y, mmToPixels(0.8, 2), 0, Math.PI * 2);
+            ctx.arc(x, y, mmToPixels(0.6, 2), 0, Math.PI * 2);
             ctx.fill();
         }
     }
+    ctx.globalAlpha = 1;
+    
+    // ========== 5. DATE AREA (top rows) ==========
+    // Japanese date format hint
+    const dateFontSize = mmToPixels(2.5, 2);
+    ctx.font = `300 ${dateFontSize}px Inter, sans-serif`;
+    ctx.fillStyle = color.hex;
+    ctx.globalAlpha = 0.25;
+    ctx.fillText('月', offsetX + cellSize * 2, offsetY + cellSize + dateFontSize / 2);
+    ctx.fillText('日', offsetX + cellSize * 5, offsetY + cellSize + dateFontSize / 2);
+    ctx.fillText('（　）', offsetX + cellSize * 7, offsetY + cellSize + dateFontSize / 2);
     ctx.globalAlpha = 1;
 }
 
@@ -1025,78 +1020,83 @@ function drawCalligraphyCNPDF(page, width, height, margin, lineWidth, color, hea
 
 function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
     const mmToPt = 2.835;
-    const startX = margin;
-    const startY = margin;
-    const endX = width - margin;
-    const endY = height - margin - headerOffset;
-    const pageWidth = endX - startX;
-    const pageHeight = endY - startY;
-    
     const cellSize = 3.7 * mmToPt;
     
-    // Layout: top 1/8 free, rest is schedule (PDF Y from bottom)
-    const freeSpaceHeight = pageHeight / 8;
-    const timelineWidth = 10 * mmToPt;
-    const marginStripWidth = 6 * mmToPt;
+    // Minimal margins
+    const smallMargin = 5 * mmToPt;
+    const startX = smallMargin;
+    const startY = smallMargin;
+    const endX = width - smallMargin;
+    const endY = height - smallMargin - headerOffset;
     
-    const scheduleEndY = endY - freeSpaceHeight; // Top of schedule area (Y from bottom)
-    const gridStartX = startX + timelineWidth;
-    const gridEndX = endX - marginStripWidth;
+    const timeColWidth = 7 * mmToPt;
+    const gridStartX = startX + timeColWidth;
     
-    const gridWidth = gridEndX - gridStartX;
-    const gridHeight = scheduleEndY - startY;
+    const gridWidth = endX - gridStartX;
+    const gridHeight = endY - startY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    // 1. FREE SPACE separator (bold line)
-    page.drawLine({
-        start: { x: startX, y: scheduleEndY },
-        end: { x: endX, y: scheduleEndY },
-        thickness: 0.5 * mmToPt,
-        color
-    });
+    const offsetX = gridStartX + (gridWidth - actualGridWidth) / 2;
+    const offsetY = startY + (gridHeight - actualGridHeight) / 2;
     
-    // 2. TIMELINE COLUMN - bold left border
-    page.drawLine({
-        start: { x: gridStartX, y: startY },
-        end: { x: gridStartX, y: scheduleEndY },
-        thickness: 0.5 * mmToPt,
-        color
-    });
-    
-    // 3. MAIN GRID (fine lines)
-    const fineLineWidth = 0.1 * mmToPt;
+    // 1. FULL PAGE GRID (dashed lines)
+    // PDF-lib doesn't support dashed lines easily, so use fine solid lines
+    const fineLineWidth = 0.08 * mmToPt;
     
     for (let i = 0; i <= cols; i++) {
-        const x = gridStartX + i * cellSize;
+        const x = offsetX + i * cellSize;
         page.drawLine({
-            start: { x, y: startY },
-            end: { x, y: startY + actualGridHeight },
+            start: { x, y: offsetY },
+            end: { x, y: offsetY + actualGridHeight },
             thickness: fineLineWidth,
             color
         });
     }
     
     for (let i = 0; i <= rows; i++) {
-        const y = startY + i * cellSize;
+        const y = offsetY + i * cellSize;
         page.drawLine({
-            start: { x: gridStartX, y },
-            end: { x: gridStartX + actualGridWidth, y },
+            start: { x: offsetX, y },
+            end: { x: offsetX + actualGridWidth, y },
             thickness: fineLineWidth,
             color
         });
     }
     
-    // 4. MARGIN STRIP separator
+    // 2. BOLD SECTION LINES
+    const headerRows = 2;
+    const headerY = offsetY + actualGridHeight - (headerRows * cellSize);
+    
+    // Header separator
     page.drawLine({
-        start: { x: gridEndX + 1 * mmToPt, y: startY },
-        end: { x: gridEndX + 1 * mmToPt, y: scheduleEndY },
-        thickness: 0.2 * mmToPt,
+        start: { x: startX, y: headerY },
+        end: { x: endX, y: headerY },
+        thickness: 0.25 * mmToPt,
         color
     });
+    
+    // Timeline column separator
+    page.drawLine({
+        start: { x: offsetX, y: offsetY },
+        end: { x: offsetX, y: headerY },
+        thickness: 0.25 * mmToPt,
+        color
+    });
+    
+    // Bold lines every 4 rows
+    for (let i = headerRows + 4; i < rows; i += 4) {
+        const y = offsetY + actualGridHeight - (i * cellSize);
+        page.drawLine({
+            start: { x: offsetX, y },
+            end: { x: offsetX + actualGridWidth, y },
+            thickness: 0.15 * mmToPt,
+            color
+        });
+    }
 }
 
 function drawGenkoyoshiPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
