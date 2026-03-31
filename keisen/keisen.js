@@ -457,56 +457,86 @@ function drawCalligraphyCN(margin, headerOffset = 0) {
 
 function drawHobonichi(margin, headerOffset = 0) {
     // Authentic Hobonichi Techo daily page:
-    // - Full page 3.7mm grid (dashed lines)
-    // - Date header row at top
-    // - Timeline on left (0-24)
-    // - Bold lines every few rows to suggest sections
-    // - Minimal margins, maximum writing space
+    // - Header area (no grid) for date
+    // - Timeline 6-24 on left
+    // - Notes/todo box at bottom (after 24)
+    // - Full boundary lines
     
     const color = COLORS[state.color];
     const cellSize = mmToPixels(3.7, 2);
     
-    // Minimal margins for maximum space
+    // Minimal margins
     const smallMargin = mmToPixels(5, 2);
     const startX = smallMargin;
     const startY = smallMargin + headerOffset;
     const endX = canvas.width - smallMargin;
     const endY = canvas.height - smallMargin;
     
-    // Timeline column width (fits "24" + padding)
+    // Layout measurements
     const timeColWidth = mmToPixels(7, 2);
+    const headerHeight = mmToPixels(10, 2); // Header for date (no grid)
+    
     const gridStartX = startX + timeColWidth;
+    const gridStartY = startY + headerHeight;
     
     // Calculate grid dimensions
     const gridWidth = endX - gridStartX;
-    const gridHeight = endY - startY;
+    const gridHeight = endY - gridStartY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    // Center grid in available space
-    const offsetX = gridStartX + (gridWidth - actualGridWidth) / 2;
-    const offsetY = startY + (gridHeight - actualGridHeight) / 2;
+    // Align grid to top-left of grid area
+    const offsetX = gridStartX;
+    const offsetY = gridStartY;
     
-    // ========== 1. FULL PAGE GRID (dashed lines like real Hobonichi) ==========
+    // Timeline: 6am to 24 (midnight), 2 cells per hour = 19 hours × 2 = 38 rows
+    const startHour = 6;
+    const endHour = 24;
+    const cellsPerHour = 2;
+    const scheduleRows = (endHour - startHour) * cellsPerHour;
+    const scheduleHeight = scheduleRows * cellSize;
+    
+    // Notes section starts after schedule
+    const notesStartY = offsetY + scheduleHeight;
+    const notesHeight = actualGridHeight - scheduleHeight;
+    
+    // ========== 1. HEADER AREA (no grid, just date) ==========
+    ctx.fillStyle = color.hex;
+    const dateFontSize = mmToPixels(3.5, 2);
+    ctx.font = `300 ${dateFontSize}px Inter, sans-serif`;
+    ctx.globalAlpha = 0.3;
+    ctx.fillText('月', startX + timeColWidth + cellSize * 2, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('日', startX + timeColWidth + cellSize * 5, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('（　　）', startX + timeColWidth + cellSize * 7.5, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.globalAlpha = 1;
+    
+    // Header bottom line
     ctx.strokeStyle = color.hex;
-    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]); // Dashed pattern
+    ctx.lineWidth = mmToPixels(0.3, 2);
+    ctx.beginPath();
+    ctx.moveTo(startX, gridStartY);
+    ctx.lineTo(startX + timeColWidth + actualGridWidth, gridStartY);
+    ctx.stroke();
+    
+    // ========== 2. SCHEDULE GRID (dashed lines) ==========
+    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]);
     ctx.lineWidth = mmToPixels(0.08, 2);
     ctx.globalAlpha = 0.5;
     
     ctx.beginPath();
     
-    // Vertical lines
+    // Vertical lines in schedule area
     for (let i = 0; i <= cols; i++) {
         const x = offsetX + i * cellSize;
         ctx.moveTo(x, offsetY);
-        ctx.lineTo(x, offsetY + actualGridHeight);
+        ctx.lineTo(x, notesStartY);
     }
     
-    // Horizontal lines
-    for (let i = 0; i <= rows; i++) {
+    // Horizontal lines in schedule area
+    for (let i = 0; i <= scheduleRows; i++) {
         const y = offsetY + i * cellSize;
         ctx.moveTo(offsetX, y);
         ctx.lineTo(offsetX + actualGridWidth, y);
@@ -516,86 +546,99 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.setLineDash([]);
     ctx.globalAlpha = 1;
     
-    // ========== 2. BOLD SECTION LINES (suggest structure) ==========
-    // Header separator (after ~2 rows for date)
-    const headerRows = 2;
-    const headerY = offsetY + headerRows * cellSize;
-    
-    ctx.lineWidth = mmToPixels(0.25, 2);
+    // ========== 3. TIMELINE COLUMN BORDER ==========
+    ctx.lineWidth = mmToPixels(0.3, 2);
     ctx.globalAlpha = 0.7;
     ctx.beginPath();
-    ctx.moveTo(startX, headerY);
-    ctx.lineTo(endX, headerY);
+    ctx.moveTo(offsetX, gridStartY);
+    ctx.lineTo(offsetX, notesStartY);
     ctx.stroke();
-    
-    // Timeline column separator
-    ctx.beginPath();
-    ctx.moveTo(offsetX, headerY);
-    ctx.lineTo(offsetX, offsetY + actualGridHeight);
-    ctx.stroke();
-    
-    // Bold lines every 4 rows (hourly sections in schedule area)
-    ctx.lineWidth = mmToPixels(0.15, 2);
-    ctx.globalAlpha = 0.4;
-    for (let i = headerRows + 4; i < rows; i += 4) {
-        const y = offsetY + i * cellSize;
-        ctx.beginPath();
-        ctx.moveTo(offsetX, y);
-        ctx.lineTo(offsetX + actualGridWidth, y);
-        ctx.stroke();
-    }
     ctx.globalAlpha = 1;
     
-    // ========== 3. TIMELINE (centered in cells, not on lines) ==========
+    // ========== 4. TIMELINE NUMBERS (6-24, centered in cells) ==========
     const timeFontSize = mmToPixels(2.2, 2);
     ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
     ctx.textAlign = 'center';
     
-    // Hours 0-24, one per 2 cells (30 min per cell)
-    const scheduleStartRow = headerRows;
-    const cellsPerHour = 2;
-    const hoursAvailable = Math.floor((rows - scheduleStartRow) / cellsPerHour);
-    
-    for (let h = 0; h <= Math.min(24, hoursAvailable); h++) {
-        const rowIndex = scheduleStartRow + (h * cellsPerHour);
-        // Center text in the cell (between lines)
+    for (let h = startHour; h <= endHour; h++) {
+        const rowIndex = (h - startHour) * cellsPerHour;
         const y = offsetY + rowIndex * cellSize + cellSize / 2 + timeFontSize / 3;
         const x = startX + timeColWidth / 2;
         
-        ctx.globalAlpha = (h % 6 === 0) ? 0.8 : 0.5; // Emphasize 0, 6, 12, 18, 24
+        ctx.globalAlpha = (h % 6 === 0) ? 0.8 : 0.5;
         ctx.fillText(h.toString(), x, y);
     }
     ctx.textAlign = 'left';
     ctx.globalAlpha = 1;
     
-    // ========== 4. ANCHOR DOTS at key hours ==========
-    const anchorHours = [6, 12, 18];
+    // ========== 5. ANCHOR DOTS ON VERTICAL LINE ==========
+    const anchorHours = [6, 12, 18, 24];
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = 0.6;
     
     for (const h of anchorHours) {
-        if (h <= hoursAvailable) {
-            const rowIndex = scheduleStartRow + (h * cellsPerHour);
-            const y = offsetY + rowIndex * cellSize;
-            const x = offsetX + mmToPixels(1.5, 2);
-            
-            ctx.beginPath();
-            ctx.arc(x, y, mmToPixels(0.6, 2), 0, Math.PI * 2);
-            ctx.fill();
-        }
+        const rowIndex = (h - startHour) * cellsPerHour;
+        const y = offsetY + rowIndex * cellSize;
+        const x = offsetX; // On the vertical line
+        
+        ctx.beginPath();
+        ctx.arc(x, y, mmToPixels(0.8, 2), 0, Math.PI * 2);
+        ctx.fill();
     }
     ctx.globalAlpha = 1;
     
-    // ========== 5. DATE AREA (top rows) ==========
-    // Japanese date format hint
-    const dateFontSize = mmToPixels(2.5, 2);
-    ctx.font = `300 ${dateFontSize}px Inter, sans-serif`;
-    ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.25;
-    ctx.fillText('月', offsetX + cellSize * 2, offsetY + cellSize + dateFontSize / 2);
-    ctx.fillText('日', offsetX + cellSize * 5, offsetY + cellSize + dateFontSize / 2);
-    ctx.fillText('（　）', offsetX + cellSize * 7, offsetY + cellSize + dateFontSize / 2);
+    // ========== 6. NOTES/TODO BOX (below 24) ==========
+    // Box outline
+    ctx.strokeStyle = color.hex;
+    ctx.lineWidth = mmToPixels(0.3, 2);
+    ctx.globalAlpha = 0.7;
+    ctx.strokeRect(offsetX, notesStartY, actualGridWidth, notesHeight);
+    ctx.globalAlpha = 1;
+    
+    // Grid inside notes box (dashed)
+    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]);
+    ctx.lineWidth = mmToPixels(0.08, 2);
+    ctx.globalAlpha = 0.5;
+    
+    const notesRows = Math.floor(notesHeight / cellSize);
+    ctx.beginPath();
+    
+    // Vertical lines in notes area
+    for (let i = 1; i < cols; i++) {
+        const x = offsetX + i * cellSize;
+        ctx.moveTo(x, notesStartY);
+        ctx.lineTo(x, notesStartY + notesRows * cellSize);
+    }
+    
+    // Horizontal lines in notes area
+    for (let i = 1; i < notesRows; i++) {
+        const y = notesStartY + i * cellSize;
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + actualGridWidth, y);
+    }
+    
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.globalAlpha = 1;
+    
+    // ========== 7. BOUNDARY LINES (right and bottom) ==========
+    ctx.strokeStyle = color.hex;
+    ctx.lineWidth = mmToPixels(0.3, 2);
+    ctx.globalAlpha = 0.7;
+    
+    // Right boundary
+    ctx.beginPath();
+    ctx.moveTo(offsetX + actualGridWidth, gridStartY);
+    ctx.lineTo(offsetX + actualGridWidth, notesStartY + notesHeight);
+    ctx.stroke();
+    
+    // Bottom boundary
+    ctx.beginPath();
+    ctx.moveTo(offsetX, notesStartY + notesHeight);
+    ctx.lineTo(offsetX + actualGridWidth, notesStartY + notesHeight);
+    ctx.stroke();
+    
     ctx.globalAlpha = 1;
 }
 
@@ -1030,35 +1073,58 @@ function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerO
     const endY = height - smallMargin - headerOffset;
     
     const timeColWidth = 7 * mmToPt;
+    const headerHeight = 10 * mmToPt;
+    
     const gridStartX = startX + timeColWidth;
+    // PDF Y is from bottom, so header is at top
+    const gridEndY = endY - headerHeight;
     
     const gridWidth = endX - gridStartX;
-    const gridHeight = endY - startY;
+    const gridHeight = gridEndY - startY;
     
     const cols = Math.floor(gridWidth / cellSize);
     const rows = Math.floor(gridHeight / cellSize);
     const actualGridWidth = cols * cellSize;
     const actualGridHeight = rows * cellSize;
     
-    const offsetX = gridStartX + (gridWidth - actualGridWidth) / 2;
-    const offsetY = startY + (gridHeight - actualGridHeight) / 2;
+    const offsetX = gridStartX;
+    const offsetY = startY;
     
-    // 1. FULL PAGE GRID (dashed lines)
-    // PDF-lib doesn't support dashed lines easily, so use fine solid lines
+    // Timeline: 6-24, 2 cells per hour
+    const startHour = 6;
+    const endHour = 24;
+    const cellsPerHour = 2;
+    const scheduleRows = (endHour - startHour) * cellsPerHour;
+    const scheduleHeight = scheduleRows * cellSize;
+    const notesHeight = actualGridHeight - scheduleHeight;
+    
+    // 1. HEADER LINE (PDF Y from bottom, so this is near top)
+    page.drawLine({
+        start: { x: startX, y: gridEndY },
+        end: { x: offsetX + actualGridWidth, y: gridEndY },
+        thickness: 0.3 * mmToPt,
+        color
+    });
+    
+    // 2. SCHEDULE GRID (fine lines)
     const fineLineWidth = 0.08 * mmToPt;
+    
+    // Schedule area: from gridEndY down to notesY
+    const scheduleTopY = gridEndY;
+    const scheduleBottomY = gridEndY - scheduleHeight;
     
     for (let i = 0; i <= cols; i++) {
         const x = offsetX + i * cellSize;
         page.drawLine({
-            start: { x, y: offsetY },
-            end: { x, y: offsetY + actualGridHeight },
+            start: { x, y: scheduleBottomY },
+            end: { x, y: scheduleTopY },
             thickness: fineLineWidth,
             color
         });
     }
     
-    for (let i = 0; i <= rows; i++) {
-        const y = offsetY + i * cellSize;
+    for (let i = 0; i <= scheduleRows; i++) {
+        const y = scheduleTopY - i * cellSize;
         page.drawLine({
             start: { x: offsetX, y },
             end: { x: offsetX + actualGridWidth, y },
@@ -1067,36 +1133,55 @@ function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerO
         });
     }
     
-    // 2. BOLD SECTION LINES
-    const headerRows = 2;
-    const headerY = offsetY + actualGridHeight - (headerRows * cellSize);
-    
-    // Header separator
+    // 3. TIMELINE COLUMN BORDER
     page.drawLine({
-        start: { x: startX, y: headerY },
-        end: { x: endX, y: headerY },
-        thickness: 0.25 * mmToPt,
+        start: { x: offsetX, y: scheduleBottomY },
+        end: { x: offsetX, y: scheduleTopY },
+        thickness: 0.3 * mmToPt,
         color
     });
     
-    // Timeline column separator
-    page.drawLine({
-        start: { x: offsetX, y: offsetY },
-        end: { x: offsetX, y: headerY },
-        thickness: 0.25 * mmToPt,
-        color
+    // 4. NOTES BOX (below schedule)
+    const notesTopY = scheduleBottomY;
+    const notesBottomY = offsetY;
+    
+    page.drawRectangle({
+        x: offsetX,
+        y: notesBottomY,
+        width: actualGridWidth,
+        height: notesTopY - notesBottomY,
+        borderColor: color,
+        borderWidth: 0.3 * mmToPt
     });
     
-    // Bold lines every 4 rows
-    for (let i = headerRows + 4; i < rows; i += 4) {
-        const y = offsetY + actualGridHeight - (i * cellSize);
+    // Notes grid
+    const notesRows = Math.floor((notesTopY - notesBottomY) / cellSize);
+    for (let i = 1; i < cols; i++) {
+        const x = offsetX + i * cellSize;
         page.drawLine({
-            start: { x: offsetX, y },
-            end: { x: offsetX + actualGridWidth, y },
-            thickness: 0.15 * mmToPt,
+            start: { x, y: notesBottomY },
+            end: { x, y: notesTopY },
+            thickness: fineLineWidth,
             color
         });
     }
+    for (let i = 1; i < notesRows; i++) {
+        const y = notesBottomY + i * cellSize;
+        page.drawLine({
+            start: { x: offsetX, y },
+            end: { x: offsetX + actualGridWidth, y },
+            thickness: fineLineWidth,
+            color
+        });
+    }
+    
+    // 5. RIGHT BOUNDARY
+    page.drawLine({
+        start: { x: offsetX + actualGridWidth, y: gridEndY },
+        end: { x: offsetX + actualGridWidth, y: notesBottomY },
+        thickness: 0.3 * mmToPt,
+        color
+    });
 }
 
 function drawGenkoyoshiPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
