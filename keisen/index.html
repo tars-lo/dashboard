@@ -123,6 +123,47 @@
             margin-top: 0.25rem;
         }
 
+        .orientation-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .orientation-btn {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .orientation-btn svg {
+            width: 20px;
+            height: 14px;
+        }
+
+        .orientation-btn[data-orientation="portrait"] svg {
+            width: 14px;
+            height: 20px;
+        }
+
+        .orientation-btn:hover {
+            border-color: var(--accent);
+        }
+
+        .orientation-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
         .template-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -461,6 +502,24 @@
                     <button class="device-btn" data-device="ipad">
                         iPad Pro 13"
                         <small>2752 × 2064</small>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Orientation</div>
+                <div class="orientation-buttons">
+                    <button class="orientation-btn active" data-orientation="landscape">
+                        <svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="1" y="1" width="22" height="14" rx="2"/>
+                        </svg>
+                        Landscape
+                    </button>
+                    <button class="orientation-btn" data-orientation="portrait">
+                        <svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="1" y="1" width="14" height="22" rx="2"/>
+                        </svg>
+                        Portrait
                     </button>
                 </div>
             </div>
