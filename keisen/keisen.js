@@ -463,7 +463,7 @@ function drawHobonichi(margin, headerOffset = 0) {
     // - Full boundary lines
     
     const color = COLORS[state.color];
-    const cellSize = mmToPixels(4.5, 2); // Larger grid for easier writing
+    const cellSize = mmToPixels(6, 2); // Larger grid for easier writing on e-ink
     
     // Minimal margins
     const smallMargin = mmToPixels(5, 2);
@@ -473,8 +473,8 @@ function drawHobonichi(margin, headerOffset = 0) {
     const endY = canvas.height - smallMargin;
     
     // Layout measurements
-    const timeColWidth = mmToPixels(8, 2);
-    const headerHeight = mmToPixels(10, 2); // Header for date (no grid)
+    const timeColWidth = mmToPixels(10, 2);
+    const headerHeight = mmToPixels(12, 2); // Header for date (no grid)
     
     const gridStartX = startX + timeColWidth;
     const gridStartY = startY + headerHeight;
@@ -506,26 +506,26 @@ function drawHobonichi(margin, headerOffset = 0) {
     
     // ========== 1. HEADER AREA (no grid, just date) ==========
     ctx.fillStyle = color.hex;
-    const dateFontSize = mmToPixels(3.5, 2);
-    ctx.font = `300 ${dateFontSize}px Inter, sans-serif`;
-    ctx.globalAlpha = 0.3;
-    ctx.fillText('月', startX + timeColWidth + cellSize * 1.5, startY + headerHeight / 2 + dateFontSize / 3);
-    ctx.fillText('日', startX + timeColWidth + cellSize * 4, startY + headerHeight / 2 + dateFontSize / 3);
-    ctx.fillText('（　　）', startX + timeColWidth + cellSize * 6, startY + headerHeight / 2 + dateFontSize / 3);
+    const dateFontSize = mmToPixels(4, 2);
+    ctx.font = `400 ${dateFontSize}px Inter, sans-serif`;
+    ctx.globalAlpha = 0.6; // More visible header
+    ctx.fillText('月', startX + timeColWidth + cellSize * 1, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('日', startX + timeColWidth + cellSize * 3, startY + headerHeight / 2 + dateFontSize / 3);
+    ctx.fillText('（　　）', startX + timeColWidth + cellSize * 4.5, startY + headerHeight / 2 + dateFontSize / 3);
     ctx.globalAlpha = 1;
     
     // Header bottom line
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.3, 2);
+    ctx.lineWidth = mmToPixels(0.4, 2); // Bolder line
     ctx.beginPath();
     ctx.moveTo(startX, gridStartY);
     ctx.lineTo(startX + timeColWidth + actualGridWidth, gridStartY);
     ctx.stroke();
     
-    // ========== 2. SCHEDULE GRID (dashed lines) ==========
-    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]);
-    ctx.lineWidth = mmToPixels(0.1, 2);
-    ctx.globalAlpha = 0.5;
+    // ========== 2. SCHEDULE GRID (solid lines, more visible) ==========
+    ctx.setLineDash([]); // Solid lines for better visibility on e-ink
+    ctx.lineWidth = mmToPixels(0.2, 2); // Thicker grid lines
+    ctx.globalAlpha = 0.7; // More visible
     
     ctx.beginPath();
     
@@ -548,8 +548,9 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.globalAlpha = 1;
     
     // ========== 3. TIMELINE COLUMN BORDER ==========
-    ctx.lineWidth = mmToPixels(0.3, 2);
-    ctx.globalAlpha = 0.7;
+    ctx.setLineDash([]);
+    ctx.lineWidth = mmToPixels(0.4, 2);
+    ctx.globalAlpha = 0.8;
     ctx.beginPath();
     ctx.moveTo(offsetX, gridStartY);
     ctx.lineTo(offsetX, notesStartY);
@@ -557,8 +558,8 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.globalAlpha = 1;
     
     // ========== 4. TIMELINE NUMBERS (6-24, centered in cells) ==========
-    const timeFontSize = mmToPixels(2.5, 2);
-    ctx.font = `400 ${timeFontSize}px Inter, sans-serif`;
+    const timeFontSize = mmToPixels(3, 2);
+    ctx.font = `500 ${timeFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
     ctx.textAlign = 'center';
     
@@ -571,7 +572,7 @@ function drawHobonichi(margin, headerOffset = 0) {
         const y = offsetY + rowIndex * cellSize + cellSize / 2 + timeFontSize / 3;
         const x = startX + timeColWidth / 2;
         
-        ctx.globalAlpha = (h % 6 === 0) ? 0.8 : 0.5;
+        ctx.globalAlpha = (h % 6 === 0) ? 0.9 : 0.6;
         ctx.fillText(h.toString(), x, y);
     }
     ctx.textAlign = 'left';
@@ -580,7 +581,7 @@ function drawHobonichi(margin, headerOffset = 0) {
     // ========== 5. ANCHOR DOTS (aligned with time numbers, on the line) ==========
     const anchorHours = [6, 12, 18, 24];
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.6;
+    ctx.globalAlpha = 0.8;
     
     for (const h of anchorHours) {
         const i = h - startHour;
@@ -592,15 +593,15 @@ function drawHobonichi(margin, headerOffset = 0) {
         const x = offsetX; // On the vertical line
         
         ctx.beginPath();
-        ctx.arc(x, y, mmToPixels(0.8, 2), 0, Math.PI * 2);
+        ctx.arc(x, y, mmToPixels(1, 2), 0, Math.PI * 2);
         ctx.fill();
     }
     ctx.globalAlpha = 1;
     
     // ========== 6. BOLD LINE BELOW 24 (notes separator) ==========
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.3, 2); // Same thickness as other borders
-    ctx.globalAlpha = 0.7;
+    ctx.lineWidth = mmToPixels(0.4, 2);
+    ctx.globalAlpha = 0.8;
     ctx.beginPath();
     ctx.moveTo(offsetX, notesStartY);
     ctx.lineTo(offsetX + actualGridWidth, notesStartY);
@@ -608,9 +609,9 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.globalAlpha = 1;
     
     // ========== 7. NOTES GRID (below bold line) ==========
-    ctx.setLineDash([mmToPixels(1.5, 2), mmToPixels(1, 2)]);
-    ctx.lineWidth = mmToPixels(0.1, 2);
-    ctx.globalAlpha = 0.5;
+    ctx.setLineDash([]);
+    ctx.lineWidth = mmToPixels(0.2, 2);
+    ctx.globalAlpha = 0.7;
     
     const notesRows = Math.floor(notesHeight / cellSize);
     ctx.beginPath();
@@ -633,10 +634,16 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.setLineDash([]);
     ctx.globalAlpha = 1;
     
-    // ========== 8. BOUNDARY LINES (right and bottom) ==========
+    // ========== 8. BOUNDARY LINES (left, right, and bottom) ==========
     ctx.strokeStyle = color.hex;
-    ctx.lineWidth = mmToPixels(0.3, 2);
-    ctx.globalAlpha = 0.7;
+    ctx.lineWidth = mmToPixels(0.4, 2);
+    ctx.globalAlpha = 0.8;
+    
+    // Left boundary (full height including notes)
+    ctx.beginPath();
+    ctx.moveTo(offsetX, gridStartY);
+    ctx.lineTo(offsetX, notesStartY + notesRows * cellSize);
+    ctx.stroke();
     
     // Right boundary (full height)
     ctx.beginPath();
@@ -653,12 +660,12 @@ function drawHobonichi(margin, headerOffset = 0) {
     ctx.globalAlpha = 1;
     
     // ========== 9. WATERMARK (below grid) ==========
-    const wmFontSize = mmToPixels(2, 2);
+    const wmFontSize = mmToPixels(2.5, 2);
     ctx.font = `300 ${wmFontSize}px Inter, sans-serif`;
     ctx.fillStyle = color.hex;
-    ctx.globalAlpha = 0.2;
+    ctx.globalAlpha = 0.3;
     ctx.textAlign = 'right';
-    ctx.fillText('MADE BY TARS', offsetX + actualGridWidth, notesStartY + notesRows * cellSize + mmToPixels(4, 2));
+    ctx.fillText('MADE BY TARS', offsetX + actualGridWidth, notesStartY + notesRows * cellSize + mmToPixels(5, 2));
     ctx.textAlign = 'left';
     ctx.globalAlpha = 1;
 }
@@ -1085,7 +1092,7 @@ function drawCalligraphyCNPDF(page, width, height, margin, lineWidth, color, hea
 async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, headerOffset = 0) {
     const { StandardFonts } = PDFLib;
     const mmToPt = 2.835;
-    const cellSize = 4.5 * mmToPt; // Larger grid
+    const cellSize = 6 * mmToPt; // Larger grid for e-ink writing
     
     // Minimal margins
     const smallMargin = 5 * mmToPt;
@@ -1094,8 +1101,8 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const endX = width - smallMargin;
     const endY = height - smallMargin - headerOffset;
     
-    const timeColWidth = 8 * mmToPt;
-    const headerHeight = 10 * mmToPt;
+    const timeColWidth = 10 * mmToPt;
+    const headerHeight = 12 * mmToPt;
     
     const gridStartX = startX + timeColWidth;
     const gridEndY = endY - headerHeight; // PDF Y from bottom
@@ -1126,59 +1133,60 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     const notesRows = Math.floor(notesHeight / cellSize);
     const notesBottomY = notesTopY - (notesRows * cellSize);
     
-    const fineLineWidth = 0.1 * mmToPt;
+    const fineLineWidth = 0.2 * mmToPt; // Thicker grid lines for visibility
+    const boldLineWidth = 0.4 * mmToPt; // Bold borders
     
     // ========== 1. HEADER (date placeholders) ==========
     const font = await page.doc.embedFont(StandardFonts.Helvetica);
-    const dateFontSize = 3.5 * mmToPt;
+    const dateFontSize = 4 * mmToPt;
     
     // Date format: Month ___ / Day ___ (Day of week)
     page.drawText('Month', {
-        x: offsetX + cellSize * 0.5,
+        x: offsetX + cellSize * 0.3,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize * 0.7,
         font,
         color,
-        opacity: 0.25
+        opacity: 0.5
     });
     page.drawText('________', {
-        x: offsetX + cellSize * 2.5,
+        x: offsetX + cellSize * 1.8,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
-        opacity: 0.3
+        opacity: 0.5
     });
     page.drawText('Day', {
-        x: offsetX + cellSize * 5.5,
+        x: offsetX + cellSize * 4,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize * 0.7,
         font,
         color,
-        opacity: 0.25
+        opacity: 0.5
     });
     page.drawText('________', {
-        x: offsetX + cellSize * 7,
+        x: offsetX + cellSize * 5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
-        opacity: 0.3
+        opacity: 0.5
     });
     page.drawText('(        )', {
-        x: offsetX + cellSize * 10,
+        x: offsetX + cellSize * 7.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
-        opacity: 0.3
+        opacity: 0.5
     });
     
     // Header bottom line
     page.drawLine({
         start: { x: startX, y: gridEndY },
         end: { x: offsetX + actualGridWidth, y: gridEndY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
@@ -1209,12 +1217,12 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX, y: scheduleBottomY },
         end: { x: offsetX, y: scheduleTopY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
     // ========== 4. TIMELINE NUMBERS ==========
-    const timeFontSize = 2.5 * mmToPt;
+    const timeFontSize = 3 * mmToPt;
     const hoursToFit = Math.floor(actualScheduleRows / cellsPerHour);
     
     for (let i = 0; i <= hoursToFit; i++) {
@@ -1231,7 +1239,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
             size: timeFontSize,
             font,
             color,
-            opacity: (h % 6 === 0) ? 0.8 : 0.5
+            opacity: (h % 6 === 0) ? 0.9 : 0.6
         });
     }
     
@@ -1247,7 +1255,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         page.drawCircle({
             x: offsetX,
             y,
-            size: 0.8 * mmToPt,
+            size: 1 * mmToPt,
             color
         });
     }
@@ -1272,7 +1280,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX, y: notesTopY },
         end: { x: offsetX + actualGridWidth, y: notesTopY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
@@ -1303,7 +1311,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX, y: gridEndY },
         end: { x: offsetX, y: notesBottomY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
@@ -1311,7 +1319,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX + actualGridWidth, y: gridEndY },
         end: { x: offsetX + actualGridWidth, y: notesBottomY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
@@ -1319,19 +1327,19 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     page.drawLine({
         start: { x: offsetX, y: notesBottomY },
         end: { x: offsetX + actualGridWidth, y: notesBottomY },
-        thickness: 0.3 * mmToPt,
+        thickness: boldLineWidth,
         color
     });
     
     // ========== 12. WATERMARK (below grid) ==========
-    const wmFontSize = 2 * mmToPt;
+    const wmFontSize = 2.5 * mmToPt;
     page.drawText('MADE BY TARS', {
-        x: offsetX + actualGridWidth - 25 * mmToPt,
-        y: notesBottomY - 4 * mmToPt,
+        x: offsetX + actualGridWidth - 28 * mmToPt,
+        y: notesBottomY - 5 * mmToPt,
         size: wmFontSize,
         font,
         color,
-        opacity: 0.2
+        opacity: 0.3
     });
 }
 
