@@ -1128,37 +1128,45 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
     
     const fineLineWidth = 0.1 * mmToPt;
     
-    // ========== 1. HEADER (date placeholders - Japanese) ==========
+    // ========== 1. HEADER (date placeholders) ==========
     const font = await page.doc.embedFont(StandardFonts.Helvetica);
     const dateFontSize = 3.5 * mmToPt;
     
-    // Using basic characters that render in Helvetica - actual Japanese would need embedded font
-    page.drawText('___', {
-        x: offsetX + cellSize * 1,
+    // Date format: Month ___ / Day ___ (Day of week)
+    page.drawText('Month', {
+        x: offsetX + cellSize * 0.5,
+        y: endY - headerHeight / 2 - dateFontSize / 3,
+        size: dateFontSize * 0.7,
+        font,
+        color,
+        opacity: 0.25
+    });
+    page.drawText('________', {
+        x: offsetX + cellSize * 2.5,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
         opacity: 0.3
     });
-    page.drawText('/', {
-        x: offsetX + cellSize * 3,
+    page.drawText('Day', {
+        x: offsetX + cellSize * 5.5,
+        y: endY - headerHeight / 2 - dateFontSize / 3,
+        size: dateFontSize * 0.7,
+        font,
+        color,
+        opacity: 0.25
+    });
+    page.drawText('________', {
+        x: offsetX + cellSize * 7,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
         color,
         opacity: 0.3
     });
-    page.drawText('___', {
-        x: offsetX + cellSize * 3.5,
-        y: endY - headerHeight / 2 - dateFontSize / 3,
-        size: dateFontSize,
-        font,
-        color,
-        opacity: 0.3
-    });
-    page.drawText('(    )', {
-        x: offsetX + cellSize * 6,
+    page.drawText('(        )', {
+        x: offsetX + cellSize * 10,
         y: endY - headerHeight / 2 - dateFontSize / 3,
         size: dateFontSize,
         font,
@@ -1244,15 +1252,31 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         });
     }
     
-    // ========== 6. BOLD LINE BELOW 24 (notes separator) ==========
+    // ========== 6. THE 24 ROW (between schedule and notes) ==========
+    // This is the row where 24 sits - needs grid lines
+    const row24TopY = scheduleBottomY;
+    const row24BottomY = notesTopY;
+    
+    // Vertical lines in the 24 row
+    for (let i = 0; i <= cols; i++) {
+        const x = offsetX + i * cellSize;
+        page.drawLine({
+            start: { x, y: row24BottomY },
+            end: { x, y: row24TopY },
+            thickness: fineLineWidth,
+            color
+        });
+    }
+    
+    // ========== 7. BOLD LINE BELOW 24 (notes separator) ==========
     page.drawLine({
         start: { x: offsetX, y: notesTopY },
         end: { x: offsetX + actualGridWidth, y: notesTopY },
-        thickness: 0.3 * mmToPt, // Same as other borders
+        thickness: 0.3 * mmToPt,
         color
     });
     
-    // ========== 7. NOTES GRID ==========
+    // ========== 8. NOTES GRID ==========
     // Vertical lines
     for (let i = 0; i <= cols; i++) {
         const x = offsetX + i * cellSize;
@@ -1275,7 +1299,15 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         });
     }
     
-    // ========== 8. RIGHT BOUNDARY ==========
+    // ========== 9. LEFT BOUNDARY (bold, full height including notes) ==========
+    page.drawLine({
+        start: { x: offsetX, y: gridEndY },
+        end: { x: offsetX, y: notesBottomY },
+        thickness: 0.3 * mmToPt,
+        color
+    });
+    
+    // ========== 10. RIGHT BOUNDARY ==========
     page.drawLine({
         start: { x: offsetX + actualGridWidth, y: gridEndY },
         end: { x: offsetX + actualGridWidth, y: notesBottomY },
@@ -1283,7 +1315,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         color
     });
     
-    // ========== 9. BOTTOM BOUNDARY ==========
+    // ========== 11. BOTTOM BOUNDARY ==========
     page.drawLine({
         start: { x: offsetX, y: notesBottomY },
         end: { x: offsetX + actualGridWidth, y: notesBottomY },
@@ -1291,7 +1323,7 @@ async function drawHobonichiPDF(page, width, height, margin, lineWidth, color, h
         color
     });
     
-    // ========== 10. WATERMARK (below grid) ==========
+    // ========== 12. WATERMARK (below grid) ==========
     const wmFontSize = 2 * mmToPt;
     page.drawText('MADE BY TARS', {
         x: offsetX + actualGridWidth - 25 * mmToPt,
