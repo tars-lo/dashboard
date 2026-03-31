@@ -146,6 +146,19 @@
     .reading-author { font-size: 0.7rem; color: var(--text-dim); }
     .reading-tag { font-family: 'Space Mono', monospace; font-size: 0.55rem; padding: 2px 5px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; color: var(--text-dim); }
     
+    /* Habit Grid */
+    .habit-grid { display: grid; gap: 10px; }
+    .habit-row { display: flex; align-items: center; gap: 10px; }
+    .habit-label { font-size: 0.8rem; width: 90px; display: flex; align-items: center; gap: 5px; }
+    .habit-label-icon { font-size: 1rem; }
+    .habit-label-text { font-size: 0.7rem; color: var(--text-dim); }
+    .habit-days { display: flex; gap: 4px; }
+    .habit-day { width: 24px; height: 24px; border-radius: 4px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--text-dim); }
+    .habit-day.done { background: var(--success); border-color: var(--success); color: var(--bg); }
+    .habit-day.missed { background: var(--q1-dim); border-color: var(--q1); }
+    .habit-day.today { border-width: 2px; border-color: var(--accent); }
+    .habit-target { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); margin-left: auto; }
+    
     .footer { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-dim); text-align: center; margin-top: 16px; padding-top: 12px; border-top: 2px solid var(--border); }
     .empty { color: var(--text-dim); font-style: italic; font-size: 0.8rem; padding: 6px 0; }
   </style>
@@ -217,6 +230,13 @@
       <div class="card-body" id="reading">Loading...</div>
     </div>
     
+    <div class="card">
+      <div class="card-header"><span>🎯 Habits</span><span class="card-badge" id="habitStreak">--</span></div>
+      <div class="card-body">
+        <div class="habit-grid" id="habits">Loading...</div>
+      </div>
+    </div>
+    
     <div class="footer">↻ <span id="lastUpdated">--</span> · TARS × TE</div>
   </div>
 
@@ -268,6 +288,32 @@
         const rd = document.getElementById('reading');
         if (!d.reading?.length) rd.innerHTML = '<div class="empty">Nothing tracked</div>';
         else rd.innerHTML = d.reading.map(r => `<div class="reading-item"><div class="reading-progress" style="--pct:${r.progress}%"><div class="reading-progress-inner">${r.progress}%</div></div><div class="reading-info"><div class="reading-title">${r.title}</div><div class="reading-author">${r.author}</div></div><span class="reading-tag">${r.type}</span></div>`).join('');
+        
+        // Habits
+        const hb = document.getElementById('habits');
+        if (!d.habits?.length) hb.innerHTML = '<div class="empty">No habits tracked</div>';
+        else {
+          const days = ['M','T','W','T','F','S','S'];
+          const today = new Date().getDay();
+          const todayIdx = today === 0 ? 6 : today - 1;
+          let totalDone = 0, totalTarget = 0;
+          hb.innerHTML = d.habits.map(h => {
+            const weekDone = h.days.filter(d => d).length;
+            totalDone += weekDone;
+            totalTarget += h.target;
+            return `<div class="habit-row">
+              <div class="habit-label"><span class="habit-label-icon">${h.icon}</span><span class="habit-label-text">${h.name}</span></div>
+              <div class="habit-days">${days.map((day, i) => {
+                const done = h.days[i];
+                const isToday = i === todayIdx;
+                const missed = !done && i < todayIdx && (weekDone < h.target - (6 - i));
+                return `<div class="habit-day ${done ? 'done' : ''} ${missed ? 'missed' : ''} ${isToday ? 'today' : ''}">${day}</div>`;
+              }).join('')}</div>
+              <div class="habit-target">${weekDone}/${h.target}</div>
+            </div>`;
+          }).join('');
+          document.getElementById('habitStreak').textContent = Math.round(totalDone/totalTarget*100) + '% this week';
+        }
       } catch(e) { console.error(e); }
     }
     load(); setInterval(load, 300000);
