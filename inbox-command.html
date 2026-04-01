@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advant.ai — Inbox Command</title>
+  <style>
+    :root {
+      --bg: #F7F6F2;
+      --surface: #FFFFFF;
+      --border: #E4E1DA;
+      --col-bg: #F0EDE7;
+      --text-1: #1A1A1E;
+      --text-2: #6B6868;
+      --text-3: #A8A5A0;
+      --hot: #D94F3D;
+      --hot-bg: #FDF0EE;
+      --warm: #D4812A;
+      --warm-bg: #FDF5EB;
+      --cool: #4A7FA5;
+      --cool-bg: #EEF4F9;
+      --service: #5A7A6A;
+      --admin: #7A6A9A;
+      --radius: 10px;
+      --shadow: 0 1px 4px rgba(0,0,0,0.07);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 24px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .brand { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--text-1); }
+    .brand span { font-weight: 400; color: var(--text-2); }
+
+    .last-updated { font-size: 11px; color: var(--text-3); text-align: right; line-height: 1.5; }
+
+    .stats-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .stat-chip {
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 12px; font-weight: 500; border: 1px solid transparent;
+    }
+    .stat-chip.hot   { background: var(--hot-bg);  color: var(--hot);  border-color: #F5C5BE; }
+    .stat-chip.warm  { background: var(--warm-bg); color: var(--warm); border-color: #F5DCBB; }
+    .stat-chip.cool  { background: var(--cool-bg); color: var(--cool); border-color: #C0D8EB; }
+    .stat-chip.total { background: var(--col-bg);  color: var(--text-2); border-color: var(--border); }
+
+    .heat-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .dot-hot  { background: var(--hot); }
+    .dot-warm { background: var(--warm); }
+
+    /* ── PRIORITIES ── */
+    .priorities { padding: 16px 24px 4px; }
+
+    .section-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 10px;
+    }
+
+    .priority-list {
+      display: flex; gap: 10px; overflow-x: auto;
+      padding-bottom: 12px; scrollbar-width: none;
+    }
+    .priority-list::-webkit-scrollbar { display: none; }
+
+    .priority-card {
+      flex: 0 0 280px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--hot);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+    .priority-card .p-name  { font-size: 13px; font-weight: 600; }
+    .priority-card .p-co    { font-size: 11px; color: var(--text-2); margin-bottom: 5px; }
+    .priority-card .p-action { font-size: 12px; color: var(--text-1); line-height: 1.4; margin-bottom: 8px; }
+
+    .email-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 500; color: var(--cool);
+      text-decoration: none; border: 1px solid #C0D8EB;
+      background: var(--cool-bg); padding: 3px 8px; border-radius: 4px;
+    }
+    .email-link:hover { background: #D8EAF4; }
+
+    /* ── BOARD ── */
+    .board-wrap {
+      padding: 16px 24px 24px; overflow-x: auto;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .board { display: flex; gap: 12px; min-width: max-content; }
+
+    .col {
+      width: 248px; min-width: 248px;
+      background: var(--col-bg); border-radius: var(--radius); padding: 12px 10px;
+    }
+
+    .col-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 10px; padding: 0 2px;
+    }
+    .col-title { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-2); }
+    .col-count { font-size: 11px; font-weight: 600; color: var(--text-3); background: var(--border); border-radius: 10px; padding: 1px 7px; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px; margin-bottom: 8px;
+      box-shadow: var(--shadow); position: relative; transition: box-shadow 0.15s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-md); }
+
+    .card-heat { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; border-radius: 50%; }
+    .heat-hot  { background: var(--hot); }
+    .heat-warm { background: var(--warm); }
+    .heat-cool { background: var(--cool); }
+
+    .card-name    { font-size: 13px; font-weight: 600; padding-right: 18px; line-height: 1.3; }
+    .card-company { font-size: 11px; color: var(--text-2); margin: 2px 0 6px; }
+
+    .card-tag {
+      display: inline-block; font-size: 10px; font-weight: 500;
+      padding: 2px 7px; border-radius: 4px; margin-bottom: 8px;
+    }
+    .tag-rc     { background: #F0EAF8; color: #7A52A8; }
+    .tag-hotel  { background: #EAF2F8; color: #2E6A9A; }
+    .tag-safari { background: #EAF5EE; color: #2E7A4A; }
+    .tag-tech   { background: #F5F0EA; color: #8A6A3A; }
+    .tag-other  { background: var(--col-bg); color: var(--text-2); }
+
+    .card-action {
+      font-size: 11.5px; color: var(--text-1); line-height: 1.45;
+      border-top: 1px solid var(--border); padding-top: 8px;
+      margin-top: 2px; margin-bottom: 8px;
+    }
+
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 6px;
+    }
+
+    .days-badge { font-size: 10px; font-weight: 600; color: var(--text-3); line-height: 1.3; }
+    .days-badge .days-date  { display: block; }
+    .days-badge .days-count { display: block; }
+    .days-badge.urgent .days-count { color: var(--hot); }
+    .days-badge.warn   .days-count { color: var(--warm); }
+
+    .card-right { display: flex; align-items: center; gap: 6px; }
+    .owner-badge { font-size: 10px; color: var(--text-3); background: var(--col-bg); padding: 1px 6px; border-radius: 4px; }
+
+    .col-empty { text-align: center; padding: 20px 10px; font-size: 11px; color: var(--text-3); font-style: italic; }
+
+    /* ── LOWER ── */
+    .lower-section { padding: 0 24px 32px; }
+    .lower-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .lower-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+    .lower-col-title { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .lower-col-title.service { color: var(--service); }
+    .lower-col-title.admin   { color: var(--admin); }
+
+    .lower-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .lower-item:last-child { border-bottom: none; }
+
+    .lower-item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; gap: 8px; }
+    .lower-item-name   { font-size: 12px; font-weight: 600; }
+    .lower-item-days   { font-size: 10px; color: var(--text-3); white-space: nowrap; }
+    .lower-item-co     { font-size: 11px; color: var(--text-2); margin-bottom: 4px; }
+    .lower-item-action { font-size: 11px; color: var(--text-2); line-height: 1.4; margin-bottom: 5px; }
+
+    .lower-empty { font-size: 11px; color: var(--text-3); font-style: italic; padding: 8px 0; }
+
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 16px; font-size: 11px; color: var(--text-3); border-top: 1px solid var(--border); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      header, .priorities, .lower-section { padding-left: 16px; padding-right: 16px; }
+      .board-wrap { padding: 14px 16px 20px; }
+      .lower-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-top">
+    <div class="brand">Advant.ai <span>/ Inbox Command</span></div>
+    <div class="last-updated">Updated by CARS<br/>March 30, 2026 — auto-triage</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-chip total">📋 13 Active</div>
+    <div class="stat-chip hot"><span class="heat-dot dot-hot"></span>5 Hot</div>
+    <div class="stat-chip warm"><span class="heat-dot dot-warm"></span>8 Warm</div>
+    <div class="stat-chip cool">📄 2 In Proposal</div>
+  </div>
+</header>
+
+<!-- ── TODAY'S PRIORITIES ── -->
+<div class="priorities">
+  <div class="section-label">Today's Priorities</div>
+  <div class="priority-list">
+
+    <div class="priority-card">
+      <div class="p-name">Marine Poirel</div>
+      <div class="p-co">Le Mas des Herbes Blanches · <span style="color:var(--hot)">Mar 11 · 19d outstanding</span></div>
+      <div class="p-action">→ Awaiting updated comp set report with 5 new properties. Send report and book call — CRITICAL.</div>
+      <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0tdMwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+    </div>
+
+    <div class="priority-card">
+      <div class="p-name">Thierry Naidu</div>
+      <div class="p-co">Chèvre d'Or (Phoenix HMC) · <span style="color:var(--hot)">Mar 10 · 20d outstanding</span></div>
+      <div class="p-action">→ Wants Chèvre d'Or added to CLAIR alongside Chêneaudière. Coordinate onboarding — CRITICAL.</div>
+      <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0GJzwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+    </div>
+
+    <div class="priority-card">
+      <div class="p-name">Claire Oiknine</div>
+      <div class="p-co">Chêneaudière (R&C) · <span style="color:var(--hot)">Mar 10 · 20d outstanding</span></div>
+      <div class="p-action">→ Asked about AI email triage at presentation. Warm reply and plant demo seed for CLAIR — CRITICAL.</div>
+      <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFng6xwwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+    </div>
+
+    <div class="priority-card">
+      <div class="p-name">Gigi Novakovic</div>
+      <div class="p-co">Peoplevine · <span style="color:var(--hot)">Mar 11 · 19d outstanding</span></div>
+      <div class="p-action">→ Partnership follow-up very overdue. Apologise and reschedule call this week.</div>
+      <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0rbSgAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+    </div>
+
+    <div class="priority-card">
+      <div class="p-name">Lerissa Van Biljon</div>
+      <div class="p-co">Jabulani Safari · <span style="color:var(--warm)">Follow-up DUE APR 3 — this Thursday</span></div>
+      <div class="p-action">⚡ B2B &amp; B2C proposal under review. Follow-up window opens Thu Apr 3 — Tri to reach out.</div>
+      <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFpXIqxQAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PIPELINE BOARD ── -->
+<div class="board-wrap">
+  <div class="board">
+
+    <!-- EMAIL ENGAGED -->
+    <div class="col">
+      <div class="col-header">
+        <span class="col-title">Email Engaged</span>
+        <span class="col-count">11</span>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-hot"></div>
+        <div class="card-name">Marine Poirel</div>
+        <div class="card-company">Le Mas des Herbes Blanches</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Awaiting updated comp set report with 5 new properties. Send report and book call.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 11</span><span class="days-count">19d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0tdMwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-hot"></div>
+        <div class="card-name">Eliana Kokotos</div>
+        <div class="card-company">Elounda S.A.</div>
+        <span class="card-tag tag-hotel">Hotel Group</span>
+        <div class="card-action">→ Requested CLAIR presentation deck from Paris meeting. Send deck and propose call.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 15</span><span class="days-count">15d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFocmrWQAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-hot"></div>
+        <div class="card-name">G. Torre</div>
+        <div class="card-company">Grand Hotel Parker's</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Warm R&amp;C inbound — introduced uncle Salvatore (Villa Matilde owner). Reply and set up intro call.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 19</span><span class="days-count">11d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AQMkAGJmMGE0ZDc1LWE2MTktNGJmYS1iMTNmLWM5MDgzMwAwY2ExNWQARgAAAx4tooAYFrFJjFvfgOh45PQHAGhj5aV8%2FEtDkygYaIY80ZsAAAIBDAAAAGhj5aV8%2FEtDkygYaIY80ZsABaVCgAAAAQ%3D%3D&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-hot"></div>
+        <div class="card-name">Ann Kristin Ytrevik</div>
+        <div class="card-company">62°N</div>
+        <span class="card-tag tag-hotel">Hotel</span>
+        <div class="card-action">→ Mar 26 window passed — slot was never confirmed. Re-propose: Tue Apr 1 or Wed Apr 2 (SGT morning).</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 19</span><span class="days-count">11d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFo%2B%2FlsQAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-hot"></div>
+        <div class="card-name">Arine Karaoghlanian</div>
+        <div class="card-company">Relais &amp; Châteaux</div>
+        <span class="card-tag tag-rc">R&amp;C HQ</span>
+        <div class="card-action">→ Post-event thank you from French National Meeting. Reply warmly and plant seed for next engagement.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 20</span><span class="days-count">10d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFpXJgnwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Asa Wetterwald</div>
+        <div class="card-company">Relais &amp; Châteaux</div>
+        <span class="card-tag tag-rc">R&amp;C Champion</span>
+        <div class="card-action">→ CLAIR setup issues for Ahama + Elounda Mare. Coordinate with tech and close the loop.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 17</span><span class="days-count">13d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty + Tech</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFo0BpvAAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Oliver Gillow</div>
+        <div class="card-company">Ahama</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Comp set update for CLAIR requested. Reply with ETA and confirm data receipt.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 19</span><span class="days-count">11d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFo%2FABDgAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Andrea Ansaldi</div>
+        <div class="card-company">Gallia Palace Hotel</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Submitted new comp set of 7 properties for CLAIR. Route to update team and confirm receipt.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 19</span><span class="days-count">11d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFo%2FAA%2FwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Thierry Naidu</div>
+        <div class="card-company">Chèvre d'Or (Phoenix HMC)</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Wants Chèvre d'Or added to CLAIR alongside Chêneaudière. Coordinate onboarding.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 10</span><span class="days-count">20d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0GJzwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Gigi Novakovic</div>
+        <div class="card-company">Peoplevine</div>
+        <span class="card-tag tag-tech">Tech Partner</span>
+        <div class="card-action">→ Partnership follow-up overdue (proposed dates passed). Apologise and reschedule call.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 11</span><span class="days-count">19d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFn0rbSgAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Claire Oiknine</div>
+        <div class="card-company">Chêneaudière (R&amp;C)</div>
+        <span class="card-tag tag-rc">R&amp;C Member</span>
+        <div class="card-action">→ Asked about AI email triage at presentation. Warm reply and plant demo seed for CLAIR.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 10</span><span class="days-count">20d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFng6xwwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CALL BOOKED -->
+    <div class="col">
+      <div class="col-header">
+        <span class="col-title">Call Booked</span>
+        <span class="col-count">0</span>
+      </div>
+      <div class="col-empty">Empty</div>
+    </div>
+
+    <!-- DEMO -->
+    <div class="col">
+      <div class="col-header">
+        <span class="col-title">Demo</span>
+        <span class="col-count">0</span>
+      </div>
+      <div class="col-empty">Empty</div>
+    </div>
+
+    <!-- PROPOSAL SENT -->
+    <div class="col">
+      <div class="col-header">
+        <span class="col-title">Proposal Sent</span>
+        <span class="col-count">2</span>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Lerissa Van Biljon</div>
+        <div class="card-company">Jabulani Safari</div>
+        <span class="card-tag tag-safari">Safari</span>
+        <div class="card-action">⚡ Follow-up DUE APR 3 — THIS THURSDAY. Tri to reach out and check in on decision.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 20</span><span class="days-count">10d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Tri</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFpXIqxQAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-heat heat-warm"></div>
+        <div class="card-name">Natalia</div>
+        <div class="card-company">White Sand Villa</div>
+        <span class="card-tag tag-hotel">Hotel</span>
+        <div class="card-action">→ ROI questions being answered by Tri. Review responses and confirm direction.</div>
+        <div class="card-footer">
+          <div class="days-badge urgent"><span class="days-date">Mar 16</span><span class="days-count">14d outstanding</span></div>
+          <div class="card-right"><span class="owner-badge">Tri + Matty</span><a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFoy6aawAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- WON -->
+    <div class="col">
+      <div class="col-header">
+        <span class="col-title">Won</span>
+        <span class="col-count">0</span>
+      </div>
+      <div class="col-empty">Empty</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── CLIENT SERVICE & ADMIN ── -->
+<div class="lower-section">
+  <div class="section-label" style="margin-bottom:12px;">Client Service &amp; Admin</div>
+  <div class="lower-grid">
+
+    <!-- CLIENT SERVICE -->
+    <div class="lower-col">
+      <div class="lower-col-title service">Client Service</div>
+      <div class="lower-empty">No active clients — pipeline only.</div>
+    </div>
+
+    <!-- ADMIN & INTERNAL -->
+    <div class="lower-col">
+      <div class="lower-col-title admin">Admin &amp; Internal</div>
+
+      <div class="lower-item">
+        <div class="lower-item-top">
+          <div>
+            <div class="lower-item-name">Anisha's Handover</div>
+            <div class="lower-item-co">Advant (Internal)</div>
+          </div>
+          <span class="lower-item-days">Mar 19 · 11d</span>
+        </div>
+        <div class="lower-item-action">⚠️ WILD call (Mar 24) + IHG/Rajat call (Mar 26) — both may have occurred. Confirm outcomes with Anisha. Bruce (T+T) persona outreach — status unknown, follow up.</div>
+        <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAMkAGJmMGE0ZDc1LWE2MTktNGJmYS1iMTNmLWM5MDgzMzBjYTE1ZABGAAAAAAAeLaKAGBaxSYxb34DoeOT0BwBoY%2BWlfPxLQ5MoGGiGPNGbAAAAAAEMAABoY%2BWlfPxLQ5MoGGiGPNGbAAWlUDISAAA%3D&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+      </div>
+
+      <div class="lower-item">
+        <div class="lower-item-top">
+          <div>
+            <div class="lower-item-name">Kelly Por</div>
+            <div class="lower-item-co">CorporateFinedge</div>
+          </div>
+          <span class="lower-item-days">Mar 19 · 11d</span>
+        </div>
+        <div class="lower-item-action">⚠️ Advant Properties incorporation docs ready — 11d outstanding. Sign via Dropbox Sign asap.</div>
+        <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFo%2B%2FRZwAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+      </div>
+
+      <div class="lower-item">
+        <div class="lower-item-top">
+          <div>
+            <div class="lower-item-name">Gaurav Shah</div>
+            <div class="lower-item-co">Advant (Internal)</div>
+          </div>
+          <span class="lower-item-days">Mar 15 · 15d</span>
+        </div>
+        <div class="lower-item-action">AI Program Modules — Bernold discussion pending. Schedule internal sync.</div>
+        <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAkALgAAAAAAHYQDEapmEc2byACqAC%2FEWg0AaGPlpXz8S0OTKBhohjzRmwAFock%2FKAAA&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+      </div>
+
+      <div class="lower-item">
+        <div class="lower-item-top">
+          <div>
+            <div class="lower-item-name">Jason Friedman — SET Intel</div>
+            <div class="lower-item-co">JMFriedman (WILD Consortium)</div>
+          </div>
+          <span class="lower-item-days">Mar 20 · 10d</span>
+        </div>
+        <div class="lower-item-action">SET pitch + proposal: WILD (Marc) paying to join a larger consortium. Review for pricing benchmark — informs future product packaging.</div>
+        <a class="email-link" href="https://outlook.office365.com/owa/?ItemID=AAMkAGJmMGE0ZDc1LWE2MTktNGJmYS1iMTNmLWM5MDgzMzBjYTE1ZABGAAAAAAAeLaKAGBaxSYxb34DoeOT0BwBoY%2BWlfPxLQ5MoGGiGPNGbAAAAAAEMAABoY%2BWlfPxLQ5MoGGiGPNGbAAWlcbH8AAA%3D&exvsurl=1&viewmodel=ReadMessageItem" target="_blank">↗ Open email</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>CARS · Advant.ai Cowork Workspace</footer>
+
+</body>
+</html>
