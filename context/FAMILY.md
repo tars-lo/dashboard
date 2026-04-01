@@ -44,7 +44,8 @@ Alternate coverage — **from Kristen**:
 | Apr 26 (Sat) | Gladys | |
 
 ### Marie's Leave
-**Apr 28 – May 4, 2026** (returns May 5, 9am)
+**Apr 28 – May 5, 2026** (returns May 6)
+⚠️ Gladys covers all duties during this period.
 ⚠️ Zoe in school that week (Term 3). Need coverage for bus pickup, afterschool, dinner, bedtime.
 
 ---
