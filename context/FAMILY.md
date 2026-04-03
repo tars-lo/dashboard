@@ -33,7 +33,7 @@ Alternate coverage — **from Kristen**:
 
 | Date | Helper | Note |
 |------|--------|------|
-| Apr 3 (Thu) | Gladys | Good Friday |
+| Apr 3 (Fri) | Gladys | Good Friday — Kristen on call |
 | Apr 4 (Fri) | Gladys | |
 | Apr 5 (Sat) | Marie | Easter |
 | Apr 11 (Fri) | Marie | |
