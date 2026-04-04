@@ -1,16 +1,16 @@
 {
   "date": "Sat, 04 Apr",
-  "updated": "8:01 AM",
+  "updated": "8:01 PM",
   "weather": {
     "icon": "⛅",
-    "temp": "26"
+    "temp": "31"
   },
   "vibe": "<strong>3 events tomorrow.</strong> 3 urgent tasks.",
   "alerts": [{"icon":"📍","title":"Tomorrow:","body":"Kristen on call — solo parenting day","type":"warning"}],
-  "today": [{"time":"3:00pm-4:00pm","title":"","tag":"T"},{"time":"All day","title":"Gladys on duty","tag":"F"}],
+  "today": [{"time":"10:30am-11:30am","title":"Art at Kada","tag":"F"},{"time":"3:00pm-4:00pm","title":"","tag":"T"},{"time":"All day","title":"Gladys on duty","tag":"F"}],
   "tomorrow": [{"time":"10:00am-12:00pm","title":"","tag":"T"},{"time":"All day","title":"Marie on duty (Easter)","tag":"F"},{"time":"All day","title":"Call — Kristen on call","tag":"F"}],
   "pipeline": {"stale":[],"hot":[],"warm":[]},
-  "tasks": [{"title": "ASK CELEENE RE TIME+TIDES LOST WIRE TRAN", "priority": "q1"}, {"title": "FILE SINGAPOREAN INCOME TAXES", "priority": "q2"}, {"title": "CREDIT CARD \u2014 CHANGE ADDRESS + PAY LATE ", "priority": "q1"}, {"title": "TARS/Obsidian: Review automation gaps & ", "priority": "q2"}, {"title": "Faith", "priority": "q2"}, {"title": "This Week", "priority": "q1"}, {"title": "Faith", "priority": "q2"}, {"title": "ASK ALICE + CELEENE RE ADVANT FY24 TAX F", "priority": "q2"}, {"title": "[T] SETUP ZOE CURRICULUM TRACKING SKILL", "priority": "q2"}, {"title": "[P] PICKUP GLUE FOR ZOE'S DESK CHAIR", "priority": "q3"}],
+  "tasks": [{"title": "ASK CELEENE RE TIME+TIDES LOST WIRE TRAN", "priority": "q1"}, {"title": "CREDIT CARD \u2014 CHANGE ADDRESS + PAY LATE ", "priority": "q1"}, {"title": "TARS/Obsidian: Review automation gaps & ", "priority": "q2"}, {"title": "Faith", "priority": "q2"}, {"title": "[P] PICKUP GLUE FOR ZOE'S DESK CHAIR", "priority": "q3"}, {"title": "[T] SETUP ZOE CURRICULUM TRACKING SKILL", "priority": "q2"}, {"title": "ASK ALICE + CELEENE RE ADVANT FY24 TAX F", "priority": "q2"}, {"title": "This Week", "priority": "q2"}, {"title": "This Week", "priority": "q1"}],
   "reading": [{"title": "The Year of Magical Thinking", "author": "Joan Didion", "progress": 58, "type": "Fiction"}, {"title": "The Creative Act \u2b50", "author": "Rick Rubin", "progress": 12, "type": "Non-fic"}],
   "habits": [{"icon": "\ud83d\ude4f", "name": "Devotional", "target": 7, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udcd6", "name": "Reading", "target": 4, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udeb6", "name": "Walk", "target": 5, "days": [false, false, false, false, false, false, false]}, {"icon": "\ud83d\udcaa", "name": "Workout", "target": 4, "days": [false, false, false, false, false, false, false]}]
 }
